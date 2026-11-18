@@ -2052,110 +2052,192 @@ function updateChatDown() {
   b.hidden = (l.scrollHeight - l.scrollTop - l.clientHeight) < 140;
 }
 function chatToBottom() { var l = document.getElementById('chatMsgs'); if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' }); }
-// --- AMBIENTE VISUAL DO SANTUÁRIO ELO-GRAIN (ILUSTRAÇÕES SVG) ---
-function getSanctuaryWidgetHTML(userPoints = 15) {
-    // Define o visual do terreno (SVG) de acordo com os pontos do usuário
-    let gardenTitle = "Terra Fértil & Brotos";
-    let gardenDescription = "O terreno foi preparado. Continue participando para plantar o seu bosque!";
-    let progressPercent = (userPoints / 50) * 100;
-    if (progressPercent > 100) progressPercent = 100;
+// --- SISTEMA DE GAMIFICAÇÃO DO SANTUÁRIO ELO-GRAIN ---
 
-    // Ilustrações em SVG limpas e leves para cada estágio
-    let sanctuaryVisual = `
-        <!-- Nível 1: Terra arada e sementinha -->
-        <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-md">
-            <ellipse cx="60" cy="75" rx="50" ry="12" fill="#3D332C"/>
-            <path d="M30 75C30 65 45 60 60 60C75 60 90 65 90 75" stroke="#5C4D44" stroke-width="3" stroke-dasharray="4 4"/>
-            <!-- Broto nascendo -->
-            <path d="M60 60V35" stroke="#81B29A" stroke-width="4" stroke-linecap="round"/>
-            <path d="M60 45C50 45 45 35 48 28C52 35 58 38 60 45Z" fill="#81B29A"/>
-            <path d="M60 40C70 40 75 30 72 23C68 30 62 33 60 40Z" fill="#A8DADC"/>
-        </svg>
-    `;
+// 1. Função para carregar os pontos do usuário (salvo no navegador)
+function getSanctuaryData() {
+    let data = localStorage.getItem('elograin_sanctuary');
+    if (!data) {
+        data = { points: 5, postsCount: 0, searchesCount: 0, botInteractions: 0, expanded: false };
+        localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
+        return data;
+    }
+    return JSON.parse(data);
+}
 
-    if (userPoints >= 10 && userPoints < 30) {
-        gardenTitle = "Bosque em Crescimento";
-        gardenDescription = "A vegetação ganhou força e o espaço está a florir!";
-        sanctuaryVisual = `
-            <!-- Nível 2: Árvores crescendo -->
-            <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-md">
+// 2. Função para adicionar pontos quando o usuário faz ações no app
+function addSanctuaryPoints(actionType) {
+    let data = getSanctuaryData();
+    
+    if (actionType === 'search') data.points += 2;      // Pesquisa
+    if (actionType === 'post') data.points += 5;        // Criar publicação / receita
+    if (actionType === 'bot') data.points += 3;         // Usar o Chatbot Elo
+    if (actionType === 'recipe_rated') data.points += 10; // Receita bem avaliada
+
+    localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
+    updateSanctuaryUI();
+}
+
+// 3. Alternar entre modo expandido e recolhido (balão flutuante)
+function toggleSanctuaryExpand() {
+    let data = getSanctuaryData();
+    data.expanded = !data.expanded;
+    localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
+    updateSanctuaryUI();
+}
+
+// 4. Renderizar o Balão Flutuante Interativo na Home
+function updateSanctuaryUI() {
+    const container = document.getElementById('sanctuary-widget-container');
+    if (!container) return;
+
+    let data = getSanctuaryData();
+    let pts = data.points;
+    
+    // Níveis e Desbloqueios do Santuário
+    let levelTitle = "Terra Fértil & Brotos";
+    let visualSVG = "";
+    let unlockedAnimals = "Nenhum animal resgatado ainda";
+    let nextGoal = 20;
+
+    if (pts < 20) {
+        levelTitle = "🌱 Terra Fértil & Brotos (Nível 1)";
+        nextGoal = 20;
+        visualSVG = `
+            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="60" cy="75" rx="50" ry="12" fill="#3D332C"/>
+                <path d="M60 60V35" stroke="#81B29A" stroke-width="4" stroke-linecap="round"/>
+                <path d="M60 45C50 45 45 35 48 28C52 35 58 38 60 45Z" fill="#81B29A"/>
+            </svg>`;
+        unlockedAnimals = "Sementeira ativa. Continue participando!";
+    } else if (pts >= 20 && pts < 50) {
+        levelTitle = "🌿 Bosque em Crescimento (Nível 2)";
+        nextGoal = 50;
+        visualSVG = `
+            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="60" cy="78" rx="55" ry="10" fill="#3D332C"/>
-                <!-- Árvore esquerda -->
                 <path d="M35 78V55" stroke="#5C4D44" stroke-width="4" stroke-linecap="round"/>
-                <circle cx="35" cy="45" r="15" fill="#81B29A"/>
-                <!-- Árvore principal maior -->
+                <circle cx="35" cy="45" r="14" fill="#81B29A"/>
                 <path d="M65 78V45" stroke="#5C4D44" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="65" cy="35" r="22" fill="#52B788"/>
-                <circle cx="55" cy="30" r="12" fill="#74C69D"/>
-                <!-- Flores no chão -->
-                <circle cx="20" cy="72" r="3" fill="#E07A5F"/>
-                <circle cx="95" cy="75" r="3" fill="#F4A261"/>
-            </svg>
-        `;
-    } else if (userPoints >= 30) {
-        gardenTitle = "Santuário Pleno & Vidas Salvas";
-        gardenDescription = "Um refúgio verde exuberante onde os animais vivem em paz!";
-        sanctuaryVisual = `
-            <!-- Nível 3: Floresta completa com porquinho/animal -->
-            <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-md">
+                <circle cx="65" cy="35" r="20" fill="#52B788"/>
+            </svg>`;
+        unlockedAnimals = "🐰 Coelhinho resgatado encontrou o bosque!";
+    } else {
+        levelTitle = "🏡🌳🐷 Santuário Pleno (Nível Max)";
+        nextGoal = 100;
+        visualSVG = `
+            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="60" cy="78" rx="58" ry="10" fill="#3D332C"/>
-                <!-- Fundo verde / arbustos -->
-                <circle cx="30" cy="65" r="14" fill="#52B788"/>
-                <circle cx="90" cy="65" r="16" fill="#40916C"/>
-                <!-- Árvore frondosa -->
-                <path d="M70 78V38" stroke="#5C4D44" stroke-width="6" stroke-linecap="round"/>
-                <circle cx="70" cy="28" r="24" fill="#2D6A4F"/>
-                <!-- Porquinho feliz no santuário -->
-                <ellipse cx="42" cy="70" rx="12" ry="9" fill="#F4ACC4"/>
-                <circle cx="34" cy="67" r="4" fill="#F4ACC4"/>
-                <circle cx="32" cy="66" r="1" fill="#2A2421"/>
-                <path d="M52 73L56 77" stroke="#F4ACC4" stroke-width="3" stroke-linecap="round"/>
-                <path d="M38 73L36 77" stroke="#F4ACC4" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-        `;
+                <circle cx="70" cy="28" r="22" fill="#2D6A4F"/>
+                <ellipse cx="42" cy="70" rx="11" ry="8" fill="#F4ACC4"/>
+                <circle cx="34" cy="67" r="3.5" fill="#F4ACC4"/>
+            </svg>`;
+        unlockedAnimals = "🐷 Porquinho e amigos seguros no santuário!";
     }
 
-    return `
-        <div class="w-full bg-gradient-to-br from-[#2A2421] to-[#1E1815] border border-[#3D332C] rounded-2xl p-6 mb-6 text-[#F3EFEA] shadow-xl relative overflow-hidden">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                
-                <!-- Informações do Nível -->
-                <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="px-2.5 py-0.5 rounded-full bg-[#E07A5F]/20 text-[#E07A5F] text-xs font-semibold tracking-wide uppercase">
-                            Santuário EloGrain
-                        </span>
-                        <span class="text-xs text-[#A39284]">• Conforme você interage, a vida floresce</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#F3EFEA] mb-1">
-                        ${gardenTitle}
-                    </h3>
-                    <p class="text-sm text-[#C4B5A5] mb-4">
-                        ${gardenDescription} 💚
-                    </p>
-                    
-                    <!-- Barra de Progresso Visual -->
-                    <div class="w-full bg-[#1A1513] rounded-full h-2.5 overflow-hidden border border-[#3D332C]">
-                        <div class="bg-gradient-to-r from-[#E07A5F] to-[#81B29A] h-2.5 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
-                    </div>
-                    <div class="flex justify-between items-center mt-1.5 text-xs text-[#A39284]">
-                        <span>Progresso para o próximo nível</span>
-                        <span class="font-medium text-[#F3EFEA]">${userPoints} / 50 pts</span>
+    let progressPercent = Math.min((pts / nextGoal) * 100, 100);
+
+    if (!data.expanded) {
+        // Modo Compacto / Balão Flutuante Fechado
+        container.innerHTML = `
+            <div class="w-full bg-[#2A2421]/95 backdrop-blur border border-[#3D332C] rounded-2xl p-4 mb-6 text-[#F3EFEA] shadow-lg flex items-center justify-between transition-all">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="toggleSanctuaryExpand()">
+                    <span class="text-2xl animate-pulse">🌱</span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs uppercase tracking-wider text-[#E07A5F] font-bold">Santuário EloGrain</span>
+                            <span class="text-xs text-[#A39284]">• ${pts} pts</span>
+                        </div>
+                        <h4 class="text-sm font-semibold text-[#F3EFEA]">${levelTitle}</h4>
                     </div>
                 </div>
-
-                <!-- A Ilustração Visual do Terreno (SVG) -->
-                <div class="bg-[#1A1513]/90 border border-[#3D332C] rounded-2xl p-4 flex flex-col items-center justify-center min-w-[210px] shadow-inner">
-                    <span class="text-xs text-[#A39284] uppercase tracking-wider mb-1 font-medium">Seu Terreno</span>
-                    <div class="flex items-center justify-center py-1">
-                        ${sanctuaryVisual}
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleSanctuaryExpand()" class="px-3 py-1.5 bg-[#3D332C] hover:bg-[#4D413A] text-xs rounded-xl font-medium text-[#F3EFEA] transition">
+                        Expandir 🌿
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        // Modo Expandido (Regras, Jogo Interativo e Visual do Terreno)
+        container.innerHTML = `
+            <div class="w-full bg-gradient-to-br from-[#2A2421] to-[#1A1513] border border-[#3D332C] rounded-2xl p-6 mb-6 text-[#F3EFEA] shadow-2xl relative transition-all animate-fade-in">
+                
+                <!-- Cabeçalho com Botão de Fechar / Recolher -->
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="px-2.5 py-0.5 rounded-full bg-[#E07A5F]/20 text-[#E07A5F] text-xs font-semibold uppercase tracking-wider">
+                            🎮 Santuário Interativo EloGrain
+                        </span>
+                        <h3 class="text-xl font-bold text-[#F3EFEA] mt-1">${levelTitle}</h3>
                     </div>
-                    <button onclick="alert('Indo para o modal completo dos animais salvos e expansão do santuário!')" class="mt-2 w-full px-4 py-2 bg-[#E07A5F] hover:bg-[#D06A4F] text-white rounded-xl font-medium text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-                        Ver meu Santuário
+                    <button onclick="toggleSanctuaryExpand()" class="w-8 h-8 rounded-full bg-[#3D332C] hover:bg-[#E07A5F] text-[#F3EFEA] flex items-center justify-center font-bold transition">
+                        ✕
                     </button>
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    
+                    <!-- Coluna 1: Visual do Terreno e Animal Resgatado -->
+                    <div class="bg-[#1E1815] border border-[#3D332C] rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-inner">
+                        <span class="text-xs text-[#A39284] uppercase tracking-wider mb-2 font-medium">Seu Ecossistema</span>
+                        <div class="py-1 flex items-center justify-center">
+                            ${visualSVG}
+                        </div>
+                        <p class="text-xs text-[#81B29A] font-medium mt-2">${unlockedAnimals}</p>
+                    </div>
+
+                    <!-- Coluna 2: Progresso e Pontuação -->
+                    <div class="md:col-span-2 flex flex-col justify-between">
+                        <p class="text-sm text-[#C4B5A5] mb-3">
+                            Quanto mais você usa o app, mais o seu terreno floresce e novos animais ganham um lar seguro! Compartilhe receitas, interaja com o chatbot e colabore com a comunidade.
+                        </p>
+                        
+                        <!-- Barra de progresso -->
+                        <div class="mb-2">
+                            <div class="flex justify-between items-center text-xs text-[#A39284] mb-1">
+                                <span>Progresso atual</span>
+                                <span class="font-bold text-[#F3EFEA]">${pts} / ${nextGoal} pts</span>
+                            </div>
+                            <div class="w-full bg-[#1A1513] rounded-full h-2.5 overflow-hidden border border-[#3D332C]">
+                                <div class="bg-gradient-to-r from-[#E07A5F] to-[#81B29A] h-2.5 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Como ganhar pontos -->
+                        <div class="grid grid-cols-2 gap-2 mt-2 text-xs text-[#A39284] bg-[#1E1815]/60 p-3 rounded-xl border border-[#3D332C]/50">
+                            <div>🔍 Buscar no app: <strong class="text-[#F3EFEA]">+2 pts</strong></div>
+                            <div>🤖 Usar Chatbot Elo: <strong class="text-[#F3EFEA]">+3 pts</strong></div>
+                            <div>📝 Criar Post/Receita: <strong class="text-[#F3EFEA]">+5 pts</strong></div>
+                            ⭐ Receitas bem avaliadas: <strong class="text-[#F3EFEA]">+10 pts</strong>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }
 }
+
+// 5. Gatilhos automáticos para somar pontos quando o usuário clica em botões do app
+document.addEventListener('DOMContentLoaded', () => {
+    updateSanctuaryUI();
+
+    // Sempre que o usuário fizer uma busca na Home
+    const searchForm = document.querySelector('.hero-search');
+    if (searchForm) {
+        searchForm.addEventListener('submit', () => {
+            addSanctuaryPoints('search');
+        });
+    }
+
+    // Sempre que o usuário publicar algo
+    const publishBtns = document.querySelectorAll('button');
+    publishBtns.forEach(btn => {
+        if (btn.innerText.includes('Publicar') || btn.innerText.includes('Criar publicação')) {
+            btn.addEventListener('click', () => {
+                addSanctuaryPoints('post');
+            });
+        }
+    });
+});
