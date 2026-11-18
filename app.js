@@ -2052,37 +2052,63 @@ function updateChatDown() {
   b.hidden = (l.scrollHeight - l.scrollTop - l.clientHeight) < 140;
 }
 function chatToBottom() { var l = document.getElementById('chatMsgs'); if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' }); }
-// --- Função do Santuário do Porquinho ---
-function getSanctuaryWidgetHTML(level = 1, rescuedCount = 2) {
-    const stages = {
-        1: { title: "Terra Fértil & Brotos", icon: "🌱", desc: "Seu santuário está começando a florescer." },
-        2: { title: "Bosque em Crescimento", icon: "🌳", desc: "A vegetação ganha força e vida." },
-        3: { title: "Santuário Pleno", icon: "🏡🐷", desc: "Um refúgio seguro e cheio de vida!" }
-    };
+// --- AMBIENTE VISUAL DO SANTUÁRIO ELO-GRAIN ---
+function getSanctuaryWidgetHTML(userPoints = 15) {
+    // Define os elementos visuais do terreno de acordo com os pontos do usuário
+    let gardenStage = "🌱 Terra arada e pronta para brotar";
+    let visualElements = '<span class="text-3xl animate-bounce">🌱</span>';
+    let progressPercent = (userPoints / 50) * 100;
+    if (progressPercent > 100) progressPercent = 100;
 
-    const currentStage = stages[level] || stages[1];
+    if (userPoints >= 10 && userPoints < 30) {
+        gardenStage = "🌿 Bosque em Crescimento";
+        visualElements = '<span class="text-3xl">🌱🌿🌳</span>';
+    } else if (userPoints >= 30) {
+        gardenStage = "🏡🌳🐷✨ Santuário Pleno com Moradores";
+        visualElements = '<span class="text-3xl">🌳🏡🐷🌻🐇</span>';
+    }
 
     return `
-        <div class="w-full bg-[#2A2421] border border-[#3D332C] rounded-2xl p-5 mb-6 text-[#F3EFEA] shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-[#3D332C] flex items-center justify-center text-2xl shadow-inner">
-                    ${currentStage.icon}
-                </div>
-                <div>
-                    <span class="text-xs uppercase tracking-wider text-[#A39284] font-medium">
-                        Seu Santuário EloGrain
-                    </span>
-                    <h3 class="text-lg font-bold text-[#F3EFEA] flex items-center gap-2 mt-0.5">
-                        ${currentStage.title}
+        <div class="w-full bg-gradient-to-br from-[#2A2421] to-[#1E1815] border border-[#3D332C] rounded-2xl p-6 mb-6 text-[#F3EFEA] shadow-xl relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Informações e Progresso -->
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="px-2.5 py-0.5 rounded-full bg-[#E07A5F]/20 text-[#E07A5F] text-xs font-semibold tracking-wide uppercase">
+                            Santuário Vivo
+                        </span>
+                        <span class="text-xs text-[#A39284]">• Contribua para salvar vidas</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#F3EFEA] mb-1">
+                        ${gardenStage}
                     </h3>
-                    <p class="text-sm text-[#C4B5A5] mt-0.5">
-                        <strong class="text-[#E07A5F]">${rescuedCount} animais salvos</strong> — conforme você participa, mais vidas encontram um lar. Os animais agradecem! 🐷💚
+                    <p class="text-sm text-[#C4B5A5] mb-4">
+                        Cada pesquisa, receita ou interação traz mais verde e acolhe novos animais resgatados. Os animais agradecem! 💚
                     </p>
+                    
+                    <!-- Barra de Progresso do Terreno -->
+                    <div class="w-full bg-[#1A1513] rounded-full h-2.5 overflow-hidden border border-[#3D332C]">
+                        <div class="bg-gradient-to-r from-[#E07A5F] to-[#81B29A] h-2.5 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="flex justify-between items-center mt-1.5 text-xs text-[#A39284]">
+                        <span>Progresso do terreno</span>
+                        <span class="font-medium text-[#F3EFEA]">${userPoints} pts (Próximo nível em breve)</span>
+                    </div>
                 </div>
+
+                <!-- O Terreno Visual / Ilustração Dinâmica -->
+                <div class="bg-[#1A1513]/80 border border-[#3D332C]/80 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[200px] shadow-inner">
+                    <span class="text-xs text-[#A39284] uppercase tracking-wider mb-2 font-medium">Seu Terreno Atual</span>
+                    <div class="flex items-center justify-center gap-3 py-2 min-h-[50px]">
+                        ${visualElements}
+                    </div>
+                    <button onclick="alert('Indo para o mapa completo do Santuário e animais resgatados!')" class="mt-3 w-full px-4 py-2 bg-[#E07A5F] hover:bg-[#D06A4F] text-white rounded-xl font-medium text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
+                        Ver Santuário Completo
+                    </button>
+                </div>
+
             </div>
-            <button onclick="alert('Abrir visualização do Santuário!')" class="w-full md:w-auto px-5 py-2.5 bg-[#E07A5F] hover:bg-[#D06A4F] text-white rounded-xl font-medium text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                Ver meu Jardim
-            </button>
         </div>
     `;
 }
