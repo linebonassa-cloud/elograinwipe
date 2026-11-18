@@ -71,24 +71,24 @@ function updateSanctuaryFloatUI() {
     if (badge) badge.innerText = `${data.points} pts`;
 }
 
-// Seleciona a imagem visual correta com base no progresso e animais resgatados
+// Seleciona a imagem visual começando obrigatoriamente pelo terreno vazio
 function getSanctuaryVisualImage(data) {
     if (data.animals.some(function(a) { return a.animal_name.includes('Vaca') || a.animal_name.includes('Patos'); })) {
-        return 'img/vaca_patos.jpg';
+        return 'img/vaca_patos.jpg';[cite: 14]
     }
     if (data.animals.some(function(a) { return a.animal_name.includes('Galinhas'); })) {
-        return 'img/galinhas.jpg';
+        return 'img/galinhas.jpg';[cite: 13]
     }
     if (data.animals.some(function(a) { return a.animal_name.includes('Porquinho'); })) {
-        return 'img/porquinho.jpg';
+        return 'img/porquinho.jpg';[cite: 12]
     }
     if (data.items.some(function(i) { return i.item_name.includes('Frutífera') || i.item_name.includes('Flores'); })) {
-        return 'img/jardim_cultivado.jpg';
+        return 'img/jardim_cultivado.jpg';[cite: 15]
     }
     if (data.items.length > 0) {
-        return 'img/terra_arada.jpg';
+        return 'img/terra_arada.jpg';[cite: 14]
     }
-    return 'img/terreno_inicial.jpg';
+    return 'img/terreno_inicial.jpg';[cite: 13]
 }
 
 // Abre o Painel Visual do Santuário
@@ -100,7 +100,7 @@ window.openSanctuaryDashboard = function() {
     let currentImage = getSanctuaryVisualImage(data);
 
     let itemsHTML = data.items.length === 0
-        ? '<span style="color: #A39284; font-style: italic; font-size: 12px;">Nenhum cultivo ainda. Adquira plantas na loja!</span>'
+        ? '<span style="color: #A39284; font-style: italic; font-size: 12px;">O terreno está vazio e pronto para ser cultivado. Escolha uma opção na loja! 🌱</span>'
         : data.items.map(function(i) { return '<span style="padding: 4px 10px; background: #241A18; color: #D99A58; border-radius: 10px; font-size: 11px; font-weight: 600; border: 1px solid rgba(217,154,88,0.3);">🌿 ' + i.item_name + '</span>'; }).join('');
 
     let animalsHTML = data.animals.length === 0
@@ -152,11 +152,14 @@ window.openSanctuaryDashboard = function() {
                 </div>
             </div>
 
+            <!-- ILUSTRAÇÃO VISUAL DA FAZENDA COM ANIMAÇÃO DE CRESCIMENTO -->
             <div style="margin-bottom: 20px; background: #1A1513; border: 2px solid #777C50; border-radius: 20px; overflow: hidden; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
                 <div style="background: #241A18; padding: 8px; font-size: 11px; color: #D99A58; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
                     🌾 Visual Atual do seu Santuário
                 </div>
-                <img src="${currentImage}" alt="Santuário EloGrain" style="width: 100%; max-height: 280px; object-fit: cover; display: block;" />
+                <div id="sanctuary-image-wrapper" style="position: relative; overflow: hidden;">
+                    <img id="sanctuary-main-img" src="${currentImage}" alt="Santuário EloGrain" style="width: 100%; max-height: 280px; object-fit: cover; display: block; transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;" />
+                </div>
                 <div style="padding: 12px; background: #1A1513; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
                     ${itemsHTML}
                 </div>
@@ -179,7 +182,30 @@ window.openSanctuaryDashboard = function() {
     document.body.appendChild(modal);
 }
 
-// Compra de Itens e Animais
+// Animação visual de crescimento ao plantar/acolher
+function playGrowingAnimation(callback) {
+    const imgElement = document.getElementById('sanctuary-main-img');
+    if (!imgElement) {
+        if (callback) callback();
+        return;
+    }
+
+    // Efeito de transição de foco (zoom leve e fade out)
+    imgElement.style.transform = 'scale(0.95)';
+    imgElement.style.opacity = '0.3';
+
+    setTimeout(function() {
+        if (callback) callback();
+        // Restaura com zoom in elegante revelando a nova fase da fazenda
+        const newImg = document.getElementById('sanctuary-main-img');
+        if (newImg) {
+            newImg.style.transform = 'scale(1)';
+            newImg.style.opacity = '1';
+        }
+    }, 600);
+}
+
+// Compra de Itens e Animais com Animação
 window.buySanctuaryStoreItem = async function(itemKey) {
     let data = getSanctuaryData();
     const itemInfo = SANCTUARY_CONFIG.costs[itemKey];
@@ -194,19 +220,33 @@ window.buySanctuaryStoreItem = async function(itemKey) {
 
     if (itemInfo.type === 'animal') {
         data.animals.push({ animal_name: itemInfo.name, personality: itemInfo.personality });
-        alert(`🎉 Parabéns! Você acolheu ${itemInfo.name} no seu Santuário! Agora ele tem um lar seguro e livre de exploração.`);
     } else {
         data.items.push({ item_name: itemInfo.name });
-        alert(`🌿 Maravilha! "${itemInfo.name}" foi cultivado com sucesso no seu terreno.`);
     }
 
     saveSanctuaryData(data);
     updateSanctuaryFloatUI();
-    openSanctuaryDashboard(); 
+
+    // Executa a animação visual antes de atualizar o modal
+    playGrowingAnimation(function() {
+        openSantraryDashboardSilently();
+    });
+
+    if (itemInfo.type === 'animal') {
+        alert(`🎉 Parabéns! Você acolheu ${itemInfo.name} no seu Santuário! Agora ele tem um lar seguro.`);
+    } else {
+        alert(`🌿 A semente brotou! "${itemInfo.name}" cresceu, floresceu e deu frutos no seu terreno.`);
+    }
 };
 
+function openSantraryDashboardSilently() {
+    const existing = document.getElementById('sanctuary-modal-container');
+    if (existing) existing.remove();
+    window.openSanctuaryDashboard();
+}
+
 // Gatilho de pontuação
-document.addEventListener('click', (e) => {
+document.addEventListener('click', function(e) {
     const text = e.target.innerText || '';
     if (text.includes('Publicar') || text.includes('Criar publicação')) {
         window.addSanctuaryPoints(20, 'Nova publicação');
