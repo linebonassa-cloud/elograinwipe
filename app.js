@@ -1465,7 +1465,8 @@ function renderHome() {
   var D = [['food', 'Restaurantes e Lanchonetes', 'explore', 'bowl-graos'], ['bread', 'Padarias e Confeitarias', 'explore', 'croissant'], ['bag', 'Mercados e Lojas', 'consume', 'vegetais'], ['bowl', 'Receitas', 'recipes', 'macarrao'], ['heart', 'Relacionamentos', 'connect'], ['people', 'Comunidade', 'feed']];
   var M = [['food', 'Restaurantes', 'explore'], ['bowl', 'Receitas', 'recipes'], ['bag', 'Mercado', 'consume'], ['people', 'Comunidade', 'feed'], ['heart', 'Conexões', 'connect'], ['leaf', 'Mais', 'more']];
   var cat = function(a) { return '<button class="cat" onclick="goTo(\'' + a[2] + '\')"><span class="cico">' + ic(a[0]) + '</span><span>' + a[1] + '</span>' + (a[3] ? '<img class="cthumb" src="' + photoSrc(a[3]) + '" alt="" loading="lazy" width="48" height="48">' : '') + '</button>'; };
-  document.getElementById('homeContent').innerHTML =
+document.getElementById('homeContent').innerHTML = 
+    getSanctuaryWidgetHTML(1, 2) +
     '<div class="home-grid"><div class="home-main">' +
     '<section class="hero"><div class="hero-copy"><span class="hero-kicker">Mais sabor. Mais conexões. Zero crueldade.</span>' +
     '<h1>Descubra, compartilhe e conecte-se com uma <em>vida 100% vegetal!</em></h1><p>Restaurantes, receitas, produtos e uma comunidade incrível te esperam aqui.</p></div>' +
@@ -2051,3 +2052,37 @@ function updateChatDown() {
   b.hidden = (l.scrollHeight - l.scrollTop - l.clientHeight) < 140;
 }
 function chatToBottom() { var l = document.getElementById('chatMsgs'); if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' }); }
+// --- Função do Santuário do Porquinho ---
+function getSanctuaryWidgetHTML(level = 1, rescuedCount = 2) {
+    const stages = {
+        1: { title: "Terra Fértil & Brotos", icon: "🌱", desc: "Seu santuário está começando a florescer." },
+        2: { title: "Bosque em Crescimento", icon: "🌳", desc: "A vegetação ganha força e vida." },
+        3: { title: "Santuário Pleno", icon: "🏡🐷", desc: "Um refúgio seguro e cheio de vida!" }
+    };
+
+    const currentStage = stages[level] || stages[1];
+
+    return `
+        <div class="w-full bg-[#2A2421] border border-[#3D332C] rounded-2xl p-5 mb-6 text-[#F3EFEA] shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#3D332C] flex items-center justify-center text-2xl shadow-inner">
+                    ${currentStage.icon}
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-[#A39284] font-medium">
+                        Seu Santuário EloGrain
+                    </span>
+                    <h3 class="text-lg font-bold text-[#F3EFEA] flex items-center gap-2 mt-0.5">
+                        ${currentStage.title}
+                    </h3>
+                    <p class="text-sm text-[#C4B5A5] mt-0.5">
+                        <strong class="text-[#E07A5F]">${rescuedCount} animais salvos</strong> — conforme você participa, mais vidas encontram um lar. Os animais agradecem! 🐷💚
+                    </p>
+                </div>
+            </div>
+            <button onclick="alert('Abrir visualização do Santuário!')" class="w-full md:w-auto px-5 py-2.5 bg-[#E07A5F] hover:bg-[#D06A4F] text-white rounded-xl font-medium text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                Ver meu Jardim
+            </button>
+        </div>
+    `;
+}
