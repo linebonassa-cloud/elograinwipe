@@ -22,6 +22,7 @@
 </head>
 <body>
   <script>window.addEventListener('error',function(e){if(location.hostname!=='localhost'||document.getElementById('dbgErr'))return;var d=document.createElement('div');d.id='dbgErr';d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#c0392b;color:#fff;font:12px monospace;padding:8px;word-break:break-all';d.textContent='Erro: '+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+e.lineno+')';document.body&&document.body.appendChild(d)});</script>
+  
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
@@ -74,6 +75,7 @@
     </div>
   </div>
 
+  <!-- Sidebar -->
   <aside class="sidebar" aria-label="Navegação principal">
     <div class="side-brand">
       <div class="row">
@@ -102,6 +104,7 @@
     </div>
   </aside>
 
+  <!-- Header -->
   <header class="app-header">
     <div class="logo"><div class="logo-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="mgh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0784E"/><stop offset="1" stop-color="#D99A58"/></linearGradient></defs><path d="M24 41C10 31 6 24 6 17.5 6 12.8 9.7 9 14.4 9c3.6 0 7 2.2 9.6 5.5C26.6 11.2 30 9 33.6 9 38.3 9 42 12.8 42 17.5 42 24 38 31 24 41z" fill="none" stroke="url(#mgh)" stroke-width="3.4" stroke-linejoin="round"/><path d="M22.5 31c0-7.5 4.5-12 12.5-13 0 8-4.5 12.5-12.5 13z" fill="url(#mgh)"/><path d="M23.5 30.5c3-3.5 6-6 9.5-8" stroke="#241A18" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></div><span>Elo<em>grain</em></span><small class="ver">v7.6</small></div>
     <form class="top-search" role="search" onsubmit="globalSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="gSearch" type="search" placeholder="Buscar por restaurantes, receitas, produtos..." aria-label="Busca global" autocomplete="off"></form>
@@ -176,219 +179,4 @@
         <h3 style="font-size: 15px; font-weight: bold; color: #D99A58; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">🌱 Loja de Evolução e Resgates</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 40px;">
             
-            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🌿 Plantar Canteiro de Flores</h4>
-                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">15 pts</strong></p>
-                </div>
-                <button onclick="buySanctuaryItem('flowers', 15, 'Flores Silvestres')" style="padding: 8px 16px; background: #777C50; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Plantar</button>
-            </div>
-
-            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🍎 Árvore Frutífera</h4>
-                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">50 pts</strong></p>
-                </div>
-                <button onclick="buySanctuaryItem('tree', 50, 'Árvore Frutífera')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Plantar</button>
-            </div>
-
-            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🐷 Porquinho (Amora)</h4>
-                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">120 pts</strong> (Req. Nível 2)</p>
-                </div>
-                <button onclick="buySanctuaryItem('pig', 120, 'Porquinho Amora')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Acolher</button>
-            </div>
-
-            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🐔 Galinhas (Clotilde)</h4>
-                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">150 pts</strong> (ou Missão de Receita)</p>
-                </div>
-                <button onclick="buySanctuaryItem('chicken', 150, 'Galinha Clotilde')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Acolher</button>
-            </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- INÍCIO -->
-    <section class="view active" id="homeView"><div id="homeContent"></div></section>
-    
-    <!-- COMUNIDADE (feed) -->
-    <section class="view" id="feedView">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="feedSearch" placeholder="Buscar na comunidade...">
-      </div>
-      <div class="tag-list" id="feedTags">
-        <button class="tag active" data-tag="todos">Todos</button>
-        <button class="tag" data-tag="dica">💡 Dicas</button>
-        <button class="tag" data-tag="experiencia">✨ Experiências</button>
-        <button class="tag" data-tag="duvida">❓ Dúvidas</button>
-      </div>
-      <!-- Skeleton Feed -->
-      <div id="feedSkeleton">
-        <div class="skeleton-card">
-          <div class="skeleton-header">
-            <div class="skeleton skeleton-avatar"></div>
-            <div style="flex:1">
-              <div class="skeleton skeleton-line skeleton-line-sm"></div>
-              <div class="skeleton skeleton-line skeleton-line-md"></div>
-            </div>
-          </div>
-          <div class="skeleton skeleton-img"></div>
-          <div class="skeleton skeleton-line skeleton-line-lg"></div>
-          <div class="skeleton skeleton-line skeleton-line-md"></div>
-          <div class="skeleton-actions">
-            <div class="skeleton skeleton-action"></div>
-            <div class="skeleton skeleton-action"></div>
-            <div class="skeleton skeleton-action"></div>
-          </div>
-        </div>
-      </div>
-      <div id="feedPosts" class="hidden"></div>
-    </section>
-
-    <!-- RECIPES -->
-    <section class="view" id="recipesView">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="recipeSearch" placeholder="Buscar receitas veganas...">
-      </div>
-      <div class="tabs" id="recipeTabs">
-        <button class="tab active" data-tab="todas">Todas</button>
-        <button class="tab" data-tab="economica">💰 Econômicas</button>
-        <button class="tab" data-tab="rapida">⚡ Rápidas</button>
-        <button class="tab" data-tab="sobremesa">🍰 Sobremesas</button>
-      </div>
-      <div id="recipesSkeleton">
-        <div class="skeleton-recipe">
-          <div class="skeleton skeleton-thumb"></div>
-          <div style="flex:1">
-            <div class="skeleton skeleton-line skeleton-line-title"></div>
-            <div class="skeleton skeleton-line skeleton-line-md"></div>
-            <div class="skeleton skeleton-line skeleton-line-sm"></div>
-          </div>
-        </div>
-      </div>
-      <div id="recipesList" class="hidden"></div>
-    </section>
-
-    <!-- EXPLORE -->
-    <section class="view" id="exploreView">
-      <div class="tabs" id="exploreTabs">
-        <button class="tab active" data-tab="mapa">🗺️ Mapa</button>
-        <button class="tab" data-tab="eventos">🎉 Eventos</button>
-        <button class="tab" data-tab="avaliacoes">⭐ Avaliações</button>
-      </div>
-      <div id="exploreContent">
-        <div id="exploreSkeleton">
-          <div class="skeleton" style="width:100%;height:320px;border-radius:16px;margin-bottom:16px"></div>
-        </div>
-        <div id="exploreRealContent" class="hidden"></div>
-      </div>
-    </section>
-
-    <!-- CONSUME -->
-    <section class="view" id="consumeView">
-      <div class="tabs" id="consumeTabs">
-        <button class="tab active" data-tab="mercado">🛒 Mercado</button>
-        <button class="tab" data-tab="beleza">💄 Beleza</button>
-      </div>
-      <div id="consumeContent"></div>
-    </section>
-
-    <!-- CONNECT -->
-    <section class="view" id="connectView">
-      <div class="tabs" id="connectTabs">
-        <button class="tab active" data-tab="encontros">💕 Encontros</button>
-        <button class="tab" data-tab="amizades">🤝 Amizades</button>
-      </div>
-      <div id="connectContent"></div>
-    </section>
-
-    <!-- PROFILE -->
-    <section class="view" id="profileView">
-      <div class="card profile-card">
-        <div class="avatar avatar-lg" id="profileAvatar">🦁</div>
-        <h2 id="profileName">Voce</h2>
-        <p style="color: var(--text-light); font-size: 0.9rem;" id="profileBio">Membro da comunidade Elograin</p>
-        <p style="color: var(--text-light); font-size: 0.8rem;" id="profileEmail"></p>
-        <button class="btn-logout" onclick="logout()">Sair da conta</button>
-        <div class="profile-stats">
-          <div class="profile-stat"><div class="num" id="statPosts">0</div><div class="lbl">Posts</div></div>
-          <div class="profile-stat"><div class="num" id="statRecipes">0</div><div class="lbl">Receitas</div></div>
-          <div class="profile-stat"><div class="num" id="statLikes">0</div><div class="lbl">Curtidas</div></div>
-        </div>
-      </div>
-      <h3 class="section-title mb-1">Minhas Receitas</h3>
-      <div id="myRecipes"></div>
-      <h3 class="section-title mb-1 mt-2">Minhas Avaliacoes</h3>
-      <div id="myReviews"></div>
-    </section>
-  </main>
-
-  <!-- FAB -->
-  <button class="fab pulse" id="fabBtn" aria-label="Criar publicação"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-
-  <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <div class="bottom-nav-inner">
-      <button class="nav-item active" data-view="home">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span>
-        <span>Início</span>
-      </button>
-      <button class="nav-item" data-view="recipes">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18a9 9 0 0 1-18 0z"/><path d="M8.5 8.5c-.8-1 .8-2 0-3M12.5 8.5c-.8-1 .8-2 0-3M16.5 8.5c-.8-1 .8-2 0-3"/></svg></span>
-        <span>Receitas</span>
-      </button>
-      <button class="nav-item" data-view="explore">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2 5.2-5.2 2 2-5.2z"/></svg></span>
-        <span>Explorar</span>
-      </button>
-      <button class="nav-item" data-view="consume">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14l-1.1 11.5H6.1z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg></span>
-        <span>Mercado</span>
-      </button>
-      <button class="nav-item" data-view="profile">
-        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
-        <span>Perfil</span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Create Modal -->
-  <div class="modal-overlay" id="createModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Criar Novo</h3>
-        <button class="icon-btn" id="closeCreateModal">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="tabs" id="createTabs">
-          <button class="tab active" data-create="post">📝 Post</button>
-          <button class="tab" data-create="recipe">🍽️ Receita</button>
-          <button class="tab" data-create="review">⭐ Avaliacao</button>
-        </div>
-        <div id="createForm"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Detail Modal -->
-  <div class="modal-overlay" id="detailModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="detailTitle">Detalhes</h3>
-        <button class="icon-btn" id="closeDetailModal">✕</button>
-      </div>
-      <div class="modal-body" id="detailBody"></div>
-      <div class="modal-footer" id="detailFooter"></div>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script>
-/* ===== Elo: animações de Curtir e Avaliar (Motion One +
+            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items
