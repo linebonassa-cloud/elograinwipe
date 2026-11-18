@@ -1,3 +1,5 @@
+// Exemplo: se tiveres uma div com o id 'app' ou 'main-content' no teu index.html
+renderSanctuaryWidget('app', 1, 2);
 // Fallback: se as animações não carregarem, o app continua funcionando (coração/estrela simples)
 if (typeof Elo === 'undefined') { window.Elo = { heartHTML: function(id, l) { return '<span class="heart-wrap">' + (l ? '❤️' : '🤍') + '</span>'; }, setHeart: function(b, l) { b.querySelector('.heart-wrap').textContent = l ? '❤️' : '🤍'; }, mountRating: function(box) { if (box) box.innerHTML = '<p style="color:var(--text-light);font-size:.85rem">Avaliação indisponível no momento.</p>'; } }; }
 // ============================================
