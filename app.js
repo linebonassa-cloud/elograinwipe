@@ -2052,192 +2052,251 @@ function updateChatDown() {
   b.hidden = (l.scrollHeight - l.scrollTop - l.clientHeight) < 140;
 }
 function chatToBottom() { var l = document.getElementById('chatMsgs'); if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' }); }
-// --- SISTEMA DE GAMIFICAÇÃO DO SANTUÁRIO ELO-GRAIN ---
+// ==========================================
+// SISTEMA DE GAMIFICAÇÃO: SANTUÁRIO ELO-GRAIN
+// ==========================================
 
-// 1. Função para carregar os pontos do usuário (salvo no navegador)
+// 1. Carrega ou inicializa os dados do Santuário no localStorage
 function getSanctuaryData() {
-    let data = localStorage.getItem('elograin_sanctuary');
+    let data = localStorage.getItem('elograin_sanctuary_game');
     if (!data) {
-        data = { points: 5, postsCount: 0, searchesCount: 0, botInteractions: 0, expanded: false };
-        localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
+        data = {
+            points: 15,          // Pontos disponíveis para gastar
+            totalEarned: 15,     // Histórico total acumulado
+            items: [],           // Itens comprados/desbloqueados (grama, flores, árvores, animais)
+            rescuedAnimals: []   // Animais resgatados
+        };
+        localStorage.setItem('elograin_sanctuary_game', JSON.stringify(data));
         return data;
     }
     return JSON.parse(data);
 }
 
-// 2. Função para adicionar pontos quando o usuário faz ações no app
-function addSanctuaryPoints(actionType) {
+// 2. Sistema de Pontuação por Ações no App
+function rewardSanctuaryAction(actionType) {
     let data = getSanctuaryData();
-    
-    if (actionType === 'search') data.points += 2;      // Pesquisa
-    if (actionType === 'post') data.points += 5;        // Criar publicação / receita
-    if (actionType === 'bot') data.points += 3;         // Usar o Chatbot Elo
-    if (actionType === 'recipe_rated') data.points += 10; // Receita bem avaliada
+    let earned = 0;
 
-    localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
-    updateSanctuaryUI();
-}
-
-// 3. Alternar entre modo expandido e recolhido (balão flutuante)
-function toggleSanctuaryExpand() {
-    let data = getSanctuaryData();
-    data.expanded = !data.expanded;
-    localStorage.setItem('elograin_sanctuary', JSON.stringify(data));
-    updateSanctuaryUI();
-}
-
-// 4. Renderizar o Balão Flutuante Interativo na Home
-function updateSanctuaryUI() {
-    const container = document.getElementById('sanctuary-widget-container');
-    if (!container) return;
-
-    let data = getSanctuaryData();
-    let pts = data.points;
-    
-    // Níveis e Desbloqueios do Santuário
-    let levelTitle = "Terra Fértil & Brotos";
-    let visualSVG = "";
-    let unlockedAnimals = "Nenhum animal resgatado ainda";
-    let nextGoal = 20;
-
-    if (pts < 20) {
-        levelTitle = "🌱 Terra Fértil & Brotos (Nível 1)";
-        nextGoal = 20;
-        visualSVG = `
-            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="60" cy="75" rx="50" ry="12" fill="#3D332C"/>
-                <path d="M60 60V35" stroke="#81B29A" stroke-width="4" stroke-linecap="round"/>
-                <path d="M60 45C50 45 45 35 48 28C52 35 58 38 60 45Z" fill="#81B29A"/>
-            </svg>`;
-        unlockedAnimals = "Sementeira ativa. Continue participando!";
-    } else if (pts >= 20 && pts < 50) {
-        levelTitle = "🌿 Bosque em Crescimento (Nível 2)";
-        nextGoal = 50;
-        visualSVG = `
-            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="60" cy="78" rx="55" ry="10" fill="#3D332C"/>
-                <path d="M35 78V55" stroke="#5C4D44" stroke-width="4" stroke-linecap="round"/>
-                <circle cx="35" cy="45" r="14" fill="#81B29A"/>
-                <path d="M65 78V45" stroke="#5C4D44" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="65" cy="35" r="20" fill="#52B788"/>
-            </svg>`;
-        unlockedAnimals = "🐰 Coelhinho resgatado encontrou o bosque!";
-    } else {
-        levelTitle = "🏡🌳🐷 Santuário Pleno (Nível Max)";
-        nextGoal = 100;
-        visualSVG = `
-            <svg width="100" height="70" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="60" cy="78" rx="58" ry="10" fill="#3D332C"/>
-                <circle cx="70" cy="28" r="22" fill="#2D6A4F"/>
-                <ellipse cx="42" cy="70" rx="11" ry="8" fill="#F4ACC4"/>
-                <circle cx="34" cy="67" r="3.5" fill="#F4ACC4"/>
-            </svg>`;
-        unlockedAnimals = "🐷 Porquinho e amigos seguros no santuário!";
+    switch (actionType) {
+        case 'login': earned = 5; break;         // Entrar no app / diário
+        case 'search': earned = 2; break;        // Usar localização / busca
+        case 'post': earned = 8; break;          // Fazer postagem comum
+        case 'recipe': earned = 12; break;       // Publicar receita
+        case 'bot': earned = 4; break;           // Usar chat bot Elo
+        case 'review': earned = 6; break;        // Avaliar restaurante/produto
+        default: earned = 2;
     }
 
-    let progressPercent = Math.min((pts / nextGoal) * 100, 100);
+    data.points += earned;
+    data.totalEarned += earned;
+    localStorage.setItem('elograin_sanctuary_game', JSON.stringify(data));
+    updateSanctuaryFloatingButton();
+}
 
-    if (!data.expanded) {
-        // Modo Compacto / Balão Flutuante Fechado
-        container.innerHTML = `
-            <div class="w-full bg-[#2A2421]/95 backdrop-blur border border-[#3D332C] rounded-2xl p-4 mb-6 text-[#F3EFEA] shadow-lg flex items-center justify-between transition-all">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="toggleSanctuaryExpand()">
-                    <span class="text-2xl animate-pulse">🌱</span>
+// 3. Comprar itens ou resgatar animais com pontos
+function buySanctuaryItem(itemType, cost, itemName) {
+    let data = getSanctuaryData();
+    if (data.points < cost) {
+        alert("Ops! Você precisa de mais pontos. Interaja mais com o EloGrain (busque, poste receitas, use o chat) para ganhar pontos!");
+        return;
+    }
+
+    data.points -= cost;
+    if (itemType === 'animal') {
+        data.rescuedAnimals.push(itemName);
+        alert(`🎉 Parabéns! Você resgatou um(a) ${itemName} para o seu Santuário! Ele agora vive seguro e feliz.`);
+    } else {
+        data.items.push({ type: itemName, date: new Date().toLocaleDateString() });
+        alert(`🌱 Item "${itemName}" plantado com sucesso no seu terreno!`);
+    }
+
+    localStorage.setItem('elograin_sanctuary_game', JSON.stringify(data));
+    openSanctuaryModal(); // Atualiza a aba aberta
+}
+
+// 4. Criação do Botão Flutuante Exclusivo na Tela
+function initSanctuaryFloatingButton() {
+    if (document.getElementById('sanctuary-float-btn')) return;
+
+    const floatBtn = document.createElement('div');
+    floatBtn.id = 'sanctuary-float-btn';
+    floatBtn.innerHTML = `
+        <button onclick="openSanctuaryModal()" class="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-[#E07A5F] to-[#81B29A] hover:scale-105 text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-2.5 font-bold text-sm border-2 border-[#3D332C] transition-all cursor-pointer animate-bounce">
+            <span class="text-xl">🐷</span>
+            <span id="float-points-badge" class="bg-[#1A1513] text-[#F3EFEA] px-2 py-0.5 rounded-full text-xs">15 pts</span>
+        </button>
+    `;
+    document.body.appendChild(floatBtn);
+    updateSanctuaryFloatingButton();
+}
+
+function updateSanctuaryFloatingButton() {
+    let data = getSanctuaryData();
+    const badge = document.getElementById('float-points-badge');
+    if (badge) badge.innerText = `${data.points} pts`;
+}
+
+// 5. Abre a Aba / Modal Estilo "Minifazenda" com todas as opções
+function openSanctuaryModal() {
+    let data = getSanctuaryData();
+    
+    // Remove modal anterior se já existir
+    const existing = document.getElementById('sanctuary-modal-overlay');
+    if (existing) existing.remove();
+
+    // Monta a listagem visual dos animais resgatados pelo usuário
+    let animalsHTML = data.rescuedAnimals.length === 0 
+        ? '<p class="text-xs text-[#A39284] italic">Nenhum animal resgatado ainda. Junte pontos e salve o primeiro!</p>'
+        : data.rescuedAnimals.map(a => `<span class="px-3 py-1.5 bg-[#3D332C] text-[#F3EFEA] rounded-xl text-xs font-semibold flex items-center gap-1.5">✨ ${a}</span>`).join('');
+
+    // Monta a listagem dos itens plantados no terreno
+    let itemsHTML = data.items.length === 0
+        ? '<p class="text-xs text-[#A39284] italic">Seu terreno está vazio. Comece a plantar grama e flores!</p>'
+        : data.items.map(i => `<span class="px-2.5 py-1 bg-[#1A1513] text-[#81B29A] rounded-lg text-xs">🌿 ${i.type}</span>`).join('');
+
+    const modalOverlay = document.createElement('div');
+    modalOverlay.id = 'sanctuary-modal-overlay';
+    modalOverlay.className = 'fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in';
+    
+    modalOverlay.innerHTML = `
+        <div class="bg-[#2A2421] border border-[#3D332C] w-full max-w-3xl rounded-3xl p-6 text-[#F3EFEA] shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            
+            <!-- Cabeçalho -->
+            <div class="flex justify-between items-center pb-4 border-b border-[#3D332C]">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-[#3D332C] flex items-center justify-center text-2xl shadow-inner">
+                        🏡🐷
+                    </div>
                     <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs uppercase tracking-wider text-[#E07A5F] font-bold">Santuário EloGrain</span>
-                            <span class="text-xs text-[#A39284]">• ${pts} pts</span>
-                        </div>
-                        <h4 class="text-sm font-semibold text-[#F3EFEA]">${levelTitle}</h4>
+                        <h2 class="text-xl font-bold text-[#F3EFEA]">Santuário EloGrain</h2>
+                        <p class="text-xs text-[#A39284]">Seu refúgio de paz, vegetação e resgate animal</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleSanctuaryExpand()" class="px-3 py-1.5 bg-[#3D332C] hover:bg-[#4D413A] text-xs rounded-xl font-medium text-[#F3EFEA] transition">
-                        Expandir 🌿
+                <button onclick="document.getElementById('sanctuary-modal-overlay').remove()" class="w-9 h-9 rounded-full bg-[#3D332C] hover:bg-[#E07A5F] text-[#F3EFEA] flex items-center justify-center font-bold text-base transition">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Meus Pontos e Status -->
+            <div class="my-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-[#1E1815] p-4 rounded-2xl border border-[#3D332C] text-center">
+                    <span class="text-xs text-[#A39284] uppercase tracking-wider">Pontos Disponíveis</span>
+                    <h3 class="text-2xl font-black text-[#E07A5F] mt-1">${data.points} pts</h3>
+                </div>
+                <div class="bg-[#1E1815] p-4 rounded-2xl border border-[#3D332C] text-center">
+                    <span class="text-xs text-[#A39284] uppercase tracking-wider">Total Acumulado</span>
+                    <h3 class="text-2xl font-bold text-[#81B29A] mt-1">${data.totalEarned} pts</h3>
+                </div>
+                <div class="bg-[#1E1815] p-4 rounded-2xl border border-[#3D332C] text-center flex flex-col justify-center">
+                    <button onclick="alert('ℹ️ COMO GANHAR PONTOS:\\n- Entrar no app: +5 pts\\n- Buscar restaurantes/local: +2 pts\\n- Usar o Chatbot Elo: +4 pts\\n- Fazer postagens: +8 pts\\n- Publicar receitas: +12 pts\\n- Avaliar conteúdos: +6 pts')" class="w-full py-2 bg-[#3D332C] hover:bg-[#4D413A] text-xs font-bold rounded-xl text-[#F3EFEA] transition">
+                        📖 Como Conseguir Pontos?
                     </button>
                 </div>
             </div>
-        `;
-    } else {
-        // Modo Expandido (Regras, Jogo Interativo e Visual do Terreno)
-        container.innerHTML = `
-            <div class="w-full bg-gradient-to-br from-[#2A2421] to-[#1A1513] border border-[#3D332C] rounded-2xl p-6 mb-6 text-[#F3EFEA] shadow-2xl relative transition-all animate-fade-in">
+
+            <!-- O Terreno / Fazenda Visual -->
+            <div class="mb-6 bg-[#1A1513] border-2 border-dashed border-[#3D332C] rounded-2xl p-6 text-center">
+                <span class="text-xs text-[#A39284] uppercase tracking-widest font-bold">🌾 Seu Terreno e Moradores</span>
+                <div class="flex flex-wrap items-center justify-center gap-3 my-4 min-h-[80px]">
+                    ${itemsHTML}
+                    ${animalsHTML}
+                </div>
+                <p class="text-xs text-[#C4B5A5]">Plante vegetação e resgate animais para encher seu santuário de vida!</p>
+            </div>
+
+            <!-- Loja / O que fazer com a pontuação -->
+            <h3 class="text-sm font-bold uppercase tracking-wider text-[#A39284] mb-3">🌱 Loja do Santuário (Gastar Pontos)</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 
-                <!-- Cabeçalho com Botão de Fechar / Recolher -->
-                <div class="flex justify-between items-start mb-4">
+                <!-- Grama e Flores -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
                     <div>
-                        <span class="px-2.5 py-0.5 rounded-full bg-[#E07A5F]/20 text-[#E07A5F] text-xs font-semibold uppercase tracking-wider">
-                            🎮 Santuário Interativo EloGrain
-                        </span>
-                        <h3 class="text-xl font-bold text-[#F3EFEA] mt-1">${levelTitle}</h3>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🌿 Grama e Flores Silvestres</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 10 pts</p>
                     </div>
-                    <button onclick="toggleSanctuaryExpand()" class="w-8 h-8 rounded-full bg-[#3D332C] hover:bg-[#E07A5F] text-[#F3EFEA] flex items-center justify-center font-bold transition">
-                        ✕
+                    <button onclick="buySanctuaryItem('item', 10, 'Grama e Flores')" class="px-3.5 py-2 bg-[#81B29A] hover:bg-[#68937D] text-[#1A1513] font-bold text-xs rounded-xl transition">
+                        Plantar (10 pts)
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                    
-                    <!-- Coluna 1: Visual do Terreno e Animal Resgatado -->
-                    <div class="bg-[#1E1815] border border-[#3D332C] rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-inner">
-                        <span class="text-xs text-[#A39284] uppercase tracking-wider mb-2 font-medium">Seu Ecossistema</span>
-                        <div class="py-1 flex items-center justify-center">
-                            ${visualSVG}
-                        </div>
-                        <p class="text-xs text-[#81B29A] font-medium mt-2">${unlockedAnimals}</p>
+                <!-- Árvore Frutífera -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🍎 Árvore Frutífera</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 25 pts</p>
                     </div>
-
-                    <!-- Coluna 2: Progresso e Pontuação -->
-                    <div class="md:col-span-2 flex flex-col justify-between">
-                        <p class="text-sm text-[#C4B5A5] mb-3">
-                            Quanto mais você usa o app, mais o seu terreno floresce e novos animais ganham um lar seguro! Compartilhe receitas, interaja com o chatbot e colabore com a comunidade.
-                        </p>
-                        
-                        <!-- Barra de progresso -->
-                        <div class="mb-2">
-                            <div class="flex justify-between items-center text-xs text-[#A39284] mb-1">
-                                <span>Progresso atual</span>
-                                <span class="font-bold text-[#F3EFEA]">${pts} / ${nextGoal} pts</span>
-                            </div>
-                            <div class="w-full bg-[#1A1513] rounded-full h-2.5 overflow-hidden border border-[#3D332C]">
-                                <div class="bg-gradient-to-r from-[#E07A5F] to-[#81B29A] h-2.5 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Como ganhar pontos -->
-                        <div class="grid grid-cols-2 gap-2 mt-2 text-xs text-[#A39284] bg-[#1E1815]/60 p-3 rounded-xl border border-[#3D332C]/50">
-                            <div>🔍 Buscar no app: <strong class="text-[#F3EFEA]">+2 pts</strong></div>
-                            <div>🤖 Usar Chatbot Elo: <strong class="text-[#F3EFEA]">+3 pts</strong></div>
-                            <div>📝 Criar Post/Receita: <strong class="text-[#F3EFEA]">+5 pts</strong></div>
-                            ⭐ Receitas bem avaliadas: <strong class="text-[#F3EFEA]">+10 pts</strong>
-                        </div>
-                    </div>
-
+                    <button onclick="buySanctuaryItem('item', 25, 'Árvore Frutífera')" class="px-3.5 py-2 bg-[#E07A5F] hover:bg-[#C9684F] text-white font-bold text-xs rounded-xl transition">
+                        Plantar (25 pts)
+                    </button>
                 </div>
+
+                <!-- Resgatar Coelhinho -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🐰 Resgatar Coelhinho</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 30 pts</p>
+                    </div>
+                    <button onclick="buySanctuaryItem('animal', 30, 'Coelhinho 🐰')" class="px-3.5 py-2 bg-[#E07A5F] hover:bg-[#C9684F] text-white font-bold text-xs rounded-xl transition">
+                        Resgatar (30 pts)
+                    </button>
+                </div>
+
+                <!-- Resgatar Porquinho -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🐷 Resgatar Porquinho</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 50 pts</p>
+                    </div>
+                    <button onclick="buySanctuaryItem('animal', 50, 'Porquinho 🐷')" class="px-3.5 py-2 bg-[#E07A5F] hover:bg-[#C9684F] text-white font-bold text-xs rounded-xl transition">
+                        Resgatar (50 pts)
+                    </button>
+                </div>
+
+                <!-- Resgatar Ave / Frango -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🐔 Resgatar Ave Resgatada</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 40 pts</p>
+                    </div>
+                    <button onclick="buySanctuaryItem('animal', 40, 'Ave Resgatada 🐔')" class="px-3.5 py-2 bg-[#E07A5F] hover:bg-[#C9684F] text-white font-bold text-xs rounded-xl transition">
+                        Resgatar (40 pts)
+                    </button>
+                </div>
+
+                <!-- Resgatar Vaca -->
+                <div class="bg-[#1E1815] p-3.5 rounded-2xl border border-[#3D332C] flex items-center justify-between">
+                    <div>
+                        <h4 class="text-sm font-bold text-[#F3EFEA]">🐮 Resgatar Vaca</h4>
+                        <p class="text-xs text-[#A39284]">Custo: 80 pts</p>
+                    </div>
+                    <button onclick="buySanctuaryItem('animal', 80, 'Vaca 🐮')" class="px-3.5 py-2 bg-[#E07A5F] hover:bg-[#C9684F] text-white font-bold text-xs rounded-xl transition">
+                        Resgatar (80 pts)
+                    </button>
+                </div>
+
             </div>
-        `;
-    }
+
+        </div>
+    `;
+
+    document.body.appendChild(modalOverlay);
 }
 
-// 5. Gatilhos automáticos para somar pontos quando o usuário clica em botões do app
+// 6. Ativa os gatilhadores automáticos ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
-    updateSanctuaryUI();
+    initSanctuaryFloatingButton();
+    rewardSanctuaryAction('login'); // Ganha pontos ao abrir/logar no app
 
-    // Sempre que o usuário fizer uma busca na Home
+    // Detecta cliques em buscas de restaurantes/local
     const searchForm = document.querySelector('.hero-search');
     if (searchForm) {
-        searchForm.addEventListener('submit', () => {
-            addSanctuaryPoints('search');
-        });
+        searchForm.addEventListener('submit', () => rewardSanctuaryAction('search'));
     }
 
-    // Sempre que o usuário publicar algo
-    const publishBtns = document.querySelectorAll('button');
-    publishBtns.forEach(btn => {
-        if (btn.innerText.includes('Publicar') || btn.innerText.includes('Criar publicação')) {
-            btn.addEventListener('click', () => {
-                addSanctuaryPoints('post');
-            });
+    // Detecta interações de postagem
+    document.addEventListener('click', (e) => {
+        if (e.target.innerText && e.target.innerText.includes('Publicar')) {
+            rewardSanctuaryAction('post');
         }
     });
 });
