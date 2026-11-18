@@ -16,14 +16,14 @@ const MOCK_POSTS = [
 ];
 
 const MOCK_RECIPES = [
-  { id: 1, title: "Strogonoff de Grao-de-Bico", author: "Ana Verde", avatar: "🌱", time: "45 min", difficulty: "Facil", rating: 4.8, reviews: 34, category: "economica", tags: ["💰 Economica", "🥘 Principal"], image: "🍛", ingredients: ["2 xicaras grao-de-bico cozido", "1 cebola picada", "2 dentes alho", "200ml creme de castanha", "1 colher ketchup", "1 colher mostarda", "Sal e pimenta"], steps: ["Refogue cebola e alho ate dourar.", "Adicione o grao-de-bico e tempere.", "Misture ketchup, mostarda e creme de castanha.", "Cozinhe por 10 min e sirva com arroz."] },
-  { id: 2, title: "Bolo de Chocolate Vegano", author: "Julia Costa", avatar: "🌸", time: "50 min", difficulty: "Medio", rating: 4.9, reviews: 52, category: "sobremesa", tags: ["🍰 Sobremesa", "🎉 Festa"], image: "🍫", ingredients: ["2 xicaras farinha", "1 xicara cacau", "1 xicara acucar", "1 xicara leite vegetal", "1/2 xicara oleo", "1 colher fermento", "1 colher vinagre"], steps: ["Misture secos em uma tigela.", "Adicione umidos e mexa ate homogeneizar.", "Leve ao forno a 180C por 35 min.", "Decore com ganache de chocolate vegano."] },
-  { id: 3, title: "Tofu Mexido de Cafe da Manha", author: "Carlos Lima", avatar: "🦁", time: "15 min", difficulty: "Facil", rating: 4.5, reviews: 18, category: "rapida", tags: ["⚡ Rapida", "🌅 Cafe"], image: "🍳", ingredients: ["200g tofu firme", "1/2 colher curcuma", "2 colheres levedura nutricional", "Sal, pimenta e azeite", "Vegetais a gosto"], steps: ["Escorra e esfarele o tofu.", "Refogue com azeite e vegetais.", "Adicione curcuma e levedura.", "Cozinhe por 5 min e sirva quente."] },
-  { id: 4, title: "Lasanha de Berinjela", author: "Mariana Souza", avatar: "🦋", time: "60 min", difficulty: "Medio", rating: 4.7, reviews: 28, category: "economica", tags: ["💰 Economica", "🥘 Principal"], image: "🍲", ingredients: ["2 berinjelas em rodelas", "Molho de tomate caseiro", "Creme de castanha", "Queijo vegano ralado", "Manjericao fresco"], steps: ["Grelhe as rodelas de berinjela.", "Monte camadas: molho, berinjela, creme.", "Finalize com queijo vegano.", "Asse a 200C por 25 min."] },
-  { id: 5, title: "Sorvete de Banana e Peanut", author: "Pedro Alves", avatar: "🐻", time: "5 min", difficulty: "Facil", rating: 4.6, reviews: 41, category: "sobremesa", tags: ["🍰 Sobremesa", "❄️ Gelado"], image: "🍦", ingredients: ["3 bananas congeladas", "2 colheres pasta de amendoim", "1 colher cacau (opcional)", "Granola para decorar"], steps: ["Bata as bananas congeladas no processador.", "Adicione pasta de amendoim e bata mais.", "Sirva imediatamente com granola."] },
-  { id: 6, title: "Hamburguer de Lentilha", author: "Rafael Mendes", avatar: "🌵", time: "30 min", difficulty: "Facil", rating: 4.4, reviews: 22, category: "economica", tags: ["💰 Economica", "🍔 Lanche"], image: "🍔", ingredients: ["1 xicara lentilha cozida", "1/2 xicara aveia em flocos", "1 cebola caramelizada", "Alho e cominho", "Sal e pimenta"], steps: ["Processe lentilha e aveia.", "Misture temperos e cebola.", "Modele hamburgueres.", "Grelhe 4 min de cada lado."] },
-  { id: 7, title: "Smoothie Bowl Verde", author: "Ana Verde", avatar: "🌱", time: "10 min", difficulty: "Facil", rating: 4.3, reviews: 15, category: "rapida", tags: ["⚡ Rapida", "💚 Saudavel"], image: "🥣", ingredients: ["1 banana congelada", "1 xicara espinafre", "1/2 xicara leite de coco", "1/2 abacate", "Toppings: semente, frutas"], steps: ["Bata banana, espinafre, leite e abacate.", "Coloque em uma tigela.", "Decore com sementes e frutas.", "Aproveite imediatamente!"] },
-  { id: 8, title: "Brigadeiro Vegano", author: "Julia Costa", avatar: "🌸", time: "20 min", difficulty: "Facil", rating: 4.9, reviews: 63, category: "sobremesa", tags: ["🍰 Sobremesa", "🎉 Festa"], image: "🍬", ingredients: ["1 xicara leite condensado de aveia", "1/2 xicara cacau em po", "1 colher manteiga vegetal", "Granulado vegano"], steps: ["Misture leite condensado e cacau.", "Cozinhe em fogo baixo ate desgrudar.", "Adicione manteiga e misture.", "Enrole e passe no granulado."] }
+  { id: 1, photo: "ensopado", title: "Strogonoff de Grao-de-Bico", author: "Ana Verde", avatar: "🌱", time: "45 min", difficulty: "Facil", rating: 4.8, reviews: 34, category: "economica", tags: ["💰 Economica", "🥘 Principal"], image: "🍛", ingredients: ["2 xicaras grao-de-bico cozido", "1 cebola picada", "2 dentes alho", "200ml creme de castanha", "1 colher ketchup", "1 colher mostarda", "Sal e pimenta"], steps: ["Refogue cebola e alho ate dourar.", "Adicione o grao-de-bico e tempere.", "Misture ketchup, mostarda e creme de castanha.", "Cozinhe por 10 min e sirva com arroz."] },
+  { id: 2, photo: "bolo-chocolate", title: "Bolo de Chocolate Vegano", author: "Julia Costa", avatar: "🌸", time: "50 min", difficulty: "Medio", rating: 4.9, reviews: 52, category: "sobremesa", tags: ["🍰 Sobremesa", "🎉 Festa"], image: "🍫", ingredients: ["2 xicaras farinha", "1 xicara cacau", "1 xicara acucar", "1 xicara leite vegetal", "1/2 xicara oleo", "1 colher fermento", "1 colher vinagre"], steps: ["Misture secos em uma tigela.", "Adicione umidos e mexa ate homogeneizar.", "Leve ao forno a 180C por 35 min.", "Decore com ganache de chocolate vegano."] },
+  { id: 3, photo: "tofu-mexido", title: "Tofu Mexido de Cafe da Manha", author: "Carlos Lima", avatar: "🦁", time: "15 min", difficulty: "Facil", rating: 4.5, reviews: 18, category: "rapida", tags: ["⚡ Rapida", "🌅 Cafe"], image: "🍳", ingredients: ["200g tofu firme", "1/2 colher curcuma", "2 colheres levedura nutricional", "Sal, pimenta e azeite", "Vegetais a gosto"], steps: ["Escorra e esfarele o tofu.", "Refogue com azeite e vegetais.", "Adicione curcuma e levedura.", "Cozinhe por 5 min e sirva quente."] },
+  { id: 4, photo: "macarrao", title: "Lasanha de Berinjela", author: "Mariana Souza", avatar: "🦋", time: "60 min", difficulty: "Medio", rating: 4.7, reviews: 28, category: "economica", tags: ["💰 Economica", "🥘 Principal"], image: "🍲", ingredients: ["2 berinjelas em rodelas", "Molho de tomate caseiro", "Creme de castanha", "Queijo vegano ralado", "Manjericao fresco"], steps: ["Grelhe as rodelas de berinjela.", "Monte camadas: molho, berinjela, creme.", "Finalize com queijo vegano.", "Asse a 200C por 25 min."] },
+  { id: 5, photo: "bowl-frutas", title: "Sorvete de Banana e Peanut", author: "Pedro Alves", avatar: "🐻", time: "5 min", difficulty: "Facil", rating: 4.6, reviews: 41, category: "sobremesa", tags: ["🍰 Sobremesa", "❄️ Gelado"], image: "🍦", ingredients: ["3 bananas congeladas", "2 colheres pasta de amendoim", "1 colher cacau (opcional)", "Granola para decorar"], steps: ["Bata as bananas congeladas no processador.", "Adicione pasta de amendoim e bata mais.", "Sirva imediatamente com granola."] },
+  { id: 6, photo: "hamburguer", title: "Hamburguer de Lentilha", author: "Rafael Mendes", avatar: "🌵", time: "30 min", difficulty: "Facil", rating: 4.4, reviews: 22, category: "economica", tags: ["💰 Economica", "🍔 Lanche"], image: "🍔", ingredients: ["1 xicara lentilha cozida", "1/2 xicara aveia em flocos", "1 cebola caramelizada", "Alho e cominho", "Sal e pimenta"], steps: ["Processe lentilha e aveia.", "Misture temperos e cebola.", "Modele hamburgueres.", "Grelhe 4 min de cada lado."] },
+  { id: 7, photo: "bowl-frutas", title: "Smoothie Bowl Verde", author: "Ana Verde", avatar: "🌱", time: "10 min", difficulty: "Facil", rating: 4.3, reviews: 15, category: "rapida", tags: ["⚡ Rapida", "💚 Saudavel"], image: "🥣", ingredients: ["1 banana congelada", "1 xicara espinafre", "1/2 xicara leite de coco", "1/2 abacate", "Toppings: semente, frutas"], steps: ["Bata banana, espinafre, leite e abacate.", "Coloque em uma tigela.", "Decore com sementes e frutas.", "Aproveite imediatamente!"] },
+  { id: 8, photo: "brigadeiros", title: "Brigadeiro Vegano", author: "Julia Costa", avatar: "🌸", time: "20 min", difficulty: "Facil", rating: 4.9, reviews: 63, category: "sobremesa", tags: ["🍰 Sobremesa", "🎉 Festa"], image: "🍬", ingredients: ["1 xicara leite condensado de aveia", "1/2 xicara cacau em po", "1 colher manteiga vegetal", "Granulado vegano"], steps: ["Misture leite condensado e cacau.", "Cozinhe em fogo baixo ate desgrudar.", "Adicione manteiga e misture.", "Enrole e passe no granulado."] }
 ];
 
 const MOCK_PLACES = [
@@ -76,12 +76,12 @@ const MOCK_PRODUCTS_BEAUTY = [
 ];
 
 const MOCK_PROFILES = [
-  { id: 1, name: "Luna Silva", age: 26, avatar: "🌙", bio: "Chef vegana em transicao. Amo trilhas e cafe da manha!", interests: ["Culinaria", "Natureza", "Yoga"], type: "encontros" },
-  { id: 2, name: "Gabriel Costa", age: 29, avatar: "🎸", bio: "Musico e ativista. Procurando alguem para ir a festivais veganos!", interests: ["Musica", "Ativismo", "Cinema"], type: "encontros" },
-  { id: 3, name: "Isabela Ferreira", age: 24, avatar: "🎨", bio: "Ilustradora e amante de animais. Adoro experimentar receitas novas!", interests: ["Arte", "Animais", "Receitas"], type: "encontros" },
-  { id: 4, name: "Thiago Mendes", age: 31, avatar: "🏃", bio: "Corredor e nutricionista esportivo vegano. Vamos correr no parque?", interests: ["Esportes", "Nutricao", "Viagens"], type: "amizades" },
-  { id: 5, name: "Camila Rocha", age: 27, avatar: "📚", bio: "Escritora e bookaholic. Procurando amigos para clubes do livro vegano!", interests: ["Leitura", "Escrita", "Cafes"], type: "amizades" },
-  { id: 6, name: "Bruno Alves", age: 33, avatar: "🌵", bio: "Engenheiro e pai de plantas. Adoro compartilhar dicas de jardinagem!", interests: ["Plantas", "Tecnologia", "Board Games"], type: "amizades" }
+  { id: 1, name: "Luna Silva", age: 26, city: "São Paulo, SP", avatar: "🌙", bio: "Chef vegana em transicao. Amo trilhas e cafe da manha!", interests: ["Culinaria", "Natureza", "Yoga"], type: "encontros" },
+  { id: 2, name: "Gabriel Costa", age: 29, city: "Curitiba, PR", avatar: "🎸", bio: "Musico e ativista. Procurando alguem para ir a festivais veganos!", interests: ["Musica", "Ativismo", "Cinema"], type: "encontros" },
+  { id: 3, name: "Isabela Ferreira", age: 24, city: "Rio de Janeiro, RJ", avatar: "🎨", bio: "Ilustradora e amante de animais. Adoro experimentar receitas novas!", interests: ["Arte", "Animais", "Receitas"], type: "encontros" },
+  { id: 4, name: "Thiago Mendes", age: 31, city: "São Paulo, SP", avatar: "🏃", bio: "Corredor e nutricionista esportivo vegano. Vamos correr no parque?", interests: ["Esportes", "Nutricao", "Viagens"], type: "amizades" },
+  { id: 5, name: "Camila Rocha", age: 27, city: "Belo Horizonte, MG", avatar: "📚", bio: "Escritora e bookaholic. Procurando amigos para clubes do livro vegano!", interests: ["Leitura", "Escrita", "Cafes"], type: "amizades" },
+  { id: 6, name: "Bruno Alves", age: 33, city: "Curitiba, PR", avatar: "🌵", bio: "Engenheiro e pai de plantas. Adoro compartilhar dicas de jardinagem!", interests: ["Plantas", "Tecnologia", "Board Games"], type: "amizades" }
 ];
 
 let state = {
@@ -96,6 +96,7 @@ let state = {
   productsBeauty: [...MOCK_PRODUCTS_BEAUTY],
   profiles: [...MOCK_PROFILES],
   myRecipes: [],
+  recipeRatings: {},
   myReviews: [],
   user: { name: "Voce", avatar: "🦁", bio: "Membro da comunidade Elograin" },
   exploreTab: 'mapa',
@@ -114,9 +115,14 @@ function loadState() {
     const saved = localStorage.getItem('elograin_state_v3');
     if (saved) {
       const parsed = JSON.parse(saved);
+      delete parsed.recipes;   // receitas embutidas vêm do código, nunca de uma cópia salva (evitava lista velha/duplicada)
       state = Object.assign({}, state, parsed);
     }
   } catch (e) {}
+  state.myRecipes = cleanMyRecipes(state.myRecipes);
+  state.recipeRatings = (state.recipeRatings && typeof state.recipeRatings === 'object') ? state.recipeRatings : {};
+  state.user = Object.assign(userDefaults(), state.user || {});
+  saveState();
   if (!localStorage.getItem('elograin_identity_v66')) { state.darkMode = true; localStorage.setItem('elograin_identity_v66', '1'); }   // nova identidade: abre no escuro uma vez
   if (state.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
   else document.documentElement.removeAttribute('data-theme');
@@ -127,12 +133,13 @@ function saveState() {
     localStorage.setItem('elograin_state_v3', JSON.stringify({
       darkMode: state.darkMode,
       myRecipes: state.myRecipes,
+      recipeRatings: state.recipeRatings,
       myReviews: state.myReviews,
       posts: state.posts,
-      recipes: state.recipes,
       user: state.user
     }));
-  } catch (e) {}
+    return true;
+  } catch (e) { return false; }
 }
 
 function toast(msg, actionLabel, action) {
@@ -495,6 +502,7 @@ function renderCurrentView() {
 // ===== FEED =====
 function renderFeed(filterTag) {
   filterTag = filterTag || activeFeedTag();   // a busca respeita o filtro ativo
+  var fc = document.getElementById('feedComposer'); if (fc) fc.innerHTML = composerBarHTML();
   var container = document.getElementById('feedPosts');
   var searchEl = document.getElementById('feedSearch');
   var search = searchEl ? searchEl.value.toLowerCase() : '';
@@ -510,7 +518,7 @@ function renderFeed(filterTag) {
       (canDel ? '<button class="delete-btn" onclick="openSwipeModal(' + post.id + ')" aria-label="Excluir post">Excluir</button>' : '') +
       '<button class="more-btn" onclick="togglePostMenu(' + post.id + ',event)" aria-label="Mais opções" aria-haspopup="menu">⋯</button>' +
       '<div class="post-menu" id="pm-' + post.id + '" role="menu">' + menu + '</div>' +
-      '<div class="card-header"><div class="avatar">' + esc(post.avatar) + '</div>' +
+      '<div class="card-header"><div class="avatar">' + avatarInner(post.avatar, isMyPost(post)) + '</div>' +
       '<div class="card-meta"><div class="name">' + esc(post.author) + '</div>' +
       '<div class="time">' + esc(post.time) + ' • <span class="badge badge-' + badgeClass + '">' + (TAG_LABEL[post.tag] || esc(post.tag)) + '</span></div></div></div>' +
       '<p class="card-text' + (isLong(post.content) ? ' clamp' : '') + '">' + esc(post.content) + '</p>' +
@@ -530,10 +538,6 @@ function isLong(t) { return t.length > 280 || t.split('\n').length > 6; }
 function toggleExpand(btn) {
   var p = btn.previousElementSibling, open = p.classList.toggle('clamp');
   btn.textContent = open ? 'Ver mais' : 'Ver menos';
-}
-function postHint(el) {
-  var h = document.getElementById('postHint'), n = el.value.length;
-  h.textContent = n > 600 ? '📖 Parece uma receita! Na aba "Receita" você separa ingredientes e modo de preparo. (' + n + '/5000)' : (n > 4000 ? n + '/5000' : '');
 }
 // Limpa texto colado da internet: caixinhas ▢ viram marcadores e linhas em branco demais são removidas
 function cleanPostText(t) {
@@ -633,48 +637,51 @@ function renderRecipes() {
   var search = searchEl ? searchEl.value.toLowerCase() : '';
   var activeTabEl = document.querySelector('#recipeTabs .tab.active');
   var activeTab = activeTabEl ? activeTabEl.dataset.tab : 'todas';
-  var recipes = state.recipes.concat(state.myRecipes);
+  var recipes = allRecipes();
   if (activeTab !== 'todas') recipes = recipes.filter(function(r) { return r.category === activeTab; });
   if (search) recipes = recipes.filter(function(r) { return r.title.toLowerCase().includes(search) || r.author.toLowerCase().includes(search); });
 
   container.innerHTML = recipes.map(function(r) {
     return '<article class="recipe-card" onclick="showRecipeDetail(' + r.id + ')">' +
       '<div class="recipe-thumb"><img src="' + photoSrc(recipePhotoName(r)) + '" alt="" loading="lazy"></div>' +
-      '<div class="recipe-info"><h3>' + r.title + '</h3>' +
+      '<div class="recipe-info"><h3>' + esc(r.title) + '</h3>' +
       '<div class="recipe-meta"><div class="rating"><span class="stars">⭐</span> ' + r.rating + ' (' + r.reviews + ')</div>' +
-      '<div style="margin-top:4px">⏱️ ' + r.time + ' • 👤 ' + r.author + '</div>' +
+      '<div style="margin-top:4px">⏱️ ' + esc(r.time) + ' • 👤 ' + esc(r.author) + '</div>' +
       '<div class="tag-list" style="margin-top:6px">' + r.tags.map(function(t) { return '<span class="tag" style="padding:2px 8px;font-size:0.7rem">' + t + '</span>'; }).join('') + '</div></div></div></article>';
   }).join('');
   if (recipes.length === 0) container.innerHTML = emptyState('Nenhuma receita encontrada', '🍽️');
 }
 
 function showRecipeDetail(recipeId) {
-  var all = state.recipes.concat(state.myRecipes);
-  var r = all.find(function(x) { return x.id === recipeId; });
+  var r = allRecipes().find(function(x) { return x.id === recipeId; });
   if (!r) return;
   openDetailModal(r.title,
     '<div class="rd-hero">' + photo(recipePhotoName(r), 'Foto ilustrativa: ' + r.title) + '</div>' +
     '<div style="display:flex;gap:12px;justify-content:center;margin-bottom:16px;flex-wrap:wrap">' +
     '<span class="badge badge-vegan">⭐ ' + r.rating + '</span>' +
     '<span class="badge badge-friendly">⏱️ ' + r.time + '</span>' +
-    '<span class="badge badge-econ">📊 ' + r.difficulty + '</span></div>' +
+    '<span class="badge badge-econ">📊 ' + esc(r.difficulty) + '</span></div>' +
     '<div style="margin-bottom:16px"><label>Ingredientes</label>' +
-    '<ul style="padding-left:20px;color:var(--text-light);font-size:0.9rem;line-height:1.8">' + r.ingredients.map(function(i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>' +
+    '<ul style="padding-left:20px;color:var(--text-light);font-size:0.9rem;line-height:1.8">' + r.ingredients.map(function(i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div>' +
     '<div><label>Modo de Preparo</label>' +
-    '<ol style="padding-left:20px;color:var(--text-light);font-size:0.9rem;line-height:1.8">' + r.steps.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ol></div>' +
+    '<ol style="padding-left:20px;color:var(--text-light);font-size:0.9rem;line-height:1.8">' + r.steps.map(function(s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>' +
     '<div style="margin-top:16px"><label>Sua avaliação</label><div id="rateBox"></div></div>' +
     '<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">' +
-    '<div style="font-size:0.85rem;color:var(--text-light)">Por ' + r.author + '</div></div>',
+    '<div style="font-size:0.85rem;color:var(--text-light)">Por ' + esc(r.author) + '</div></div>',
     '<button class="btn btn-secondary" onclick="toast(\'Salvo nos favoritos!\')">💾 Salvar</button>');
   Elo.mountRating(document.getElementById('rateBox'), { noun: 'Receita', onConfirm: function(score) { rateRecipe(r.id, score); } });
 }
 
 function rateRecipe(id, score) {
-  // Atualiza a média da receita (o modal continua aberto para a animação terminar)
-  var r = (state.recipes || RECIPES_DATA()).find(function(x) { return x.id === id; });
-  if (r && score) { r.rating = Math.round(((r.rating * r.reviews + score) / (r.reviews + 1)) * 10) / 10; r.reviews++; saveState(); }
+  // Atualiza a média (o modal continua aberto para a animação terminar). Receita embutida: guarda só a nota, nunca a receita.
+  if (!score) return;
+  var r = allRecipes().find(function(x) { return x.id === id; });
+  if (!r) return;
+  var next = { rating: Math.round(((r.rating * r.reviews + score) / (r.reviews + 1)) * 10) / 10, reviews: r.reviews + 1 };
+  var mine = (state.myRecipes || []).find(function(x) { return x.id === id; });
+  if (mine) Object.assign(mine, next); else state.recipeRatings[id] = next;
+  saveState();
 }
-function RECIPES_DATA() { return typeof MOCK_RECIPES !== 'undefined' ? MOCK_RECIPES : []; }
 
 // ===== EXPLORE =====
 function renderExplore() {
@@ -806,38 +813,15 @@ function filterProducts(query, type) {
 }
 
 // ===== CONNECT =====
-function renderConnect() {
-  var content = document.getElementById('connectContent');
-  if (state.connectTab === 'encontros') renderDating(content);
-  else renderFriendships(content);
-}
-
-function renderDating(container) {
-  var profiles = state.profiles.filter(function(p) { return p.type === 'encontros'; });
-  container.innerHTML = profiles.map(function(p) { return matchCard(p); }).join('');
-}
-
-function renderFriendships(container) {
-  var profiles = state.profiles.filter(function(p) { return p.type === 'amizades'; });
-  container.innerHTML = profiles.map(function(p) { return matchCard(p); }).join('');
-}
-
-function matchCard(p) {
-  return '<div class="match-card"><div class="match-img">' + p.avatar + '</div>' +
-    '<div class="match-body"><h3 style="font-size:1.2rem;margin-bottom:4px">' + p.name + ', ' + p.age + '</h3>' +
-    '<p style="color:var(--text-light);font-size:0.9rem;margin-bottom:8px">' + p.bio + '</p>' +
-    '<div class="tag-list">' + p.interests.map(function(i) { return '<span class="tag" style="padding:4px 10px;font-size:0.75rem">' + i + '</span>'; }).join('') + '</div></div>' +
-    '<div class="match-actions">' +
-    '<button class="match-btn match-btn-secondary" onclick="toast(\'Passado 👋\')">👋 Pular</button>' +
-    '<button class="match-btn match-btn-primary" onclick="toast(\'Match! 💕 Inicie uma conversa.\')">💕 Curtir</button></div></div>';
-}
 
 // ===== PROFILE =====
 function renderProfile() {
   updateHeaderAvatar();
-  document.getElementById('profileName').textContent = state.user.name;
-  document.getElementById('profileAvatar').textContent = state.user.avatar;
-  document.getElementById('profileBio').textContent = state.user.bio;
+  var u = state.user;
+  document.getElementById('profileName').textContent = u.name;
+  document.getElementById('profileAvatar').innerHTML = avatarInner(u.avatar, true);
+  document.getElementById('profileBio').textContent = u.bio || DEFAULT_BIO;
+  renderProfileMeta(u);
   var pe = document.getElementById('profileEmail'); if (pe) pe.textContent = state.user.email || '';
   document.getElementById('statPosts').textContent = state.posts.filter(function(p) { return p.author === state.user.name; }).length;
   document.getElementById('statRecipes').textContent = state.myRecipes.length;
@@ -848,8 +832,8 @@ function renderProfile() {
     myRecipesContainer.innerHTML = emptyState('Voce ainda nao criou receitas', '🍽️');
   } else {
     myRecipesContainer.innerHTML = state.myRecipes.map(function(r) {
-      return '<div class="recipe-card" onclick="showRecipeDetail(' + r.id + ')"><div class="recipe-thumb">' + r.image + '</div>' +
-        '<div class="recipe-info"><h3>' + r.title + '</h3><div class="recipe-meta">⭐ ' + r.rating + ' • ⏱️ ' + r.time + '</div></div></div>';
+      return '<div class="recipe-card" onclick="showRecipeDetail(' + r.id + ')"><div class="recipe-thumb"><img src="' + photoSrc(recipePhotoName(r)) + '" alt="" loading="lazy"></div>' +
+        '<div class="recipe-info"><h3>' + esc(r.title) + '</h3><div class="recipe-meta">⭐ ' + r.rating + ' • ⏱️ ' + esc(r.time) + '</div></div></div>';
     }).join('');
   }
 
@@ -887,71 +871,7 @@ function closeCreateModal() {
   document.getElementById('createModal').classList.remove('active');
 }
 
-function renderCreateForm() {
-  var form = document.getElementById('createForm');
-  if (state.createType === 'post') {
-    form.innerHTML = '<label>O que voce quer compartilhar?</label>' +
-      '<textarea id="postContent" maxlength="5000" placeholder="Conte sua experiência, dica ou dúvida..." oninput="postHint(this)"></textarea><small id="postHint" style="display:block;color:var(--text-light);margin-top:6px"></small>' +
-      '<label>Categoria</label><select id="postTag"><option value="dica">💡 Dica</option><option value="experiencia">✨ Experiencia</option><option value="duvida">❓ Duvida</option></select>' +
-      '<button class="btn btn-primary w-full" onclick="submitPost()">Publicar</button>';
-  } else if (state.createType === 'recipe') {
-    form.innerHTML = '<label>Nome da Receita</label><input type="text" id="recipeTitle" placeholder="Ex: Strogonoff de Grao-de-Bico">' +
-      '<label>Tempo de Preparo</label><input type="text" id="recipeTime" placeholder="Ex: 45 min">' +
-      '<label>Dificuldade</label><select id="recipeDiff"><option>Facil</option><option>Medio</option><option>Dificil</option></select>' +
-      '<label>Categoria</label><select id="recipeCategory"><option value="economica">💰 Economica</option><option value="rapida">⚡ Rapida</option><option value="sobremesa">🍰 Sobremesa</option></select>' +
-      '<label>Ingredientes (um por linha)</label><textarea id="recipeIngredients" placeholder="2 xicaras grao-de-bico\n1 cebola picada..."></textarea>' +
-      '<label>Modo de Preparo (um passo por linha)</label><textarea id="recipeSteps" placeholder="Refogue a cebola...\nAdicione o grao-de-bico..."></textarea>' +
-      '<button class="btn btn-primary w-full" onclick="submitRecipe()">Publicar Receita</button>';
-  } else if (state.createType === 'review') {
-    form.innerHTML = '<label>Estabelecimento</label><input type="text" id="reviewPlace" placeholder="Nome do restaurante/lugar">' +
-      '<label>Nota</label><div id="reviewStars"></div><input type="hidden" id="reviewRating" value="5">' +
-      '<label>Sua Experiencia</label><textarea id="reviewText" placeholder="Conte como foi sua visita..."></textarea>' +
-      '<button class="btn btn-primary w-full" onclick="submitReview()">Publicar Avaliacao</button>';
-    Elo.mountRating(document.getElementById('reviewStars'), { initial: 5, confirm: false, onChange: function(v) { document.getElementById('reviewRating').value = v; } });
-  }
-}
 
-function submitPost() {
-  var content = cleanPostText(document.getElementById('postContent').value);
-  var tag = document.getElementById('postTag').value;
-  if (!content) { toast('Escreva algo antes de publicar!'); return; }
-  if (sb && cloud.user) {
-    var pbtn = document.querySelector('#createForm .btn-primary');
-    if (pbtn) { pbtn.disabled = true; pbtn.textContent = 'Publicando...'; }
-    var reset = function() { if (pbtn) { pbtn.disabled = false; pbtn.textContent = 'Publicar'; } };
-    sb.from('posts').insert({ tag: tag, content: content.slice(0, 5000) }).then(function(r) {
-      reset();
-      if (r.error) { console.error('Erro ao publicar:', r.error); toast(publishError(r.error)); return; }
-      closeCreateModal(); toast('Post publicado! 🎉'); loadPostsCloud();
-    }, function() { reset(); toast('Sem conexão com a internet. Tente de novo.'); });
-    return;
-  }
-  var newPost = { id: Date.now(), author: state.user.name, avatar: state.user.avatar, time: "Agora", content: content, tag: tag, likes: 0, comments: 0, liked: false, image: null };
-  state.posts.unshift(newPost);
-  saveState();
-  closeCreateModal();
-  toast('Post publicado! 🎉');
-  if (state.currentView === 'feed') renderFeed();
-  if (state.currentView === 'profile') renderProfile();
-}
-
-function submitRecipe() {
-  var title = document.getElementById('recipeTitle').value.trim();
-  var time = document.getElementById('recipeTime').value.trim();
-  var difficulty = document.getElementById('recipeDiff').value;
-  var category = document.getElementById('recipeCategory').value;
-  var ingredients = document.getElementById('recipeIngredients').value.split('\n').filter(function(l) { return l.trim(); });
-  var steps = document.getElementById('recipeSteps').value.split('\n').filter(function(l) { return l.trim(); });
-  if (!title || !time || ingredients.length === 0 || steps.length === 0) { toast('Preencha todos os campos!'); return; }
-  var tagMap = { economica: '💰 Economica', rapida: '⚡ Rapida', sobremesa: '🍰 Sobremesa' };
-  var newRecipe = { id: Date.now(), title: title, author: state.user.name, avatar: state.user.avatar, time: time, difficulty: difficulty, rating: 0, reviews: 0, category: category, tags: [tagMap[category], '🆕 Nova'], image: '🍽️', ingredients: ingredients, steps: steps };
-  state.myRecipes.unshift(newRecipe);
-  saveState();
-  closeCreateModal();
-  toast('Receita publicada! 🍽️');
-  if (state.currentView === 'recipes') renderRecipes();
-  if (state.currentView === 'profile') renderProfile();
-}
 
 function submitReview() {
   var place = document.getElementById('reviewPlace').value.trim();
@@ -1181,7 +1101,7 @@ function startSession(email, isNew) {
   var acc = getAccounts()[email];
   if (!acc) return;
   localStorage.setItem('elograin_session', email);
-  state.user = { name: acc.name, avatar: acc.avatar, bio: 'Membro da comunidade Elograin', email: email };
+  state.user = Object.assign(userDefaults(), { name: acc.name, avatar: acc.avatar, email: email }, loadExtras(email));
   saveState();
   document.getElementById('authScreen').hidden = true;
   document.getElementById('authForm').reset();
@@ -1193,6 +1113,7 @@ function startSession(email, isNew) {
 function logout() {
   if (sb) { sb.auth.signOut(); cloud.user = null; state.posts = []; saveState(); }
   localStorage.removeItem('elograin_session');
+  closeChat(); syncChatFab();
   closePostMenus();
   authMode('login');
   document.getElementById('authScreen').hidden = false;
@@ -1217,7 +1138,7 @@ function initAuth() {
   setTimeout(function() { toast('⚠️ Sem conexão com o servidor. Usando modo local.'); }, 800);
   var email = localStorage.getItem('elograin_session');
   var acc = email && getAccounts()[email];
-  if (acc) { state.user = Object.assign({}, state.user, { name: acc.name, avatar: acc.avatar, email: email }); document.getElementById('authScreen').hidden = true; }
+  if (acc) { state.user = Object.assign({}, state.user, { name: acc.name, avatar: acc.avatar, email: email }, loadExtras(email)); document.getElementById('authScreen').hidden = true; }
   else document.getElementById('authScreen').hidden = false;
 }
 
@@ -1314,13 +1235,13 @@ function startCloudSession(user, isNew) {
   cloud.user = user;
   return sb.from('profiles').select('name,avatar').eq('id', user.id).maybeSingle().then(function(r) {
     var meta = user.user_metadata || {}, pr = r.data || { name: meta.name || 'Membro', avatar: meta.avatar || '🌱' };
-    state.user = { name: pr.name, avatar: pr.avatar, bio: 'Membro da comunidade Elograin', email: user.email };
+    state.user = Object.assign(userDefaults(), { name: pr.name, avatar: pr.avatar, email: user.email }, loadExtras(user.email, meta));
     state.posts = [];
     saveState();
     document.getElementById('authScreen').hidden = true;
     document.getElementById('authForm').reset();
     authError('');
-    showView('home'); renderProfile();
+    showView('home'); renderProfile(); syncChatFab();
     if (isNew === true) toast('Bem-vindo(a) ao Elograin, ' + pr.name + '! 🌿');
     else if (isNew === false) toast('Que bom te ver, ' + pr.name + '! 👋');
     return loadPostsCloud();
@@ -1363,40 +1284,50 @@ function buildChat() {
   if (chat.built) return; chat.built = true;
   var fab = document.createElement('button');
   fab.id = 'chatFab'; fab.className = 'chat-fab'; fab.setAttribute('aria-label', 'Conversar com a Elo');
-  fab.innerHTML = '<span aria-hidden="true">🌿</span> Elo'; fab.onclick = openChat;
+  fab.innerHTML = '<span aria-hidden="true">🌿</span> Elo'; fab.title = 'Toque para conversar · arraste para mover'; fab.classList.add('is-off');
   var box = document.createElement('div');
   box.id = 'chatBox'; box.className = 'chat-box'; box.hidden = true;
   box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Chat com a Elo');
   box.innerHTML = '<div class="chat-head"><div class="chat-av">' + LOGO_SVG + '</div><div class="chat-title"><b>Elo</b><small>Assistente vegana do Elograin</small></div>' +
     '<button class="chat-x" onclick="resetChat()" aria-label="Nova conversa" title="Nova conversa">↺</button>' +
     '<button class="chat-x" onclick="closeChat()" aria-label="Fechar">✕</button></div>' +
-    '<div class="chat-msgs" id="chatMsgs" aria-live="polite"></div><div class="chat-sugs" id="chatSugs"></div>' +
+    '<div class="chat-body"><div class="chat-msgs" id="chatMsgs" aria-live="polite" tabindex="0"></div><button type="button" class="chat-down" id="chatDown" hidden aria-label="Ir para a última mensagem" onclick="chatToBottom()">↓</button></div><div class="chat-sugs" id="chatSugs"></div>' +
     '<form class="chat-form" onsubmit="sendChat(event)"><input id="chatInput" maxlength="500" autocomplete="off" placeholder="Pergunte sobre receitas, rótulos..." aria-label="Mensagem">' +
     '<button type="submit" id="chatSend" aria-label="Enviar">➤</button></form>' +
     '<p class="chat-note">A Elo é uma IA e pode errar. Não substitui nutricionista ou médico.</p>';
   document.body.appendChild(fab); document.body.appendChild(box);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeChat(); });
+  document.getElementById('chatMsgs').addEventListener('scroll', updateChatDown, { passive: true });
+  initChatFab(fab);
   renderChat();
+  syncChatFab();
 }
 function openChat() {
   if (!sb || !cloud.user) { toast('Entre na sua conta para falar com a Elo.'); return; }
-  document.getElementById('chatBox').hidden = false;
-  document.getElementById('chatFab').style.display = 'none';
-  setTimeout(function() { document.getElementById('chatInput').focus(); }, 100);
+  var box = document.getElementById('chatBox');
+  box.classList.toggle('on-left', chatFabSide() === 'l');   // no computador, a janela abre do mesmo lado do botão
+  box.hidden = false; syncChatFab();
+  setTimeout(function() { document.getElementById('chatInput').focus(); updateChatDown(); }, 100);
 }
 function closeChat() {
   var b = document.getElementById('chatBox'); if (!b || b.hidden) return;
-  b.hidden = true; document.getElementById('chatFab').style.display = '';
+  b.hidden = true; syncChatFab();
+  var f = document.getElementById('chatFab'); if (f && !f.classList.contains('is-off')) f.focus({ preventScroll: true });
 }
 function resetChat() { chat.msgs = []; chat.err = ''; renderChat(); }
 
-function renderChat() {
+function renderChat(mode) {
   var list = document.getElementById('chatMsgs');
   var html = '<div class="cb bot">Oi! Eu sou a Elo 🌿 Posso ajudar com receitas, substituições, dúvidas de rótulos e dicas para quem é vegano ou está começando. Como posso ajudar?</div>';
   html += chat.msgs.map(function(m) { return '<div class="cb ' + (m.role === 'user' ? 'me' : 'bot') + '">' + fmtChat(m.content) + '</div>'; }).join('');
   if (chat.busy) html += '<div class="cb bot typing" aria-label="Elo está digitando"><i></i><i></i><i></i></div>';
   if (chat.err) html += '<div class="cb err">' + esc(chat.err) + '</div>';
-  list.innerHTML = html; list.scrollTop = list.scrollHeight;
+  list.innerHTML = html;
+  if (mode === 'reply') {   // resposta nova: mostra o COMEÇO dela (não pula pro fim de um texto longo)
+    var bots = list.querySelectorAll('.cb.bot:not(.typing)'), last = bots[bots.length - 1];
+    list.scrollTop = last ? Math.max(0, last.offsetTop - 12) : list.scrollHeight;
+  } else if (mode !== 'keep') list.scrollTop = list.scrollHeight;
+  updateChatDown();
   document.getElementById('chatSugs').innerHTML = chat.msgs.length ? '' : CHAT_SUGS.map(function(s) { return '<button type="button" onclick="askChat(this.textContent)">' + esc(s) + '</button>'; }).join('');
   document.getElementById('chatSend').disabled = chat.busy;
 }
@@ -1430,7 +1361,7 @@ function askChat(text) {
     chat.msgs.push({ role: 'assistant', content: d.reply });
   }).catch(function(err) {
     chat.err = (err && err.message && err.message !== 'Failed to fetch') ? err.message : 'Sem conexão. Confira sua internet e tente de novo.';
-  }).then(function() { chat.busy = false; renderChat(); });
+  }).then(function() { chat.busy = false; renderChat(chat.err ? 'bottom' : 'reply'); });
 }
 document.addEventListener('DOMContentLoaded', buildChat);
 
@@ -1443,13 +1374,12 @@ var HERO_SVG = '<img class="hero-photo" src="' + photoSrc('bowl-tofu') + '" alt=
 
 // ----- fotos (recortes da colagem em img/; trocar por fotos do estabelecimento/autor quando houver envio de imagens) -----
 var PHOTO_ALT = 'Foto ilustrativa de prato vegano';
-function photoSrc(n) { return (window.PHOTOS && window.PHOTOS[n]) || ('img/' + n + '.jpg'); }
-function photo(name, alt) { return '<img src="' + photoSrc(name) + '" alt="' + esc(alt || PHOTO_ALT) + '" loading="lazy" decoding="async"><span class="tillus">Foto ilustrativa</span>'; }
+function photoSrc(n) { if (/^(data:|blob:|https?:)/.test(n)) return n; return (window.PHOTOS && window.PHOTOS[n]) || ('img/' + n + '.jpg'); }
+function photo(name, alt) { var own = /^(data:|blob:|https?:)/.test(name); return '<img src="' + photoSrc(name) + '" alt="' + esc(alt || PHOTO_ALT) + '" loading="lazy" decoding="async">' + (own ? '' : '<span class="tillus">Foto ilustrativa</span>'); }
 function recipePhotoName(r) {
-  var t = String(r.title || '').toLowerCase();
-  if (/brownie/.test(t)) return 'brownie'; if (/brigadeiro|bombom|trufa/.test(t)) return 'brigadeiros'; if (/bolo|torta/.test(t)) return 'bolo-chocolate';
-  if (/macarr|espaguete|massa|lasanha/.test(t)) return 'macarrao'; if (/hamb|burger/.test(t)) return 'hamburguer'; if (/pizza/.test(t)) return 'pizza';
-  if (/panqueca/.test(t)) return 'panquecas'; if (/vitamina|smoothie|suco/.test(t)) return 'smoothie'; if (/pao|p\u00e3o|croissant/.test(t)) return 'croissant';
+  if (r.photo) return r.photo;   // foto escolhida (a sugerida na hora de publicar, ou a enviada pela pessoa)
+  var t = normTxt(r.title), hit = photoByRules(t) || photoByRules(t + ' ' + normTxt((r.ingredients || []).join(' ')));
+  if (hit) return hit;
   var c = String(r.category || '').toLowerCase();
   if (c.indexOf('sobremesa') > -1) return 'brownie'; if (c.indexOf('rapid') > -1) return 'macarrao'; if (c.indexOf('econ') > -1) return 'ensopado';
   return 'bowl-graos';
@@ -1481,7 +1411,7 @@ function favBtn(k) { var on = isFav(k); return '<button class="fav-btn' + (on ? 
 
 // ----- dados reais (nada inventado) -----
 function placesReal() { return (state.places || []).filter(function(p) { return p.real; }); }
-function realRecipes() { var mine = state.myRecipes || []; return (sb && cloud.user) ? mine.slice() : (state.recipes || []).concat(mine); }
+function realRecipes() { return (sb && cloud.user) ? (state.myRecipes || []).slice() : allRecipes(); }
 function topPosts(n) { return (state.posts || []).slice().sort(function(a, b) { return (b.likes || 0) - (a.likes || 0); }).slice(0, n); }
 function goTo(v) { if (v === 'more') openMore(); else showView(v); }
 
@@ -1543,7 +1473,7 @@ function renderHome() {
     '<label class="hs-q">' + ic('search') + '<input id="heroQ" placeholder="O que você procura?" aria-label="O que você procura?" autocomplete="off"></label>' +
     '<button type="submit" aria-label="Pesquisar">' + ic('arrow') + '</button></form></section>' +
     '<div class="cats cats-d">' + D.map(cat).join('') + '</div><div class="cats cats-m">' + M.map(cat).join('') + '</div>' +
-    '<div class="section-header"><h2 class="section-title">🔥 Em alta na comunidade</h2><button class="plink" onclick="showView(\'feed\')">Ver mais ' + ic('arrow') + '</button></div>' +
+    composerBarHTML() + '<div class="section-header"><h2 class="section-title">🔥 Em alta na comunidade</h2><button class="plink" onclick="showView(\'feed\')">Ver mais ' + ic('arrow') + '</button></div>' +
     '<div class="trend">' + trendCards() + '</div></div><aside class="home-side">' + sidePanels() + '</aside></div>';
 }
 
@@ -1580,20 +1510,527 @@ function heroSearch(e) { e.preventDefault(); runSearch(document.getElementById('
 
 // ----- criar, mais, configurações, ajuda, notificações -----
 function startCreate(type, tag) {
-  closeDetailModal(); state.createType = type; openCreateModal();
-  if (tag) { var s = document.getElementById('postTag'); if (s) s.value = tag; }
+  closeDetailModal(); state.createType = type || 'post'; state.createTag = tag || ''; openCreateModal();
 }
-function openCreateMenu() {
-  var it = [['💡', 'Publicar dica', "startCreate('post','dica')"], ['🍽️', 'Compartilhar receita', "startCreate('recipe')"], ['✨', 'Compartilhar experiência', "startCreate('post','experiencia')"], ['❓', 'Fazer uma pergunta', "startCreate('post','duvida')"], ['⭐', 'Avaliar um lugar', "startCreate('review')"]];
-  openDetailModal('Criar', '<div class="cmenu">' + it.map(function(x) { return '<button onclick="' + x[2] + '"><span class="ci">' + x[0] + '</span>' + x[1] + '</button>'; }).join('') + '</div>');
-}
+function openCreateMenu() { startCreate('post'); }
 function menuList(items) { return '<div class="cmenu">' + items.map(function(x) { return '<button onclick="' + x[1] + '"><span class="ci">' + x[0] + '</span>' + x[2] + '</button>'; }).join('') + '</div>'; }
 function openMore() {
-  openDetailModal('Mais', menuList([['👤', "closeDetailModal();showView('profile')", 'Meu perfil'], ['🗺️', "closeDetailModal();showView('explore')", 'Eventos e avaliações'], ['🌓', "closeDetailModal();document.getElementById('themeToggle').click()", 'Trocar tema claro/escuro'], ['🌿', "closeDetailModal();openChat()", 'Falar com a Elo'], ['🚪', "closeDetailModal();logout()", 'Sair da conta']]));
+  openDetailModal('Mais', menuList([['👤', "closeDetailModal();showView('profile')", 'Meu perfil'], ['✏️', "closeDetailModal();openProfileEditor()", 'Editar perfil e privacidade'], ['🗺️', "closeDetailModal();showView('explore')", 'Eventos e avaliações'], ['🌓', "closeDetailModal();document.getElementById('themeToggle').click()", 'Trocar tema claro/escuro'], ['🌿', "closeDetailModal();openChat()", 'Falar com a Elo'], ['🚪', "closeDetailModal();logout()", 'Sair da conta']]));
 }
-function openSettings() { openDetailModal('Configurações', menuList([['🌓', "closeDetailModal();document.getElementById('themeToggle').click()", 'Trocar tema claro/escuro'], ['👤', "closeDetailModal();showView('profile')", 'Meu perfil'], ['🚪', "closeDetailModal();logout()", 'Sair da conta']])); }
+function openSettings() { openDetailModal('Configurações', menuList([['✏️', "closeDetailModal();openProfileEditor()", 'Editar perfil e privacidade'], ['🌓', "closeDetailModal();document.getElementById('themeToggle').click()", 'Trocar tema claro/escuro'], ['👤', "closeDetailModal();showView('profile')", 'Meu perfil'], ['🚪', "closeDetailModal();logout()", 'Sair da conta']])); }
 function openHelp() {
   openDetailModal('Ajuda', '<p class="tsub" style="margin-bottom:14px">Use <b>Restaurantes</b> para achar lugares, <b>Receitas</b> para cozinhar, <b>Mercado</b> para produtos e <b>Comunidade</b> para trocar dicas. Tem dúvida sobre veganismo? A Elo responde.</p>' + menuList([['🌿', "closeDetailModal();openChat()", 'Perguntar à Elo']]));
 }
 function openNotifs() { openDetailModal('Notificações', emptyState('Você ainda não tem notificações', '🔔') + '<p class="tsub" style="text-align:center">Avisos de curtidas e comentários vão aparecer aqui quando esse recurso for ativado.</p>'); }
-function updateHeaderAvatar() { var b = document.getElementById('headerAvatar'); if (b && state.user) b.textContent = state.user.avatar || '🌱'; }
+function updateHeaderAvatar() { var b = document.getElementById('headerAvatar'); if (b && state.user) b.innerHTML = avatarInner(state.user.avatar || '🌱', true); }
+
+
+// ============================================================
+// v7.7 — receitas sem duplicatas, publicar mais simples,
+//        perfil (foto, idade, cidade, público/privado) e Elo flutuante
+// ============================================================
+
+/* ---------- utilitários ---------- */
+// Texto sem acento/pontuação, em minúsculas: base de todas as comparações (nome de receita, regras de foto, etc.)
+function normTxt(s) { return String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+function splitLines(s) {
+  return String(s || '').split('\n').map(function(l) { return l.replace(/^[•\-\*]\s*/, '').replace(/^\d+[\.\)]\s+/, '').trim(); }).filter(Boolean);
+}
+// Reduz a foto no próprio aparelho (cabe no armazenamento e não gasta dados). square=true recorta o centro (foto de perfil).
+function resizeImage(file, max, quality, square) {
+  return new Promise(function(resolve, reject) {
+    if (!file || !/^image\//.test(file.type)) { reject(new Error('Escolha um arquivo de imagem.')); return; }
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function() {
+      var sw = img.width, sh = img.height, sx = 0, sy = 0, tw, th;
+      if (square) { var m = Math.min(sw, sh); sx = (sw - m) / 2; sy = (sh - m) / 2; sw = sh = m; tw = th = Math.min(max, m); }
+      else { var k = Math.min(1, max / Math.max(sw, sh)); tw = Math.round(sw * k); th = Math.round(sh * k); }
+      var c = document.createElement('canvas'); c.width = tw; c.height = th;
+      var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, tw, th); ctx.drawImage(img, sx, sy, sw, sh, 0, 0, tw, th);
+      URL.revokeObjectURL(url); resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = function() { URL.revokeObjectURL(url); reject(new Error('Não foi possível ler essa imagem.')); };
+    img.src = url;
+  });
+}
+// Avatar: foto da pessoa (se ela enviou) ou o emoji
+function avatarInner(av, isMe) {
+  if (isMe && state.user && state.user.photo) return '<img src="' + esc(state.user.photo) + '" alt="">';
+  return esc(av);
+}
+function isMyPost(p) { return (p.user_id && cloud.user) ? p.user_id === cloud.user.id : (p.author === (state.user && state.user.name)); }
+
+/* ---------- RECEITAS: uma lista só, sem duplicatas ---------- */
+var BUILTIN_IDS = {}; MOCK_RECIPES.forEach(function(r) { BUILTIN_IDS[r.id] = 1; });
+function recipeSig(r) { return normTxt(r.title) + '|' + normTxt(r.author) + '|' + normTxt((r.ingredients || []).join(' ')) + '|' + normTxt((r.steps || []).join(' ')); }
+var BUILTIN_SIGS = {}; MOCK_RECIPES.forEach(function(r) { BUILTIN_SIGS[recipeSig(r)] = 1; });   // cópia idêntica de uma receita embutida nunca vale mais que o original
+
+// Receitas da pessoa + embutidas, com as notas aplicadas. Cópias idênticas (mesmo id ou mesmo conteúdo) aparecem uma vez só.
+function allRecipes() {
+  var seenId = {}, seenSig = {}, out = [], rt = state.recipeRatings || {};
+  (state.myRecipes || []).concat(MOCK_RECIPES).forEach(function(r) {
+    if (!r) return;
+    var sig = recipeSig(r);
+    if (!BUILTIN_IDS[r.id] && BUILTIN_SIGS[sig]) return;   // cópia salva de uma embutida: ignora (o original aparece)
+    if (seenId[r.id] || seenSig[sig]) return;
+    seenId[r.id] = seenSig[sig] = 1;
+    out.push(BUILTIN_IDS[r.id] && rt[r.id] ? Object.assign({}, r, { rating: rt[r.id].rating, reviews: rt[r.id].reviews }) : r);
+  });
+  return out;
+}
+// Limpa o que estava salvo: tira registros inválidos, cópias idênticas e ids repetidos
+function cleanMyRecipes(list) {
+  var seen = {}, used = {}, out = [];
+  (Array.isArray(list) ? list : []).forEach(function(r) {
+    if (!r || typeof r !== 'object' || !r.title || !Array.isArray(r.ingredients) || !Array.isArray(r.steps)) return;
+    var sig = recipeSig(r); if (seen[sig] || BUILTIN_SIGS[sig]) return; seen[sig] = 1;
+    var id = r.id;
+    while (id == null || used[id] || BUILTIN_IDS[id]) id = (typeof id === 'number' ? id : Date.now()) + 1;
+    used[id] = 1; out.push(id === r.id ? r : Object.assign({}, r, { id: id }));
+  });
+  return out;
+}
+function uniqueId() {
+  var used = {}; (state.myRecipes || []).forEach(function(r) { used[r.id] = 1; });
+  var id = Date.now(); while (used[id] || BUILTIN_IDS[id]) id++; return id;
+}
+
+// Foto sugerida pelo nome da receita (e, se o nome não ajudar, pelos ingredientes). O texto já vem sem acentos.
+var PHOTO_RULES = [
+  [/tofu mexido|ovo mexido|mexido de tofu|scramble/, 'tofu-mexido'],
+  [/brownie/, 'brownie'], [/cheesecake/, 'cheesecake'],
+  [/brigadeiro|bombom|trufa|docinho|beijinho|cajuzinho/, 'brigadeiros'],
+  [/pizza/, 'pizza'], [/hamburguer|burger|hamb /, 'hamburguer'],
+  [/bolo|torta|cupcake|muffin|pudim/, 'bolo-chocolate'],
+  [/macarr|espaguete|spaghetti|lasanha|nhoque|talharim|penne|massa/, 'macarrao'],
+  [/panqueca|crepe|tapioca|waffle/, 'panquecas'],
+  [/smoothie bowl|acai|bowl de frutas|salada de frutas|sorvete|granola|iogurte|overnight|mingau/, 'bowl-frutas'],
+  [/vitamina|smoothie|suco|shake|batida/, 'smoothie'],
+  [/\bpao\b|\bpaes\b|croissant|focaccia|rosca|bisnaga/, 'croissant'],
+  [/tofu/, 'bowl-tofu'],
+  [/grao|feijao|lentilha|ervilha|ensopado|sopa|caldo|strogonoff|curry|moqueca|feijoada|chili/, 'ensopado'],
+  [/legume|vegetais|refogado|wok|brocolis|abobrinha|berinjela/, 'legumes'],
+  [/salada|quinoa|bowl/, 'bowl-graos']
+];
+function photoByRules(txt) { for (var i = 0; i < PHOTO_RULES.length; i++) if (PHOTO_RULES[i][0].test(txt)) return PHOTO_RULES[i][1]; return ''; }
+
+function guessCategory(title, ingredients, time) {
+  var t = normTxt(title), ing = normTxt(ingredients.join(' '));
+  if (/bolo|doce|sobremesa|brigadeiro|sorvete|pudim|torta|mousse|brownie|cookie|trufa|cheesecake|bombom|beijinho/.test(t)) return 'sobremesa';
+  if ((ing.match(/cacau|chocolate|acucar|leite condensado|confeiteiro/g) || []).length >= 2) return 'sobremesa';
+  var m = String(time || '').match(/\d+/); if (m && +m[0] <= 20 && !/h/.test(String(time).toLowerCase())) return 'rapida';
+  return 'economica';
+}
+
+/* ---------- PUBLICAR: um só lugar, sem escolher "sobre o que é" ---------- */
+function freshDraft() { return { text: '', title: '', ingredients: '', steps: '', time: '', diff: 'Facil', cat: 'auto', photo: '', askedRecipe: false }; }
+var draft = freshDraft(), publishing = false;
+
+function composerBarHTML() {
+  var u = state.user || {};
+  return '<button type="button" class="composer-bar" onclick="startCreate(\'post\')"><span class="avatar avatar-sm">' + avatarInner(u.avatar || '🌱', true) + '</span><span class="cb-ph">No que você está pensando' + (u.name && u.name !== 'Voce' ? ', ' + esc(u.name.split(' ')[0]) : '') + '?</span><span class="cb-go">Publicar</span></button>';
+}
+function syncCreateTabs() { document.querySelectorAll('#createTabs .tab').forEach(function(t) { t.classList.toggle('active', t.dataset.create === state.createType); }); }
+function collectDraft() {   // guarda o que já foi digitado (rascunho), mesmo se a pessoa trocar de aba ou fechar
+  var g = function(id) { var e = document.getElementById(id); return e ? e.value : null; }, v;
+  if ((v = g('postContent')) !== null) draft.text = v;
+  if ((v = g('recipeTitle')) !== null) draft.title = v;
+  if ((v = g('recipeIngredients')) !== null) draft.ingredients = v;
+  if ((v = g('recipeSteps')) !== null) draft.steps = v;
+  if ((v = g('recipeTime')) !== null) draft.time = v;
+  if ((v = g('recipeDiff')) !== null) draft.diff = v;
+  if ((v = g('recipeCategory')) !== null) draft.cat = v;
+}
+
+function renderCreateForm() {
+  collectDraft(); syncCreateTabs();
+  var form = document.getElementById('createForm'), u = state.user || {}, el;
+  if (state.createType === 'post') {
+    form.innerHTML =
+      '<div class="comp-who"><div class="avatar avatar-sm">' + avatarInner(u.avatar || '🌱', true) + '</div><b>' + esc(u.name || 'Você') + '</b></div>' +
+      '<textarea id="postContent" class="comp-text" maxlength="5000" rows="6" placeholder="Compartilhe uma dica, uma experiência ou tire uma dúvida com a comunidade..." oninput="postInput(this)" onkeydown="postKey(event)" aria-label="Sua publicação"></textarea>' +
+      '<div id="recipeSuggest" class="comp-suggest" hidden><span>🍽️ Parece uma receita! Ela fica melhor na aba Receitas.</span><button type="button" class="btn-mini" onclick="moveToRecipe()">Publicar em Receitas</button></div>' +
+      '<small id="postHint" class="comp-hint"></small>' +
+      '<button class="btn btn-primary w-full" id="postBtn" onclick="submitPost()" disabled>Publicar</button>';
+    el = document.getElementById('postContent'); el.value = draft.text; postInput(el);
+    setTimeout(function() { el.focus(); }, 80);
+  } else if (state.createType === 'recipe') {
+    form.innerHTML =
+      '<label for="recipeTitle">Nome da receita</label><input type="text" id="recipeTitle" maxlength="80" placeholder="Ex: Tofu mexido" oninput="recipeInput()" autocomplete="off">' +
+      '<label for="recipeIngredients">Ingredientes <small>(um por linha)</small></label><textarea id="recipeIngredients" placeholder="200g de tofu firme\n1 colher de cúrcuma\nSal a gosto" oninput="recipeInput()"></textarea>' +
+      '<label for="recipeSteps">Modo de preparo <small>(um passo por linha)</small></label><textarea id="recipeSteps" placeholder="Esfarele o tofu com as mãos.\nRefogue com os temperos por 5 minutos." oninput="recipeInput()"></textarea>' +
+      '<div class="rf-photo"><div class="rf-thumb" id="rfThumb"></div><div class="rf-side"><b>Foto</b><small id="rfNote"></small><div class="rf-btns"><label class="btn-mini">📷 Enviar minha foto<input type="file" accept="image/*" hidden onchange="pickRecipePhoto(this)"></label><button type="button" class="btn-mini ghost" id="rfReset" onclick="resetRecipePhoto()" hidden>Usar a sugerida</button></div></div></div>' +
+      '<details class="rf-more" id="rfMore"><summary>Mais detalhes (opcional)</summary>' +
+      '<label for="recipeTime">Tempo de preparo</label><input type="text" id="recipeTime" placeholder="Ex: 20 min">' +
+      '<label for="recipeDiff">Dificuldade</label><select id="recipeDiff"><option value="Facil">Fácil</option><option value="Medio">Médio</option><option value="Dificil">Difícil</option></select>' +
+      '<label for="recipeCategory">Categoria</label><select id="recipeCategory"><option value="auto">Automática (recomendado)</option><option value="economica">💰 Econômica</option><option value="rapida">⚡ Rápida</option><option value="sobremesa">🍰 Sobremesa</option></select></details>' +
+      '<button class="btn btn-primary w-full" id="recipeBtn" onclick="submitRecipe()">Publicar receita</button>';
+    document.getElementById('recipeTitle').value = draft.title; document.getElementById('recipeIngredients').value = draft.ingredients;
+    document.getElementById('recipeSteps').value = draft.steps; document.getElementById('recipeTime').value = draft.time;
+    document.getElementById('recipeDiff').value = draft.diff; document.getElementById('recipeCategory').value = draft.cat;
+    document.getElementById('rfMore').open = !!(draft.time || draft.cat !== 'auto' || draft.diff !== 'Facil');
+    updateRecipePhoto();
+  } else if (state.createType === 'review') {
+    form.innerHTML = '<label>Estabelecimento</label><input type="text" id="reviewPlace" placeholder="Nome do restaurante/lugar">' +
+      '<label>Nota</label><div id="reviewStars"></div><input type="hidden" id="reviewRating" value="5">' +
+      '<label>Sua Experiencia</label><textarea id="reviewText" placeholder="Conte como foi sua visita..."></textarea>' +
+      '<button class="btn btn-primary w-full" onclick="submitReview()">Publicar Avaliacao</button>';
+    Elo.mountRating(document.getElementById('reviewStars'), { initial: 5, confirm: false, onChange: function(v) { document.getElementById('reviewRating').value = v; } });
+  }
+}
+
+// --- publicação geral ---
+function looksLikeRecipe(t) {
+  var n = normTxt(t); if (n.length < 80) return false;
+  var hasIng = /\bingredientes?\b/.test(n), hasSteps = /\b(modo de (preparo|fazer)|preparo|como fazer|passo a passo)\b/.test(n);
+  if (hasIng && hasSteps) return true;
+  var units = (n.match(/\b\d+ ?(g|kg|ml|l|xicaras?|xic|colheres?|colher|copos?|unidades?|dentes?|pitadas?)\b/g) || []).length;
+  return units >= 4 && String(t).split('\n').length >= 6;
+}
+// A categoria (dica/experiência/dúvida) é deduzida do texto: ninguém precisa escolher
+function inferTag(t) {
+  var n = normTxt(t);
+  if (/\?/.test(t) || /^(alguem|como|qual|quais|onde|quem|por que|sera|pode|posso)\b/.test(n)) return 'duvida';
+  if (/\bdica\b|\bdicas\b|recomendo|vale a pena|truque|segredo/.test(n)) return 'dica';
+  return state.createTag || 'experiencia';
+}
+function postInput(el) {
+  draft.text = el.value;
+  var btn = document.getElementById('postBtn'); if (btn) btn.disabled = !el.value.trim();
+  var rec = looksLikeRecipe(el.value), sug = document.getElementById('recipeSuggest'); if (sug) sug.hidden = !rec;
+  if (!rec) draft.askedRecipe = false;
+  var h = document.getElementById('postHint'); if (h) h.textContent = el.value.length > 4000 ? el.value.length + '/5000' : '';
+}
+function postKey(e) { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); submitPost(); } }
+
+function submitPost() {
+  if (publishing) return;
+  collectDraft();
+  var content = cleanPostText(draft.text);
+  if (!content) { toast('Escreva algo antes de publicar!'); return; }
+  if (looksLikeRecipe(content) && !draft.askedRecipe) {   // receita não vai pro feed por engano: pergunta uma vez
+    draft.askedRecipe = true;
+    var s = document.getElementById('recipeSuggest'); if (s) { s.hidden = false; s.classList.remove('nudge'); void s.offsetWidth; s.classList.add('nudge'); }
+    toast('Parece uma receita! Toque em "Publicar em Receitas" — ou publique de novo para postar no feed.');
+    return;
+  }
+  var tag = inferTag(content), btn = document.getElementById('postBtn');
+  publishing = true; if (btn) { btn.disabled = true; btn.textContent = 'Publicando...'; }
+  var free = function() { publishing = false; if (btn) { btn.disabled = false; btn.textContent = 'Publicar'; } };
+  var finish = function() {
+    draft = freshDraft(); document.getElementById('createForm').innerHTML = ''; state.createTag = '';
+    closeCreateModal(); free();
+    toast('Publicado na Comunidade! 🎉', state.currentView === 'feed' ? null : 'Ver', function() { showView('feed'); });
+    if (state.currentView === 'feed') { renderFeed(); window.scrollTo(0, 0); }
+    if (state.currentView === 'home') renderHome();
+    if (state.currentView === 'profile') renderProfile();
+  };
+  if (sb && cloud.user) {
+    sb.from('posts').insert({ tag: tag, content: content.slice(0, 5000) }).then(function(r) {
+      if (r.error) { console.error('Erro ao publicar:', r.error); free(); toast(publishError(r.error)); return; }
+      finish(); loadPostsCloud();
+    }, function() { free(); toast('Sem conexão com a internet. Tente de novo.'); });
+    return;
+  }
+  state.posts.unshift({ id: Date.now(), author: state.user.name, avatar: state.user.avatar, time: 'Agora', content: content, tag: tag, likes: 0, comments: 0, liked: false, image: null });
+  saveState(); finish();
+}
+
+// --- receita ---
+function parseRecipeText(t) {   // separa um texto colado em título / ingredientes / passos
+  var lines = cleanPostText(t).split('\n').map(function(l) { return l.trim(); }).filter(Boolean), title = '', ing = [], steps = [], mode = 'head';
+  lines.forEach(function(l) {
+    var n = normTxt(l);
+    if (/^ingredientes?\b/.test(n)) { mode = 'ing'; return; }
+    if (/^(modo de (preparo|fazer)|preparo|como fazer|passo a passo|instrucoes)\b/.test(n)) { mode = 'steps'; return; }
+    if (mode === 'head') { if (!title) title = l.replace(/^[#\s*]+/, '').slice(0, 80); return; }
+    (mode === 'ing' ? ing : steps).push(l.replace(/^[•\-\*]\s*/, '').replace(/^\d+[\.\)]\s+/, ''));
+  });
+  if (!ing.length && !steps.length) steps = lines.slice(1);
+  return { title: title, ing: ing, steps: steps };
+}
+function moveToRecipe() {
+  collectDraft();
+  var p = parseRecipeText(draft.text);
+  draft.title = p.title; draft.ingredients = p.ing.join('\n'); draft.steps = p.steps.join('\n');
+  state.createType = 'recipe'; renderCreateForm();
+  toast('Separamos os campos da receita. Confira e publique.');
+}
+function effectiveCategory() { return draft.cat !== 'auto' ? draft.cat : guessCategory(draft.title, splitLines(draft.ingredients), draft.time); }
+var photoTimer;
+function recipeInput() { collectDraft(); clearTimeout(photoTimer); photoTimer = setTimeout(updateRecipePhoto, 150); }
+function updateRecipePhoto() {
+  var th = document.getElementById('rfThumb'); if (!th) return;
+  var name = draft.photo || recipePhotoName({ title: draft.title, category: effectiveCategory(), ingredients: splitLines(draft.ingredients) });
+  th.innerHTML = '<img src="' + photoSrc(name) + '" alt="">';
+  document.getElementById('rfNote').textContent = draft.photo ? 'Sua foto' : 'Sugerida pelo nome da receita (foto ilustrativa)';
+  document.getElementById('rfReset').hidden = !draft.photo;
+}
+function pickRecipePhoto(input) {
+  var f = input.files && input.files[0]; input.value = '';
+  resizeImage(f, 720, 0.78).then(function(d) { draft.photo = d; updateRecipePhoto(); }).catch(function(e) { toast(e.message); });
+}
+function resetRecipePhoto() { draft.photo = ''; updateRecipePhoto(); }
+
+function submitRecipe() {
+  if (publishing) return;
+  collectDraft();
+  var title = draft.title.trim(), ingredients = splitLines(draft.ingredients), steps = splitLines(draft.steps);
+  if (!title) { toast('Dê um nome para a receita.'); return; }
+  if (!ingredients.length) { toast('Liste pelo menos um ingrediente.'); return; }
+  if (!steps.length) { toast('Descreva o modo de preparo.'); return; }
+  var nt = normTxt(title), similar = allRecipes().find(function(r) { var o = normTxt(r.title); return o === nt || o.indexOf(nt) === 0 || nt.indexOf(o) === 0; });
+  if (similar && !confirm('Já existe uma receita parecida: "' + similar.title + '".\nPublicar a sua mesmo assim?')) return;
+  publishing = true;
+  var btn = document.getElementById('recipeBtn'); if (btn) btn.disabled = true;
+  var cat = effectiveCategory(), tagMap = { economica: '💰 Economica', rapida: '⚡ Rapida', sobremesa: '🍰 Sobremesa' };
+  var recipe = { id: uniqueId(), title: title, author: state.user.name, avatar: state.user.avatar, time: draft.time.trim() || '—', difficulty: draft.diff, rating: 0, reviews: 0, category: cat,
+    tags: [tagMap[cat], '🆕 Nova'], image: '🍽️', ingredients: ingredients, steps: steps,
+    photo: draft.photo || recipePhotoName({ title: title, category: cat, ingredients: ingredients }) };   // a foto fica gravada: não muda se as regras mudarem
+  state.myRecipes.unshift(recipe);
+  if (!saveState()) { state.myRecipes.shift(); publishing = false; if (btn) btn.disabled = false; toast('Não coube no armazenamento do aparelho. Tente uma foto menor ou sem foto.'); return; }
+  draft = freshDraft(); document.getElementById('createForm').innerHTML = '';
+  closeCreateModal(); publishing = false;
+  document.querySelectorAll('#recipeTabs .tab').forEach(function(t) { t.classList.toggle('active', t.dataset.tab === 'todas'); });
+  var rs = document.getElementById('recipeSearch'); if (rs) rs.value = '';
+  showView('recipes');   // receita aparece na aba Receitas, no topo
+  toast('Receita publicada em Receitas! 🍽️');
+}
+
+/* ---------- PERFIL: foto, idade, cidade e privacidade ---------- */
+var DEFAULT_BIO = 'Membro da comunidade Elograin';
+function userDefaults() { return { name: 'Voce', avatar: '🦁', bio: DEFAULT_BIO, photo: '', age: '', city: '', visibility: 'public', showAge: true, showCity: true }; }
+function profileStore() { try { return JSON.parse(localStorage.getItem('elograin_profiles') || '{}'); } catch (e) { return {}; } }
+// Dados extras do perfil por e-mail. Na nuvem, os campos pequenos acompanham a conta (user_metadata); a foto fica só neste aparelho.
+function loadExtras(email, meta) {
+  var local = (email && profileStore()[email]) || {}, m = meta || {}, out = {};
+  ['bio', 'age', 'city', 'visibility', 'showAge', 'showCity'].forEach(function(k) {
+    if (m[k] !== undefined && m[k] !== null) out[k] = m[k]; else if (local[k] !== undefined) out[k] = local[k];
+  });
+  if (local.photo) out.photo = local.photo;
+  return out;
+}
+function saveExtras(u) {
+  if (!u.email) return true;
+  var s = profileStore(); s[u.email] = { bio: u.bio, age: u.age, city: u.city, visibility: u.visibility, showAge: u.showAge, showCity: u.showCity, photo: u.photo || '' };
+  try { localStorage.setItem('elograin_profiles', JSON.stringify(s)); return true; } catch (e) { return false; }
+}
+function renderProfileMeta(u) {
+  var priv = u.visibility === 'private', chips = [priv ? '<span class="pchip priv">🔒 Perfil privado</span>' : '<span class="pchip pub">🌍 Perfil público</span>'];
+  if (u.age) chips.push('<span class="pchip">🎂 ' + esc(u.age) + ' anos</span>');
+  if (u.city) chips.push('<span class="pchip">📍 ' + esc(u.city) + '</span>');
+  var b = document.getElementById('profileBadges'); if (b) b.innerHTML = chips.join('');
+  var seen = [];
+  if (u.photo) seen.push('foto'); if (u.age && u.showAge) seen.push('idade'); if (u.city && u.showCity) seen.push('cidade');
+  var n = document.getElementById('profileVisNote');
+  if (n) n.textContent = priv ? 'Só você vê seus dados. Nas publicações aparecem apenas seu nome e avatar.' : 'Outras pessoas veem: nome' + (seen.length ? ', ' + seen.join(', ') : '') + '.';
+}
+
+var pe = { photo: '', avatar: '🌱' };
+function openProfileEditor() {
+  var u = state.user || userDefaults(); pe = { photo: u.photo || '', avatar: u.avatar || '🌱' };
+  var vis = u.visibility === 'private' ? 'private' : 'public';
+  var body = '<div class="pe">' +
+    '<div class="pe-photo"><div class="avatar avatar-lg" id="pePreview"></div><div class="pe-btns"><label class="btn-mini">📷 Escolher foto<input id="peFile" type="file" accept="image/*" hidden onchange="peFile(this)"></label><button type="button" class="btn-mini ghost" id="peRemove" onclick="peRemovePhoto()">Remover foto</button></div></div>' +
+    '<label>Avatar <small>(aparece quando não há foto)</small></label><div class="av-pick" id="peAv">' + AVATARS.map(function(a) { return '<button type="button" onclick="peAvatar(\'' + a + '\')" aria-label="Avatar ' + a + '">' + a + '</button>'; }).join('') + '</div>' +
+    '<label for="peName">Nome</label><input id="peName" maxlength="30" value="' + esc(u.name || '') + '" autocomplete="name">' +
+    '<label for="peBio">Sobre você</label><textarea id="peBio" maxlength="140" rows="2" placeholder="Conte em poucas palavras quem você é">' + esc(u.bio && u.bio !== DEFAULT_BIO ? u.bio : '') + '</textarea>' +
+    '<div class="pe-row"><div><label for="peAge">Idade</label><input id="peAge" type="number" inputmode="numeric" min="13" max="120" placeholder="Ex: 28" value="' + esc(u.age || '') + '"></div>' +
+    '<div><label for="peCity">Cidade</label><input id="peCity" maxlength="60" placeholder="Ex: São Paulo, SP" value="' + esc(u.city || '') + '" autocomplete="address-level2"></div></div>' +
+    '<button type="button" class="btn-mini ghost" onclick="peLocate()">📍 Usar minha localização</button> <small id="peLocNote" class="pe-note"></small>' +
+    '<label>Quem pode ver seu perfil</label><div class="pe-vis" role="radiogroup" aria-label="Visibilidade do perfil">' +
+    '<label class="pe-opt"><input type="radio" name="peVis" value="public"' + (vis === 'public' ? ' checked' : '') + ' onchange="peVisChange()"><span><b>🌍 Público</b><small>Você aparece em Conexões e outras pessoas veem o que você permitir abaixo.</small></span></label>' +
+    '<label class="pe-opt"><input type="radio" name="peVis" value="private"' + (vis === 'private' ? ' checked' : '') + ' onchange="peVisChange()"><span><b>🔒 Privado</b><small>Só você vê seus dados. Você não aparece em Conexões; nas publicações, só nome e avatar.</small></span></label></div>' +
+    '<div class="pe-share" id="peShare"><label class="pe-chk"><input type="checkbox" id="peShowAge"' + (u.showAge !== false ? ' checked' : '') + '> Mostrar minha idade</label>' +
+    '<label class="pe-chk"><input type="checkbox" id="peShowCity"' + (u.showCity !== false ? ' checked' : '') + '> Mostrar minha cidade</label></div>' +
+    '</div>';
+  openDetailModal('Editar perfil', body, '<button class="btn btn-secondary" onclick="closeDetailModal()">Cancelar</button><button class="btn btn-primary" onclick="saveProfile()">Salvar</button>');
+  peRefreshPhoto(); peVisChange();
+}
+function peRefreshPhoto() {
+  var pv = document.getElementById('pePreview'); if (!pv) return;
+  pv.innerHTML = pe.photo ? '<img src="' + esc(pe.photo) + '" alt="Sua foto">' : esc(pe.avatar);
+  document.getElementById('peRemove').hidden = !pe.photo;
+  document.querySelectorAll('#peAv button').forEach(function(b) { b.classList.toggle('on', b.textContent === pe.avatar); });
+}
+function peFile(input) {
+  var f = input.files && input.files[0]; input.value = '';
+  resizeImage(f, 256, 0.82, true).then(function(d) { pe.photo = d; peRefreshPhoto(); }).catch(function(e) { toast(e.message); });
+}
+function peRemovePhoto() { pe.photo = ''; peRefreshPhoto(); }
+function peAvatar(a) { pe.avatar = a; peRefreshPhoto(); }
+function peVisChange() {
+  var r = document.querySelector('input[name="peVis"]:checked'), priv = r && r.value === 'private', box = document.getElementById('peShare');
+  if (!box) return;
+  box.classList.toggle('off', !!priv);
+  box.querySelectorAll('input').forEach(function(i) { i.disabled = !!priv; });
+}
+function peLocate() {
+  var note = document.getElementById('peLocNote');
+  if (!navigator.geolocation) { note.textContent = 'Este navegador não permite localização. Digite sua cidade.'; return; }
+  note.textContent = 'Buscando...';
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=10&accept-language=pt-BR&lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var a = (d && d.address) || {}, city = a.city || a.town || a.village || a.municipality || a.county || '';
+        var iso = a['ISO3166-2-lvl4'], st = iso ? String(iso).split('-')[1] : (a.state || '');
+        if (!city) { note.textContent = 'Não consegui identificar a cidade. Digite manualmente.'; return; }
+        document.getElementById('peCity').value = city + (st ? ', ' + st : '');
+        note.textContent = 'Só a cidade é salva — a posição exata não é guardada.';
+      }).catch(function() { note.textContent = 'Sem conexão para achar a cidade. Digite manualmente.'; });
+  }, function() { note.textContent = 'Sem permissão de localização. Digite sua cidade.'; }, { timeout: 10000, maximumAge: 600000 });
+}
+function saveProfile() {
+  var name = document.getElementById('peName').value.trim(), ageRaw = document.getElementById('peAge').value.trim(), age = '';
+  if (name.length < 2) { toast('Digite seu nome (mínimo 2 letras).'); return; }
+  if (ageRaw !== '') {
+    var n = parseInt(ageRaw, 10);
+    if (!(n >= 13 && n <= 120)) { toast('Informe uma idade entre 13 e 120 anos.'); return; }
+    age = n;
+  }
+  var vis = (document.querySelector('input[name="peVis"]:checked') || {}).value === 'private' ? 'private' : 'public';
+  var u = state.user = Object.assign({}, state.user, {
+    name: name, bio: document.getElementById('peBio').value.trim() || DEFAULT_BIO, avatar: pe.avatar, photo: pe.photo, age: age,
+    city: document.getElementById('peCity').value.trim(), visibility: vis,
+    showAge: document.getElementById('peShowAge').checked, showCity: document.getElementById('peShowCity').checked
+  });
+  if (!(saveState() && saveExtras(u))) toast('Não coube no armazenamento do aparelho. Tente uma foto menor.');
+  if (sb && cloud.user) {   // nuvem: nome/avatar na tabela de perfis; o resto acompanha a conta
+    sb.from('profiles').update({ name: u.name, avatar: u.avatar }).eq('id', cloud.user.id).then(function(r) { if (r.error) { console.error(r.error); toast('Perfil salvo neste aparelho, mas o nome não sincronizou com a nuvem.'); } });
+    sb.auth.updateUser({ data: { name: u.name, avatar: u.avatar, bio: u.bio, age: u.age, city: u.city, visibility: u.visibility, showAge: u.showAge, showCity: u.showCity } }).then(function(r) { if (r.error) console.error(r.error); });
+  } else {
+    var acc = getAccounts(); if (u.email && acc[u.email]) { acc[u.email].name = u.name; acc[u.email].avatar = u.avatar; setAccounts(acc); }
+  }
+  closeDetailModal(); updateHeaderAvatar(); renderProfile();
+  if (state.currentView === 'connect') renderConnect();
+  if (state.currentView === 'home') renderHome();
+  if (state.currentView === 'feed') renderFeed();
+  toast('Perfil atualizado ✅');
+}
+
+/* ---------- CONEXÕES: filtro por idade e cidade ---------- */
+var connectFilter = { age: 'all', city: '' }, connectTimer;
+var AGE_RANGES = [['all', 'Todas as idades'], ['18-25', '18 a 25'], ['26-35', '26 a 35'], ['36-50', '36 a 50'], ['51+', '51 ou mais']];
+function ageInRange(age, r) {
+  if (r === 'all') return true;
+  if (r === '51+') return age >= 51;
+  var p = r.split('-'); return age >= +p[0] && age <= +p[1];
+}
+function renderConnect() {
+  var content = document.getElementById('connectContent'), u = state.user || {}, priv = u.visibility === 'private';
+  var note = priv
+    ? '<div class="conn-note">🔒 Seu perfil é <b>privado</b>: você não aparece para outras pessoas aqui. <button type="button" class="plink" onclick="openProfileEditor()">Mudar</button></div>'
+    : '<div class="conn-note">🌍 Seu perfil é <b>público</b> e pode aparecer em Conexões. <button type="button" class="plink" onclick="openProfileEditor()">Ajustar</button></div>';
+  var filt = '<div class="cf"><label class="cf-f"><span>Idade</span><select id="cfAge" onchange="connectSetAge(this.value)">' +
+    AGE_RANGES.map(function(a) { return '<option value="' + a[0] + '"' + (connectFilter.age === a[0] ? ' selected' : '') + '>' + a[1] + '</option>'; }).join('') + '</select></label>' +
+    '<label class="cf-f"><span>Cidade</span><input id="cfCity" type="search" placeholder="Ex: Curitiba" value="' + esc(connectFilter.city) + '" oninput="connectSetCity(this.value)" autocomplete="off"></label>' +
+    (u.city ? '<button type="button" class="btn-mini ghost cf-mine" onclick="connectMyCity()">📍 Minha cidade</button>' : '') + '</div>';
+  content.innerHTML = note + filt + '<div id="connectList"></div>';
+  renderConnectList();
+}
+function connectSetAge(v) { connectFilter.age = v; renderConnectList(); }
+function connectSetCity(v) { connectFilter.city = v; clearTimeout(connectTimer); connectTimer = setTimeout(renderConnectList, 200); }
+function connectMyCity() { var c = String((state.user || {}).city || '').split(',')[0].trim(); connectFilter.city = c; var i = document.getElementById('cfCity'); if (i) i.value = c; renderConnectList(); }
+function renderConnectList() {
+  var box = document.getElementById('connectList'); if (!box) return;
+  var u = state.user || {}, tab = state.connectTab;
+  if (tab === 'encontros' && u.age && +u.age < 18) { box.innerHTML = emptyState('Encontros é só para maiores de 18 anos', '🔞') ; return; }
+  var q = normTxt(connectFilter.city);
+  var list = state.profiles.filter(function(p) {
+    return p.type === tab && ageInRange(p.age, connectFilter.age) && (!q || normTxt(p.city).indexOf(q) > -1);
+  });
+  box.innerHTML = list.length ? list.map(matchCard).join('') : emptyState('Ninguém encontrado com esses filtros', '🔍');
+}
+function matchCard(p) {
+  return '<div class="match-card"><div class="match-img">' + esc(p.avatar) + '</div>' +
+    '<div class="match-body"><h3 style="font-size:1.2rem;margin-bottom:4px">' + esc(p.name) + ', ' + p.age + '</h3>' +
+    (p.city ? '<p class="match-city">📍 ' + esc(p.city) + '</p>' : '') +
+    '<p style="color:var(--text-light);font-size:0.9rem;margin-bottom:8px">' + esc(p.bio) + '</p>' +
+    '<div class="tag-list">' + p.interests.map(function(i) { return '<span class="tag" style="padding:4px 10px;font-size:0.75rem">' + esc(i) + '</span>'; }).join('') + '</div></div>' +
+    '<div class="match-actions">' +
+    '<button class="match-btn match-btn-secondary" onclick="toast(\'Passado 👋\')">👋 Pular</button>' +
+    '<button class="match-btn match-btn-primary" onclick="toast(\'Match! 💕 Inicie uma conversa.\')">💕 Curtir</button></div></div>';
+}
+
+/* ---------- ELO: botão flutuante que a pessoa move ---------- */
+// Toque abre o chat; arrastar move (e encaixa na lateral mais próxima). Posição lembrada. Setas do teclado também movem.
+var chatFabState = { side: null, yr: null };
+function chatFabSide() { return chatFabState.side || (window.innerWidth >= 1024 ? 'r' : 'l'); }
+function syncChatFab() {
+  var fab = document.getElementById('chatFab'), box = document.getElementById('chatBox'); if (!fab) return;
+  var show = !!(sb && cloud.user) && (!box || box.hidden);   // só aparece logado (sem login a Elo não responde) e com o chat fechado
+  fab.classList.toggle('is-off', !show);
+  if (show) {
+    if (window.chatFabPlace) window.chatFabPlace();
+    try { if (!localStorage.getItem('elograin_fab_hint')) { localStorage.setItem('elograin_fab_hint', '1'); setTimeout(function() { toast('Dica: arraste o botão da Elo para onde preferir 👆'); }, 1200); } } catch (e) {}
+  }
+}
+function initChatFab(fab) {
+  var M = 12, drag = null, justDragged = false;
+  try { var sv = JSON.parse(localStorage.getItem('elograin_chatfab') || 'null'); if (sv && (sv.side === 'l' || sv.side === 'r') && typeof sv.yr === 'number') chatFabState = sv; } catch (e) {}
+  function vp() { return { w: window.innerWidth, h: window.innerHeight }; }
+  function size() { return { w: fab.offsetWidth || 92, h: fab.offsetHeight || 48 }; }
+  function safeBottom() {
+    var p = document.createElement('div'); p.style.cssText = 'position:fixed;left:0;bottom:0;height:env(safe-area-inset-bottom,0px);width:0;visibility:hidden';
+    document.body.appendChild(p); var h = p.offsetHeight; p.remove(); return h;
+  }
+  function leftBound() { var sb2 = document.querySelector('.sidebar'); return (sb2 && getComputedStyle(sb2).display !== 'none') ? Math.round(sb2.getBoundingClientRect().right) + M : M; }
+  function clampY(y) { var v = vp(), s = size(); return Math.min(Math.max(y, 8), v.h - s.h - 8); }
+  function defaultY() { var v = vp(), s = size(); return v.w >= 1024 ? v.h - 160 : v.h - (72 + safeBottom() + 16) - s.h - 4; }
+  function place() {
+    var v = vp(), s = size(), side = chatFabSide();
+    var y = chatFabState.yr == null ? defaultY() : chatFabState.yr * (v.h - s.h);
+    fab.style.right = 'auto'; fab.style.bottom = 'auto';
+    fab.style.left = (side === 'l' ? leftBound() : v.w - s.w - M) + 'px';
+    fab.style.top = clampY(y) + 'px';
+  }
+  function save() { try { localStorage.setItem('elograin_chatfab', JSON.stringify(chatFabState)); } catch (e) {} }
+  function snap() {   // encaixa na lateral mais próxima e lembra a altura
+    var v = vp(), s = size(), cx = fab.offsetLeft + s.w / 2, top = fab.offsetTop;
+    chatFabState = { side: cx < v.w / 2 ? 'l' : 'r', yr: Math.min(1, Math.max(0, top / Math.max(1, v.h - s.h))) };
+    fab.classList.add('snap'); place(); save();
+    setTimeout(function() { fab.classList.remove('snap'); }, 320);
+  }
+  window.chatFabPlace = place;
+  fab.addEventListener('pointerdown', function(e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: fab.offsetLeft, oy: fab.offsetTop, on: false };
+    try { fab.setPointerCapture(e.pointerId); } catch (x) {}
+  });
+  fab.addEventListener('pointermove', function(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+    if (!drag.on) { if (Math.abs(dx) + Math.abs(dy) < 8) return; drag.on = true; fab.classList.add('dragging'); fab.classList.remove('snap'); }
+    e.preventDefault();
+    var v = vp(), s = size();
+    fab.style.left = Math.min(Math.max(drag.ox + dx, 4), v.w - s.w - 4) + 'px';
+    fab.style.top = clampY(drag.oy + dy) + 'px';
+  });
+  function end(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var moved = drag.on; drag = null;
+    try { fab.releasePointerCapture(e.pointerId); } catch (x) {}
+    fab.classList.remove('dragging');
+    if (moved) { justDragged = true; setTimeout(function() { justDragged = false; }, 60); snap(); }
+  }
+  fab.addEventListener('pointerup', end); fab.addEventListener('pointercancel', end);
+  fab.addEventListener('click', function(e) { if (justDragged) { e.preventDefault(); return; } openChat(); });
+  fab.addEventListener('keydown', function(e) {   // acessível: setas movem o botão
+    var k = e.key, v = vp(), s = size(), yr = chatFabState.yr == null ? (fab.offsetTop / Math.max(1, v.h - s.h)) : chatFabState.yr;
+    if (k === 'ArrowLeft') chatFabState = { side: 'l', yr: yr };
+    else if (k === 'ArrowRight') chatFabState = { side: 'r', yr: yr };
+    else if (k === 'ArrowUp') chatFabState = { side: chatFabSide(), yr: Math.max(0, yr - 40 / Math.max(1, v.h - s.h)) };
+    else if (k === 'ArrowDown') chatFabState = { side: chatFabSide(), yr: Math.min(1, yr + 40 / Math.max(1, v.h - s.h)) };
+    else return;
+    e.preventDefault(); fab.classList.add('snap'); place(); save(); setTimeout(function() { fab.classList.remove('snap'); }, 320);
+  });
+  window.addEventListener('resize', place); window.addEventListener('orientationchange', function() { setTimeout(place, 200); });
+}
+
+/* ---------- ELO: rolagem do chat ---------- */
+function updateChatDown() {
+  var l = document.getElementById('chatMsgs'), b = document.getElementById('chatDown'); if (!l || !b) return;
+  b.hidden = (l.scrollHeight - l.scrollTop - l.clientHeight) < 140;
+}
+function chatToBottom() { var l = document.getElementById('chatMsgs'); if (l) l.scrollTo({ top: l.scrollHeight, behavior: 'smooth' }); }

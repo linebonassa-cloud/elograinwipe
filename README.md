@@ -8,6 +8,16 @@ Aplicativo PWA (Progressive Web App) para comunidade vegana com skeleton screens
 - **🗺️ OpenStreetMap + Leaflet** - Mapa interativo real com pins de restaurantes veganos usando coordenadas lat/long
 - **🔑 Google Places API (New)** - Busca restaurantes veganos reais do Google Maps (requer API key)
 
+## 🆕 v7.7
+
+- **Receitas**: lista única sem duplicatas (cópias antigas salvas no aparelho são limpas sozinhas); receita nova vai para o topo da aba Receitas; foto sugerida pelo nome (ex.: "tofu mexido" → foto do tofu mexido) ou enviada pela pessoa; aviso se já existe receita parecida.
+- **Publicar**: um só campo, sem escolher categoria (dica/experiência/dúvida é deduzida). Texto que parece receita é encaminhado para a aba Receitas. Publicações gerais ficam no topo da Comunidade; há uma barra "No que você está pensando?" no Início e na Comunidade.
+- **Perfil**: foto, idade, cidade (com "usar minha localização"), perfil público/privado e o que mostrar. Conexões ganhou filtro por idade e cidade; Encontros bloqueado para menores de 18.
+- **Elo**: botão flutuante que pode ser arrastado (encaixa na lateral, lembra a posição, setas do teclado também movem), barra de rolagem lateral visível e botão "↓" para voltar ao fim.
+- Fotos movidas de `img/img/` para `img/`.
+
+> Receitas e a foto de perfil ficam salvas **no aparelho** (localStorage). Nome, bio, idade, cidade e visibilidade acompanham a conta (Supabase `user_metadata`). Para outras pessoas realmente não enxergarem um perfil privado, é preciso aplicar a regra também no servidor (RLS).
+
 ## 🚀 Deploy no Vercel
 
 ### Opcao 1: Drag & Drop
