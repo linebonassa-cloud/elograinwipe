@@ -84,6 +84,8 @@
       <button class="side-item" data-view="consume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14l-1.1 11.5H6.1z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg><span>Mercado</span></button>
       <button class="side-item" data-view="feed"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.5 0 4.5 2 4.5 4.5"/></svg><span>Comunidade</span></button>
       <button class="side-item" data-view="connect"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-9.2-9.4A5 5 0 0 1 12 7.6a5 5 0 0 1 9.2 3C19.5 15.4 12 20 12 20z"/></svg><span>Conexões</span></button>
+      <!-- Botão do Santuário adicionado -->
+      <button class="side-item" data-view="sanctuary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Santuário</span></button>
       <button class="side-item" data-view="profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Perfil</span></button>
     </nav>
     <button class="side-create" onclick="openCreateMenu()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Criar publicação</button>
@@ -102,6 +104,89 @@
 
   <!-- Main Content -->
   <main id="mainContent">
+    <!-- View do Santuário adicionada aqui -->
+    <section class="view" id="sanctuaryView">
+      <div class="sanctuary-container" style="padding: 24px; color: #F4E7D8; max-width: 900px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #3D332C; padding-bottom: 16px;">
+            <div>
+                <h1 style="font-size: 24px; font-weight: bold; color: #F4E7D8; margin: 0;">Santuário EloGrain</h1>
+                <p style="font-size: 13px; color: #D99A58; margin: 4px 0 0;">Cada atitude cultiva um novo começo e liberdade para os animais.</p>
+            </div>
+            <div style="background: #1A1513; border: 2px solid #D99A58; padding: 10px 20px; border-radius: 16px; text-align: center;">
+                <span style="font-size: 10px; text-transform: uppercase; color: #777C50; font-weight: bold; display: block;">Seu Saldo</span>
+                <span id="sanctuary-user-points" style="font-size: 20px; font-weight: 900; color: #F0784E;">50 pts</span>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+            <div style="background: #1A1513; border: 1px solid #3D332C; border-radius: 20px; padding: 20px;">
+                <h3 style="font-size: 14px; font-weight: bold; color: #D99A58; margin-top: 0; margin-bottom: 12px;">📖 Como Ganhar Pontos</h3>
+                <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: #A39284; line-height: 1.6;">
+                    <li>Fazer uma publicação: <strong style="color: #F4E7D8;">+20 pts</strong></li>
+                    <li>Compartilhar receita: <strong style="color: #F4E7D8;">+25 pts</strong></li>
+                    <li>Comentar em posts: <strong style="color: #F4E7D8;">+5 pts</strong></li>
+                    <li>Pesquisar produto/local: <strong style="color: #F4E7D8;">+3 pts</strong></li>
+                    <li>Usar o Chatbot Elo: <strong style="color: #F4E7D8;">+5 pts</strong></li>
+                </ul>
+            </div>
+
+            <div style="background: #1A1513; border: 1px solid #3D332C; border-radius: 20px; padding: 20px;">
+                <h3 style="font-size: 14px; font-weight: bold; color: #D99A58; margin-top: 0; margin-bottom: 12px;">⭐ Níveis do Terreno</h3>
+                <p style="font-size: 12px; color: #A39284; margin: 0 0 10px; line-height: 1.5;">
+                    Evolua do <strong>Nível 1 (Terreno Rústico com Lago e Arbustos)</strong> até o <strong>Nível 5 (Santuário 5 Estrelas Completo)</strong> acumulando pontos e desbloqueando novas áreas.
+                </p>
+                <div style="background: #241A18; padding: 8px 12px; border-radius: 10px; font-size: 11px; color: #F0784E; font-weight: bold; border: 1px dashed #D99A58;">
+                    🎯 Missão Ativa: Poste uma receita inédita e resgate uma galinha antes do Nível 2!
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #1A1513; border: 2px solid #777C50; border-radius: 24px; overflow: hidden; text-align: center; margin-bottom: 24px; box-shadow: 0 12px 32px rgba(0,0,0,0.5);">
+            <div style="background: #241A18; padding: 12px; font-size: 12px; color: #D99A58; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                🌾 Nível 1: Terreno Rústico (Lago e Mato Simples)
+            </div>
+            <div style="position: relative;">
+                <img id="sanctuary-active-img" src="img/terreno_inicial.jpg" alt="Terreno do Santuário" style="width: 100%; max-height: 360px; object-fit: cover; display: block;" />
+            </div>
+            <div id="sanctuary-inventory-items" style="padding: 16px; background: #1A1513; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; border-top: 1px solid #3D332C;">
+                <span style="color: #A39284; font-style: italic; font-size: 12px;">Nenhum cultivo plantado ainda.</span>
+            </div>
+        </div>
+
+        <h3 style="font-size: 15px; font-weight: bold; color: #D99A58; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">🌱 Loja de Evolução e Resgates</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 40px;">
+            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🌿 Plantar Canteiro de Flores</h4>
+                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">15 pts</strong></p>
+                </div>
+                <button onclick="buySanctuaryItem('flowers', 15, 'Flores Silvestres')" style="padding: 8px 16px; background: #777C50; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Plantar</button>
+            </div>
+            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🍎 Árvore Frutífera</h4>
+                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">50 pts</strong></p>
+                </div>
+                <button onclick="buySanctuaryItem('tree', 50, 'Árvore Frutífera')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Plantar</button>
+            </div>
+            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🐷 Porquinho (Amora)</h4>
+                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">120 pts</strong> (Req. Nível 2)</p>
+                </div>
+                <button onclick="buySanctuaryItem('pig', 120, 'Porquinho Amora')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Acolher</button>
+            </div>
+            <div style="background: #1A1513; padding: 16px; border-radius: 18px; border: 1px solid #3D332C; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; font-size: 13px; font-weight: bold; color: #F4E7D8;">🐔 Galinhas (Clotilde)</h4>
+                    <p style="margin: 4px 0 0; font-size: 11px; color: #A39284;">Custo: <strong style="color: #D99A58;">150 pts</strong> (ou Missão de Receita)</p>
+                </div>
+                <button onclick="buySanctuaryItem('chicken', 150, 'Galinha Clotilde')" style="padding: 8px 16px; background: #F0784E; color: #FFF; border: none; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer;">Acolher</button>
+            </div>
+        </div>
+      </div>
+    </section>
+
     <!-- INÍCIO -->
     <section class="view active" id="homeView"><div id="homeContent"></div></section>
     <!-- COMUNIDADE (feed) -->
@@ -363,12 +448,8 @@ var Elo = (function () {
   var OVERSHOOT = [0.34, 1.56, 0.64, 1];                // easing "elástico" (passa um pouco do alvo e volta)
   var HEART = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
   var STAR = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z';
-  var SPARK = {"v":"5.7.0","fr":60,"ip":0,"op":60,"w":320,"h":120,"nm":"brilho","ddd":0,"assets":[],"layers":[{"ty":4,"ind":1,"nm":"spark0","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":0,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":34,"s":[90]}]},"p":{"a":0,"k":[40,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":0,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":14,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":34,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":4.2},"is":{"a":0,"k":0},"or":{"a":0,"k":14},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":2,"nm":"spark1","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":4,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":38,"s":[90]}]},"p":{"a":0,"k":[95,28,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":4,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":18,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":38,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.0},"is":{"a":0,"k":0},"or":{"a":0,"k":10},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":3,"nm":"spark2","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":2,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":36,"s":[90]}]},"p":{"a":0,"k":[160,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":2,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":16,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":36,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":5.3999999999999995},"is":{"a":0,"k":0},"or":{"a":0,"k":18},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.62,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":4,"nm":"spark3","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":7,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":41,"s":[90]}]},"p":{"a":0,"k":[225,30,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":7,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":21,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":41,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.3},"is":{"a":0,"k":0},"or":{"a":0,"k":11},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":5,"nm":"spark4","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":5,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":39,"s":[90]}]},"p":{"a":0,"k":[280,62,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":5,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":19,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":39,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":4.5},"is":{"a":0,"k":0},"or":{"a":0,"k":15},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":6,"nm":"spark5","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":10,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":44,"s":[90]}]},"p":{"a":0,"k":[125,95,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":10,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":24,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":44,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":2.6999999999999997},"is":{"a":0,"k":0},"or":{"a":0,"k":9},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.62,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":7,"nm":"spark6","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":12,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":46,"s":[90]}]},"p":{"a":0,"k":[200,96,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":12,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":26,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":46,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.0},"is":{"a":0,"k":0},"or":{"a":0,"k":10},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":8,"nm":"spark7","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":14,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":48,"s":[90]}]},"p":{"a":0,"k":[60,96,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":14,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":28,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":48,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":2.4},"is":{"a":0,"k":0},"or":{"a":0,"k":8},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]}]}; // animação Lottie (brilhos) embutida: funciona offline
+  var SPARK = {"v":"5.7.0","fr":60,"ip":0,"op":60,"w":320,"h":120,"nm":"brilho","ddd":0,"assets":[],"layers":[{"ty":4,"ind":1,"nm":"spark0","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":0,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":34,"s":[90]}]},"p":{"a":0,"k":[40,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":0,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":14,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":34,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":4.2},"is":{"a":0,"k":0},"or":{"a":0,"k":14},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":2,"nm":"spark1","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":4,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":38,"s":[90]}]},"p":{"a":0,"k":[95,28,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":4,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":18,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":38,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.0},"is":{"a":0,"k":0},"or":{"a":0,"k":10},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":3,"nm":"spark2","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":2,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":36,"s":[90]}]},"p":{"a":0,"k":[160,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":2,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":16,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":36,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":5.3999999999999995},"is":{"a":0,"k":0},"or":{"a":0,"k":18},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.62,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":4,"nm":"spark3","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":7,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":41,"s":[90]}]},"p":{"a":0,"k":[225,30,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":7,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":21,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":41,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.3},"is":{"a":0,"k":0},"or":{"a":0,"k":11},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":5,"nm":"spark4","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":5,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":39,"s":[90]}]},"p":{"a":0,"k":[280,62,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":5,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":19,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":39,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":4.5},"is":{"a":0,"k":0},"or":{"a":0,"k":15},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":6,"nm":"spark5","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":10,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":44,"s":[90]}]},"p":{"a":0,"k":[125,95,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":10,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":24,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":44,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":2.6999999999999997},"is":{"a":0,"k":0},"or":{"a":0,"k":9},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.62,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":7,"nm":"spark6","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":12,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":46,"s":[90]}]},"p":{"a":0,"k":[200,96,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":12,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":26,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":46,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":3.0},"is":{"a":0,"k":0},"or":{"a":0,"k":10},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.78,0.2,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]},{"ty":4,"ind":8,"nm":"spark7","ip":0,"op":60,"st":0,"sr":1,"ddd":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":14,"s":[0],"i":{"x":[0.5],"y":[1]},"o":{"x":[0.5],"y":[0]}},{"t":48,"s":[90]}]},"p":{"a":0,"k":[60,96,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":14,"s":[0,0,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":28,"s":[100,100,100],"i":{"x":[0.3,0.3,0.3],"y":[1,1,1]},"o":{"x":[0.7,0.7,0.7],"y":[0,0,0]}},{"t":48,"s":[0,0,100]}]}},"shapes":[{"ty":"gr","it":[{"ty":"sr","sy":1,"d":1,"pt":{"a":0,"k":4},"p":{"a":0,"k":[0,0]},"r":{"a":0,"k":0},"ir":{"a":0,"k":2.4},"is":{"a":0,"k":0},"or":{"a":0,"k":8},"os":{"a":0,"k":0}},{"ty":"fl","c":{"a":0,"k":[1,0.9,0.5,1]},"o":{"a":0,"k":100},"r":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]}]};
 
-  /* ---------- CORAÇÃO ----------
-     Camadas: (1) contorno cinza fixo, (2) preenchimento vermelho (opacity 0),
-     (3) contorno vermelho revelado por um clipPath cuja largura cresce 0 → 24.
-     É esse retângulo que faz o "traço" avançar da esquerda para a direita. */
   function heartHTML(id, liked) {
     return '<span class="heart-wrap"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true">' +
       '<path class="h-ghost" d="' + HEART + '"/>' +
@@ -377,7 +458,6 @@ var Elo = (function () {
       '</svg><span class="h-ring"></span></span>';
   }
 
-  // Interpola entre pontos [progresso, valor] com suavização (usado nas "batidas")
   function sample(pts, p) {
     for (var i = 1; i < pts.length; i++) {
       if (p <= pts[i][0]) {
@@ -388,10 +468,8 @@ var Elo = (function () {
     }
     return pts[pts.length - 1][1];
   }
-  // Duas batidas ("tum-tum") crescendo: cada uma vai mais longe que a anterior até preencher o molde
   var BEATS = [[0, 0], [0.16, 0.5], [0.27, 0.3], [0.5, 0.85], [0.61, 0.62], [0.86, 1], [1, 1]];
 
-  // Tween próprio (requestAnimationFrame): o coração NÃO depende do Motion/CDN
   function tween(ms, delay, ease, fn) {
     return new Promise(function (done) {
       var start = performance.now() + delay * 1000;
@@ -405,11 +483,10 @@ var Elo = (function () {
   }
   var inOut = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
 
-  // Curtir: (1) contorno se desenha suave, (2) o recheio bate crescendo até encaixar no molde, (3) assenta com onda
   function setHeart(btn, liked) {
     var wrap = btn.querySelector('.heart-wrap'), fill = btn.querySelector('.h-fill'),
         stroke = btn.querySelector('.h-stroke'), ring = btn.querySelector('.h-ring');
-    var token = btn._t = (btn._t || 0) + 1;                        // cancela animação anterior se clicar rápido
+    var token = btn._t = (btn._t || 0) + 1;
     var live = function () { return btn._t === token; };
     var setFill = function (s) { fill.style.transform = 'scale(' + s + ')'; };
     var setDraw = function (p) { stroke.style.strokeDashoffset = 1 - p; };
@@ -430,8 +507,6 @@ var Elo = (function () {
     }
   }
 
-  /* ---------- ESTRELAS ----------
-     mountRating(container, { initial, confirm, noun, onChange, onConfirm }) */
   function mountRating(box, o) {
     if (!box) return;
     o = o || {};
@@ -446,7 +521,6 @@ var Elo = (function () {
     var stars = [].slice.call(box.querySelectorAll('.star-b')), btn = box.querySelector('.rate-confirm'),
         slot = box.querySelector('.lottie-slot'), result = box.querySelector('.rate-result');
 
-    // Pinta as n primeiras estrelas; as pintadas (a selecionada e todas as anteriores) crescem levemente
     function paint(n) {
       stars.forEach(function (s, i) {
         var on = i < n;
@@ -458,7 +532,7 @@ var Elo = (function () {
       });
     }
     stars.forEach(function (s, i) {
-      s.addEventListener('pointerenter', function (e) { if (!done && e.pointerType === 'mouse') paint(i + 1); }); // hover (só mouse)
+      s.addEventListener('pointerenter', function (e) { if (!done && e.pointerType === 'mouse') paint(i + 1); });
       s.addEventListener('click', function () {
         if (done) return;
         val = i + 1; paint(val);
@@ -473,14 +547,11 @@ var Elo = (function () {
       if (done || !val) return;
       done = true; btn.disabled = true; box.classList.add('locked');
       var on = stars.slice(0, val);
-      // Onda de pulso nas estrelas selecionadas, uma após a outra
       if (hasMotion()) animate(on, { scale: [1.18, 1.5, 1.18] }, { delay: stagger(0.07), duration: D(0.5) });
-      // Brilho Lottie por cima das estrelas (dispara uma vez)
       if (window.lottie && !reduce) {
         slot.innerHTML = '';
         lottie.loadAnimation({ container: slot, renderer: 'svg', loop: false, autoplay: true, animationData: SPARK });
       }
-      // Feedback com a pontuação escolhida
       result.textContent = val.toFixed(1) + ' / 5.0 - ' + noun + ' Avaliada!';
       if (hasMotion()) animate(result, { opacity: [0, 1], transform: ['translateY(8px)', 'translateY(0)'] }, { duration: D(0.45) });
       if (o.onConfirm) o.onConfirm(val);
