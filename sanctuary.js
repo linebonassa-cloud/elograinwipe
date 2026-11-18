@@ -1,5 +1,5 @@
 // ==========================================
-// MÓDULO DA ABA SANTUÁRIO ELO-GRAIN (MINIFAZENDA)
+// MÓDULO ABA SANTUÁRIO ELO-GRAIN (MINIFAZENDA)
 // ==========================================
 
 function getSanctuaryData() {
@@ -16,7 +16,6 @@ function saveSanctuaryData(data) {
     localStorage.setItem('elograin_sanctuary_game', JSON.stringify(data));
 }
 
-// Função global para adicionar pontos de qualquer lugar do app
 window.addSanctuaryPoints = function(amount, actionName) {
     var data = getSanctuaryData();
     data.points += amount;
@@ -27,11 +26,9 @@ window.addSanctuaryPoints = function(amount, actionName) {
 function updateSanctuaryUI() {
     var data = getSanctuaryData();
     
-    // Atualiza saldo na aba se estiver aberta
     var ptsEl = document.getElementById('sanctuary-user-points');
     if (ptsEl) ptsEl.innerText = data.points + ' pts';
 
-    // Atualiza imagem do terreno conforme itens/animais
     var imgEl = document.getElementById('sanctuary-active-img');
     if (imgEl) {
         if (data.animals.length > 0) {
@@ -50,7 +47,6 @@ function updateSanctuaryUI() {
         }
     }
 
-    // Atualiza inventário visual na tela
     var invEl = document.getElementById('sanctuary-inventory-items');
     if (invEl) {
         if (data.items.length === 0 && data.animals.length === 0) {
@@ -68,7 +64,6 @@ function updateSanctuaryUI() {
     }
 }
 
-// Lógica de compra na loja do Santuário
 window.buySanctuaryItem = function(key, cost, name) {
     var data = getSanctuaryData();
     if (data.points < cost) {
@@ -90,24 +85,7 @@ window.buySanctuaryItem = function(key, cost, name) {
     updateSanctuaryUI();
 };
 
-// Interceptador para dar pontos em ações do app
-document.addEventListener('click', function(e) {
-    var text = e.target.innerText || '';
-    if (text.includes('Publicar') || text.includes('Criar publicação')) {
-        window.addSanctuaryPoints(20, 'Nova publicação');
-    }
-    if (text.includes('Compartilhar receita') || text.includes('Salvar receita')) {
-        window.addSanctuaryPoints(25, 'Receita compartilhada');
-    }
-});
-
-// Atualiza a UI sempre que a aba do santuário for aberta
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.innerText && e.target.innerText.includes('Santuário')) {
-        setTimeout(updateSanctuaryUI, 100);
-    }
-});
-
+// Atualiza a interface sempre que o script carregar
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', updateSanctuaryUI);
 } else {
