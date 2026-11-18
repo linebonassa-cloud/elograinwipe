@@ -1619,7 +1619,7 @@ body { background: radial-gradient(1000px 520px at 50% -160px, rgba(233, 120, 79
 .match-city { margin: 0 0 6px; color: var(--text-light); font-size: .82rem; font-weight: 600; }
 
 /* ===================== ELO: botão flutuante + janela ===================== */
-.chat-fab { z-index: 1001; display: flex; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s; }
+.chat-fab { position: fixed; z-index: 1001; display: flex; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s; }
 .chat-fab.is-off { display: none !important; }
 .chat-fab:focus-visible { outline: 3px solid var(--sprout); outline-offset: 3px; }
 .chat-fab.snap { transition: left .28s cubic-bezier(.2,.9,.3,1), top .2s ease, transform .2s; }

@@ -1953,22 +1953,31 @@ function matchCard(p) {
     '<button class="match-btn match-btn-primary" onclick="toast(\'Match! 💕 Inicie uma conversa.\')">💕 Curtir</button></div></div>';
 }
 
-/* ---------- ELO: botão flutuante que a pessoa move ---------- */
-// Toque abre o chat; arrastar move (e encaixa na lateral mais próxima). Posição lembrada. Setas do teclado também movem.
-var chatFabState = { side: null, yr: null };
-function chatFabSide() { return chatFabState.side || (window.innerWidth >= 1024 ? 'r' : 'l'); }
+/* ---------- ELO: botão flutuante livre por toda a tela (360°) ---------- */
+// Toque abre o chat; arrastar move para qualquer posição (X e Y) da tela e salva para todas as abas. Setas do teclado também movem.
+var chatFabState = { xr: null, yr: null };
+function chatFabSide() {
+  if (typeof chatFabState.xr === 'number') return chatFabState.xr < 0.5 ? 'l' : 'r';
+  return window.innerWidth >= 1024 ? 'r' : 'l';
+}
 function syncChatFab() {
   var fab = document.getElementById('chatFab'), box = document.getElementById('chatBox'); if (!fab) return;
   var show = !!(sb && cloud.user) && (!box || box.hidden);   // só aparece logado (sem login a Elo não responde) e com o chat fechado
   fab.classList.toggle('is-off', !show);
   if (show) {
     if (window.chatFabPlace) window.chatFabPlace();
-    try { if (!localStorage.getItem('elograin_fab_hint')) { localStorage.setItem('elograin_fab_hint', '1'); setTimeout(function() { toast('Dica: arraste o botão da Elo para onde preferir 👆'); }, 1200); } } catch (e) {}
+    try { if (!localStorage.getItem('elograin_fab_hint')) { localStorage.setItem('elograin_fab_hint', '1'); setTimeout(function() { toast('Dica: arraste o botão da Elo para qualquer lugar da tela 👆'); }, 1200); } } catch (e) {}
   }
 }
 function initChatFab(fab) {
   var M = 12, drag = null, justDragged = false;
-  try { var sv = JSON.parse(localStorage.getItem('elograin_chatfab') || 'null'); if (sv && (sv.side === 'l' || sv.side === 'r') && typeof sv.yr === 'number') chatFabState = sv; } catch (e) {}
+  try {
+    var sv = JSON.parse(localStorage.getItem('elograin_chatfab') || 'null');
+    if (sv && typeof sv.yr === 'number') {
+      if (typeof sv.xr === 'number') chatFabState = { xr: sv.xr, yr: sv.yr };
+      else if (sv.side === 'l' || sv.side === 'r') chatFabState = { xr: sv.side === 'l' ? 0 : 1, yr: sv.yr };
+    }
+  } catch (e) {}
   function vp() { return { w: window.innerWidth, h: window.innerHeight }; }
   function size() { return { w: fab.offsetWidth || 92, h: fab.offsetHeight || 48 }; }
   function safeBottom() {
@@ -1976,21 +1985,29 @@ function initChatFab(fab) {
     document.body.appendChild(p); var h = p.offsetHeight; p.remove(); return h;
   }
   function leftBound() { var sb2 = document.querySelector('.sidebar'); return (sb2 && getComputedStyle(sb2).display !== 'none') ? Math.round(sb2.getBoundingClientRect().right) + M : M; }
+  function rightBound() { return Math.max(leftBound(), vp().w - size().w - M); }
+  function clampX(x) { return Math.min(Math.max(x, leftBound()), rightBound()); }
   function clampY(y) { var v = vp(), s = size(); return Math.min(Math.max(y, 8), v.h - s.h - 8); }
+  function defaultX() { return window.innerWidth >= 1024 ? rightBound() : leftBound(); }
   function defaultY() { var v = vp(), s = size(); return v.w >= 1024 ? v.h - 160 : v.h - (72 + safeBottom() + 16) - s.h - 4; }
   function place() {
-    var v = vp(), s = size(), side = chatFabSide();
-    var y = chatFabState.yr == null ? defaultY() : chatFabState.yr * (v.h - s.h);
+    var v = vp(), s = size(), minX = leftBound(), maxX = rightBound(), maxY = Math.max(8, v.h - s.h - 8);
+    var x = chatFabState.xr == null ? defaultX() : minX + chatFabState.xr * Math.max(0, maxX - minX);
+    var y = chatFabState.yr == null ? defaultY() : 8 + chatFabState.yr * Math.max(0, maxY - 8);
     fab.style.right = 'auto'; fab.style.bottom = 'auto';
-    fab.style.left = (side === 'l' ? leftBound() : v.w - s.w - M) + 'px';
+    fab.style.left = clampX(x) + 'px';
     fab.style.top = clampY(y) + 'px';
   }
   function save() { try { localStorage.setItem('elograin_chatfab', JSON.stringify(chatFabState)); } catch (e) {} }
-  function snap() {   // encaixa na lateral mais próxima e lembra a altura
-    var v = vp(), s = size(), cx = fab.offsetLeft + s.w / 2, top = fab.offsetTop;
-    chatFabState = { side: cx < v.w / 2 ? 'l' : 'r', yr: Math.min(1, Math.max(0, top / Math.max(1, v.h - s.h))) };
-    fab.classList.add('snap'); place(); save();
-    setTimeout(function() { fab.classList.remove('snap'); }, 320);
+  function saveFreePosition() {   // salva a posição exata (X e Y proporcionais) onde o usuário soltou
+    var v = vp(), s = size(), minX = leftBound(), maxX = rightBound(), maxY = Math.max(8, v.h - s.h - 8);
+    var curX = clampX(fab.offsetLeft), curY = clampY(fab.offsetTop);
+    fab.style.left = curX + 'px';
+    fab.style.top = curY + 'px';
+    var xr = maxX > minX ? (curX - minX) / (maxX - minX) : 0;
+    var yr = maxY > 8 ? (curY - 8) / (maxY - 8) : 0;
+    chatFabState = { xr: Math.min(1, Math.max(0, xr)), yr: Math.min(1, Math.max(0, yr)) };
+    save();
   }
   window.chatFabPlace = place;
   fab.addEventListener('pointerdown', function(e) {
@@ -2001,10 +2018,9 @@ function initChatFab(fab) {
   fab.addEventListener('pointermove', function(e) {
     if (!drag || e.pointerId !== drag.id) return;
     var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
-    if (!drag.on) { if (Math.abs(dx) + Math.abs(dy) < 8) return; drag.on = true; fab.classList.add('dragging'); fab.classList.remove('snap'); }
+    if (!drag.on) { if (Math.abs(dx) + Math.abs(dy) < 6) return; drag.on = true; fab.classList.add('dragging'); fab.classList.remove('snap'); }
     e.preventDefault();
-    var v = vp(), s = size();
-    fab.style.left = Math.min(Math.max(drag.ox + dx, 4), v.w - s.w - 4) + 'px';
+    fab.style.left = clampX(drag.ox + dx) + 'px';
     fab.style.top = clampY(drag.oy + dy) + 'px';
   });
   function end(e) {
@@ -2012,18 +2028,18 @@ function initChatFab(fab) {
     var moved = drag.on; drag = null;
     try { fab.releasePointerCapture(e.pointerId); } catch (x) {}
     fab.classList.remove('dragging');
-    if (moved) { justDragged = true; setTimeout(function() { justDragged = false; }, 60); snap(); }
+    if (moved) { justDragged = true; setTimeout(function() { justDragged = false; }, 60); saveFreePosition(); }
   }
   fab.addEventListener('pointerup', end); fab.addEventListener('pointercancel', end);
   fab.addEventListener('click', function(e) { if (justDragged) { e.preventDefault(); return; } openChat(); });
-  fab.addEventListener('keydown', function(e) {   // acessível: setas movem o botão
-    var k = e.key, v = vp(), s = size(), yr = chatFabState.yr == null ? (fab.offsetTop / Math.max(1, v.h - s.h)) : chatFabState.yr;
-    if (k === 'ArrowLeft') chatFabState = { side: 'l', yr: yr };
-    else if (k === 'ArrowRight') chatFabState = { side: 'r', yr: yr };
-    else if (k === 'ArrowUp') chatFabState = { side: chatFabSide(), yr: Math.max(0, yr - 40 / Math.max(1, v.h - s.h)) };
-    else if (k === 'ArrowDown') chatFabState = { side: chatFabSide(), yr: Math.min(1, yr + 40 / Math.max(1, v.h - s.h)) };
+  fab.addEventListener('keydown', function(e) {   // acessível: setas movem o botão livremente
+    var k = e.key, step = 36;
+    if (k === 'ArrowLeft') fab.style.left = clampX(fab.offsetLeft - step) + 'px';
+    else if (k === 'ArrowRight') fab.style.left = clampX(fab.offsetLeft + step) + 'px';
+    else if (k === 'ArrowUp') fab.style.top = clampY(fab.offsetTop - step) + 'px';
+    else if (k === 'ArrowDown') fab.style.top = clampY(fab.offsetTop + step) + 'px';
     else return;
-    e.preventDefault(); fab.classList.add('snap'); place(); save(); setTimeout(function() { fab.classList.remove('snap'); }, 320);
+    e.preventDefault(); saveFreePosition();
   });
   window.addEventListener('resize', place); window.addEventListener('orientationchange', function() { setTimeout(place, 200); });
 }
