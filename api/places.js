@@ -104,14 +104,14 @@ module.exports = async function handler(req, res) {
         out center tags 150;
       `;
 
-      const response = await fetch('https://overpass-api.de/api/interpreter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': NOMINATIM_USER_AGENT
-        },
-        body: 'data=' + encodeURIComponent(query)
-      });
+     const response = await fetch('https://overpass.kumi.systems/api/interpreter', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    'Accept': 'application/json'
+  },
+  body: 'data=' + encodeURIComponent(query)
+});
 
    if (!response.ok) {
   const details = await response.text();
