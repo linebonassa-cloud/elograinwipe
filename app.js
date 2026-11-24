@@ -5,7 +5,7 @@ if (typeof Elo === 'undefined') { window.Elo = { heartHTML: function(id, l) { re
 // ELOGRAIN v3 - Swipe to Delete + Lixeira + OpenStreetMap
 // ============================================
 
-const GOOGLE_API_KEY = localStorage.getItem('elograin_google_api_key') || '';
+
 
 const MOCK_POSTS = [
   { id: 1, author: "Ana Verde", avatar: "🌱", time: "2h", content: "Finalmente encontrei um queijo vegano que derrete igual o original! Testei na lasanha e ficou perfeito. Alguem mais ja experimentou a marca Natureza?", tag: "dica", likes: 24, comments: 8, liked: false, image: null },
@@ -360,124 +360,217 @@ function confirmDelete() {
   closeSwipeModal();
 }
 
-// ===== GOOGLE MAPS + OSM =====
-async function fetchGooglePlacesVegan() {
-  if (!GOOGLE_API_KEY) return null;
-  try {
-    const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Key': GOOGLE_API_KEY,
-        'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.userRatingCount,places.types,places.editorialSummary'
-      },
-      body: JSON.stringify({ textQuery: "restaurante vegano Sao Paulo", languageCode: "pt-BR", maxResultCount: 10 })
-    });
-    if (!response.ok) throw new Error('API Error');
-    const data = await response.json();
-    if (data.places && data.places.length > 0) {
-      return data.places.map(function(p, idx) {
-        return {
-          id: 100 + idx,
-          name: (p.displayName && p.displayName.text) ? p.displayName.text : (p.displayName || 'Restaurante Vegano'),
-          type: (p.types && p.types.includes('vegan_restaurant')) ? "100% Vegano" : "Vegan Friendly",
-          category: "restaurante", rating: p.rating || 4.5, reviews: p.userRatingCount || 10,
-          address: p.formattedAddress || 'Sao Paulo, SP',
-          lat: (p.location && p.location.latitude) ? p.location.latitude : -23.5505,
-          lng: (p.location && p.location.longitude) ? p.location.longitude : -46.6512,
-          icon: "🍽️", badge: (p.types && p.types.includes('vegan_restaurant')) ? "vegan" : "friendly",
-          description: (p.editorialSummary && p.editorialSummary.text) ? p.editorialSummary.text : ''
-        };
-      });
-    }
-    return null;
-  } catch (err) { return null; }
-}
 
-async function loadPlacesWithGoogle() {
-  if (state.googlePlacesLoaded) return;
-  const googlePlaces = await fetchGooglePlacesVegan();
-  if (googlePlaces && googlePlaces.length > 0) {
-    state.places = googlePlaces.concat(MOCK_PLACES);
-    state.googlePlacesLoaded = true;
-    toast('Dados reais do Google Maps carregados!');
-  } else {
-    state.places = [...MOCK_PLACES];
-  }
-}
+// ===== OPENSTREETMAP + BUSCA DE LOCAIS VEGANOS =====
 
-// ----- Lugares reais: o endereço vira coordenada via OpenStreetMap (Nominatim), com cache -----
-function ratingLine(p) { return p.reviews ? '⭐ ' + p.rating + ' • ' + p.reviews + ' avaliações' : '⭐ Seja o primeiro a avaliar'; }
-function mapsQuery(p) { return p.query ? encodeURIComponent(p.address) : (p.lat + ',' + p.lng); }
-function geocodePlace(p) {
-  if (p.lat != null) return Promise.resolve();
-  var cache = {};
-  try { cache = JSON.parse(localStorage.getItem('elograin_geo') || '{}'); } catch (e) {}
-  if (cache[p.id]) { p.lat = cache[p.id][0]; p.lng = cache[p.id][1]; return Promise.resolve(); }
-  var queries = p.query.slice();
-  function next() {
-    if (!queries.length) return Promise.resolve();
-    return fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=br&q=' + encodeURIComponent(queries.shift()))
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (d && d[0]) {
-          p.lat = parseFloat(d[0].lat); p.lng = parseFloat(d[0].lon);
-          cache[p.id] = [p.lat, p.lng];
-          try { localStorage.setItem('elograin_geo', JSON.stringify(cache)); } catch (e) {}
-        } else return next();
-      })
-      .catch(function() {});
-  }
-  return next();
+function ratingLine(p) {
+  return p.reviews
+    ? '⭐ ' + p.rating + ' • ' + p.reviews + ' avaliações'
+    : '⭐ Ainda sem avaliações';
 }
 
 function initOSMMap() {
-  if (state.osmMap) { state.osmMap.invalidateSize(); return; }
-  var mapContainer = document.createElement('div');
-  mapContainer.id = 'osmMap';
-  mapContainer.style.cssText = 'width:100%;height:100%;border-radius:16px;';
-  var wrapper = document.createElement('div');
-  wrapper.className = 'map-container-osm';
-  wrapper.appendChild(mapContainer);
-  var realContent = document.getElementById('exploreRealContent');
-  if (!realContent) return;
-  realContent.insertBefore(wrapper, realContent.firstChild);
-  state.osmMap = L.map('osmMap', { zoomControl: false, attributionControl: false }).setView([-23.5505, -46.6512], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: 'OpenStreetMap' }).addTo(state.osmMap);
-  addMarkersToMap();
-}
+  var mapElement = document.getElementById('osmMap');
+  if (!mapElement || typeof L === 'undefined') return;
 
-function addMarkersToMap() {
-  if (!state.osmMap) return;
-  Promise.all(state.places.map(geocodePlace)).then(drawMarkers);
+  if (state.osmMap) {
+    state.osmMap.remove();
+    state.osmMap = null;
+  }
+
+  state.osmMarkers = [];
+
+  state.osmMap = L.map('osmMap', {
+    zoomControl: true,
+    attributionControl: true
+  }).setView([-23.5505, -46.6333], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  }).addTo(state.osmMap);
+
+  drawMarkers();
 }
 
 function drawMarkers() {
   if (!state.osmMap) return;
-  state.osmMarkers.forEach(function(m) { state.osmMap.removeLayer(m); });
+
+  state.osmMarkers.forEach(function(marker) {
+    state.osmMap.removeLayer(marker);
+  });
+
   state.osmMarkers = [];
-  state.places.forEach(function(place) {
-    if (place.lat == null) return;   // endereço não encontrado: continua na lista, sem pino
+
+  (state.places || []).forEach(function(place) {
+    if (place.lat == null || place.lng == null) return;
+
     var color = place.badge === 'vegan' ? '#9AA06A' : '#D99A58';
+
     var marker = L.circleMarker([place.lat, place.lng], {
-      radius: place.real ? 13 : 10, fillColor: color, color: '#fff', weight: place.real ? 3 : 2, opacity: 1, fillOpacity: 0.9
+      radius: 10,
+      fillColor: color,
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.9
     }).addTo(state.osmMap);
-    var popupContent = '<div style="font-family:Inter,sans-serif;min-width:180px">' +
-      '<div style="font-weight:800;font-size:1rem;margin-bottom:4px">' + place.icon + ' ' + place.name + '</div>' +
-      '<div style="font-size:0.8rem;color:#666;margin-bottom:4px">' + place.type + '</div>' +
-      '<div style="font-size:0.8rem;margin-bottom:4px">' + ratingLine(place) + '</div>' + (place.hours ? '<div style="font-size:0.8rem;margin-bottom:4px">🕒 ' + place.hours + '</div>' : '') +
-      '<div style="font-size:0.75rem;color:#888">📍 ' + place.address + '</div>' +
-      (place.description ? '<div style="font-size:0.75rem;color:#666;margin-top:6px;font-style:italic">' + place.description + '</div>' : '') +
-      '</div>';
-    marker.bindPopup(popupContent);
-    marker.on('click', function() { showPlaceDetail(place.id); });
+
+    var popup =
+      '<b>' + esc(place.name) + '</b>' +
+      '<br>' + esc(place.type) +
+      '<br>' + esc(place.address);
+
+    marker.bindPopup(popup);
+
+    marker.on('click', function() {
+      showPlaceDetail(place.id);
+    });
+
     state.osmMarkers.push(marker);
   });
-  if (state.osmMarkers.length > 0) {
+
+  if (state.osmMarkers.length) {
     var group = new L.featureGroup(state.osmMarkers);
-    state.osmMap.fitBounds(group.getBounds().pad(0.1));
+    state.osmMap.fitBounds(group.getBounds().pad(0.15));
   }
 }
+
+function renderPlacesList() {
+  var list = document.getElementById('veganPlaceResults');
+  if (!list) return;
+
+  if (!state.places || !state.places.length) {
+    list.innerHTML =
+      '<p class="tsub">Nenhum estabelecimento com informação vegana foi encontrado nesta busca. Experimente outro local ou aumente o raio.</p>';
+    return;
+  }
+
+  list.innerHTML = state.places.map(function(p) {
+    return '<div class="place-card" onclick="showPlaceDetail(' +
+      JSON.stringify(p.id) + ')">' +
+      '<div class="place-img">' + esc(p.icon || '📍') + '</div>' +
+      '<div class="place-info">' +
+      '<h4>' + esc(p.name) + '</h4>' +
+      '<div class="place-type"><span class="badge badge-' +
+      (p.badge === 'vegan' ? 'vegan' : 'friendly') + '">' +
+      esc(p.type) + '</span></div>' +
+      '<div class="rating">' + ratingLine(p) + '</div>' +
+      '<div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">📍 ' +
+      esc(p.address) + '</div>' +
+      (p.hours ? '<div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">🕒 ' +
+      esc(p.hours) + '</div>' : '') +
+      '</div></div>';
+  }).join('');
+}
+
+async function searchVeganPlaces(event, useCurrentLocation) {
+  if (event) event.preventDefault();
+
+  var status = document.getElementById('veganSearchStatus');
+  var queryInput = document.getElementById('veganPlaceQuery');
+  var radiusInput = document.getElementById('veganPlaceRadius');
+
+  if (status) status.textContent = 'Buscando estabelecimentos...';
+
+  try {
+    var lat;
+    var lon;
+
+    if (useCurrentLocation) {
+      if (!navigator.geolocation) {
+        throw new Error('Seu navegador não oferece localização.');
+      }
+
+      var position = await new Promise(function(resolve, reject) {
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          reject,
+          { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 }
+        );
+      });
+
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+
+    } else {
+      var locationText = queryInput ? queryInput.value.trim() : '';
+
+      if (locationText.length < 3) {
+        throw new Error('Digite uma cidade, bairro ou endereço.');
+      }
+
+      var geoResponse = await fetch(
+        '/api/places?mode=geocode&q=' + encodeURIComponent(locationText)
+      );
+
+      var geoData = await geoResponse.json();
+
+      if (!geoResponse.ok) {
+        throw new Error(geoData.error || 'Não foi possível localizar esse endereço.');
+      }
+
+      lat = geoData.lat;
+      lon = geoData.lon;
+    }
+
+    var radius = radiusInput ? radiusInput.value : '3000';
+    var cacheKey = 'elograin_vegan_search_' +
+      lat.toFixed(3) + '_' + lon.toFixed(3) + '_' + radius;
+
+    var cached = null;
+
+    try {
+      cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+    } catch (e) {}
+
+    var result;
+
+    if (cached && Date.now() - cached.savedAt < 6 * 60 * 60 * 1000) {
+      result = cached.data;
+    } else {
+      var response = await fetch(
+        '/api/places?mode=nearby&lat=' + lat +
+        '&lon=' + lon +
+        '&radius=' + radius
+      );
+
+      result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Não foi possível consultar os estabelecimentos.');
+      }
+
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify({
+          savedAt: Date.now(),
+          data: result
+        }));
+      } catch (e) {}
+    }
+
+    state.places = result.places || [];
+    state.osmSearchDone = true;
+
+    renderPlacesList();
+
+    if (state.osmMap) {
+      state.osmMap.setView([lat, lon], 14);
+      drawMarkers();
+    }
+
+    if (status) {
+      status.textContent = state.places.length
+        ? state.places.length + ' estabelecimento(s) encontrado(s).'
+        : 'Nenhum estabelecimento com informação vegana foi encontrado.';
+    }
+
+  } catch (error) {
+    if (status) status.textContent = error.message;
+    toast(error.message);
+  }
+}
+
 
 // ===== NAVIGATION =====
 function showView(viewName) {
@@ -692,31 +785,80 @@ function renderExplore() {
   else if (state.exploreTab === 'avaliacoes') renderReviews(content);
 }
 
+
 function renderMap(container) {
-  loadPlacesWithGoogle().then(function() {
-    var apiBtn = !GOOGLE_API_KEY ? '<button class="section-link" onclick="promptApiKey()">🔑 Configurar API</button>' : '';
-    container.innerHTML = '<div class="map-legend">' +
-      '<div class="map-legend-item"><div class="legend-dot" style="background:var(--sprout)"></div> 100% Vegano</div>' +
-      '<div class="map-legend-item"><div class="legend-dot" style="background:var(--secondary)"></div> Vegan Friendly</div></div>' +
-      '<div class="section-header"><h3 class="section-title">Proximos a Voce</h3>' + apiBtn + '</div>' +
-      '<div>' + state.places.map(function(p) {
-        return '<div class="place-card" onclick="showPlaceDetail(' + p.id + ')">' +
-          '<div class="place-img">' + p.icon + '</div>' +
-          '<div class="place-info"><h4>' + p.name + '</h4>' +
-          '<div class="place-type"><span class="badge badge-' + (p.badge === 'vegan' ? 'vegan' : 'friendly') + '">' + p.type + '</span></div>' +
-          '<div class="rating">' + ratingLine(p) + '</div>' + (p.hours ? '<div style="font-size:0.8rem;color:var(--text-light);margin-top:2px">🕒 ' + p.hours + '</div>' : '') +
-          '<div style="font-size:0.8rem;color:var(--text-light);margin-top:2px">📍 ' + p.address + '</div>' +
-          (p.description ? '<div style="font-size:0.75rem;color:var(--text-light);margin-top:4px;font-style:italic">' + p.description + '</div>' : '') +
-          '</div></div>';
-      }).join('') + '</div>';
-    setTimeout(function() { initOSMMap(); }, 100);
-  });
+  if (state.osmMap) {
+    state.osmMap.remove();
+    state.osmMap = null;
+  }
+
+  state.osmMarkers = [];
+
+  if (!state.osmSearchDone) {
+    state.places = [];
+  }
+
+  container.innerHTML =
+    '<div class="section-header">' +
+      '<h3 class="section-title">Encontre lugares veganos</h3>' +
+    '</div>' +
+
+    '<p class="tsub" style="margin-bottom:12px">' +
+      'Pesquise por cidade, bairro ou endereço, ou use sua localização atual.' +
+    '</p>' +
+
+    '<form onsubmit="searchVeganPlaces(event, false)" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">' +
+      '<input id="veganPlaceQuery" type="text" ' +
+        'placeholder="Ex.: Vila Romana, São Paulo" ' +
+        'style="flex:1;min-width:180px;padding:12px;border-radius:10px;border:1px solid var(--border)" />' +
+
+      '<select id="veganPlaceRadius" style="padding:10px;border-radius:10px;border:1px solid var(--border)">' +
+        '<option value="1000">1 km</option>' +
+        '<option value="3000" selected>3 km</option>' +
+        '<option value="5000">5 km</option>' +
+      '</select>' +
+
+      '<button type="submit" class="btn btn-primary">🔎 Buscar</button>' +
+    '</form>' +
+
+    '<button type="button" class="btn btn-secondary" ' +
+      'onclick="searchVeganPlaces(null, true)" style="margin-bottom:12px">' +
+      '📍 Usar minha localização atual' +
+    '</button>' +
+
+    '<p id="veganSearchStatus" class="tsub" style="margin-bottom:12px">' +
+      'Informe uma localização para começar.' +
+    '</p>' +
+
+    '<div class="map-legend">' +
+      '<div class="map-legend-item">' +
+        '<div class="legend-dot" style="background:var(--sprout)"></div>' +
+        '100% Vegano identificado' +
+      '</div>' +
+      '<div class="map-legend-item">' +
+        '<div class="legend-dot" style="background:var(--secondary)"></div>' +
+        'Opções veganas indicadas' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="map-container-osm" style="margin-bottom:16px">' +
+      '<div id="osmMap" style="width:100%;height:320px;border-radius:16px"></div>' +
+    '</div>' +
+
+    '<div id="veganPlaceResults"></div>' +
+
+    '<p class="tsub" style="font-size:0.75rem;margin-top:14px">' +
+      'Dados do OpenStreetMap. As informações dependem das contribuições da comunidade e podem estar incompletas.' +
+    '</p>';
+
+  renderPlacesList();
+
+  setTimeout(function() {
+    initOSMMap();
+  }, 100);
 }
 
-function promptApiKey() {
-  var key = prompt('Insira sua Google Places API Key (New):\n\n1. Acesse console.cloud.google.com\n2. Crie um projeto e ative "Places API (New)"\n3. Gere uma API Key\n4. Cole aqui:');
-  if (key) { localStorage.setItem('elograin_google_api_key', key); location.reload(); }
-}
+
 
 function showPlaceDetail(placeId) {
   var p = state.places.find(function(x) { return x.id === placeId; });
