@@ -45,9 +45,16 @@ module.exports = async function handler(req, res) {
         }
       });
 
-      if (!response.ok) {
-        return res.status(503).json({ error: 'Serviço de localização indisponível.' });
-      }
+ if (!response.ok) {
+  const details = await response.text();
+
+  console.error('Erro Nominatim:', response.status, details);
+
+  return res.status(503).json({
+    error: 'Serviço de localização indisponível.',
+    status: response.status
+  });
+}
 
       const data = await response.json();
 
