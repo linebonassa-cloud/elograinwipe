@@ -113,11 +113,17 @@ module.exports = async function handler(req, res) {
         body: 'data=' + encodeURIComponent(query)
       });
 
-      if (!response.ok) {
-        return res.status(503).json({
-          error: 'A busca no OpenStreetMap está temporariamente indisponível.'
-        });
-      }
+   if (!response.ok) {
+  const details = await response.text();
+
+  console.error('Erro Overpass:', response.status, details);
+
+  return res.status(503).json({
+    error: 'A busca no OpenStreetMap está temporariamente indisponível.',
+    status: response.status,
+    details: details.slice(0, 500)
+  });
+}
 
       const data = await response.json();
 
