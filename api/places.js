@@ -106,10 +106,11 @@ module.exports = async function handler(req, res) {
 
      const response = await fetch('https://overpass.kumi.systems/api/interpreter', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    'Accept': 'application/json'
-  },
+headers: {
+  'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+  'Accept': 'application/json',
+  'User-Agent': 'Elograin/1.0 (https://elograin-ashen.vercel.app/)'
+},
   body: 'data=' + encodeURIComponent(query)
 });
 
