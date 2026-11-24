@@ -35,8 +35,7 @@ module.exports = async function handler(req, res) {
       const url = new URL('https://nominatim.openstreetmap.org/search');
       url.searchParams.set('format', 'jsonv2');
       url.searchParams.set('limit', '1');
-      url.searchParams.set('country', 'Brazil');
-      url.searchParams.set('q', q);
+     url.searchParams.set('q', q + ', Brasil');
 
       const response = await fetch(url.toString(), {
         headers: {
