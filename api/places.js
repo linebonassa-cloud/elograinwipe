@@ -124,7 +124,7 @@ const query = `
 `;
 
 
-     const response = await fetch('https://overpass.kumi.systems/api/interpreter', {
+     const response = await fetch('https://ovp.dresel.systems/api-sa/interpreter', {
   method: 'POST',
 headers: {
   'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
