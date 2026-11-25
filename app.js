@@ -405,7 +405,11 @@ function drawMarkers() {
   (state.places || []).forEach(function(place) {
     if (place.lat == null || place.lng == null) return;
 
-    var color = place.badge === 'vegan' ? '#9AA06A' : '#D99A58';
+    var color = place.badge === 'vegan'
+      ? '#9AA06A'
+      : place.badge === 'friendly'
+        ? '#D99A58'
+        : '#9CA3AF';
 
     var marker = L.circleMarker([place.lat, place.lng], {
       radius: 10,
@@ -440,28 +444,74 @@ function renderPlacesList() {
   var list = document.getElementById('veganPlaceResults');
   if (!list) return;
 
-  if (!state.places || !state.places.length) {
-    list.innerHTML =
-      '<p class="tsub">Nenhum estabelecimento com informação vegana foi encontrado nesta busca. Experimente outro local ou aumente o raio.</p>';
-    return;
-  }
+  var places = state.places || [];
+  var vegan = places.filter(function(p) {
+    return p.badge === 'vegan';
+  });
+  var friendly = places.filter(function(p) {
+    return p.badge === 'friendly';
+  });
+  var unknown = places.filter(function(p) {
+    return p.badge !== 'vegan' && p.badge !== 'friendly';
+  });
 
-  list.innerHTML = state.places.map(function(p) {
+  function createPlaceCard(p) {
+    var badgeClass = p.badge === 'vegan'
+      ? 'vegan'
+      : p.badge === 'friendly'
+        ? 'friendly'
+        : 'econ';
+
     return '<div class="place-card" onclick="showPlaceDetail(' +
       JSON.stringify(p.id) + ')">' +
       '<div class="place-img">' + esc(p.icon || '📍') + '</div>' +
       '<div class="place-info">' +
-      '<h4>' + esc(p.name) + '</h4>' +
+      '<h4>' + esc(p.name || 'Estabelecimento') + '</h4>' +
       '<div class="place-type"><span class="badge badge-' +
-      (p.badge === 'vegan' ? 'vegan' : 'friendly') + '">' +
-      esc(p.type) + '</span></div>' +
+      badgeClass + '">' + esc(p.type || 'Informação não disponível') + '</span></div>' +
       '<div class="rating">' + ratingLine(p) + '</div>' +
       '<div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">📍 ' +
-      esc(p.address) + '</div>' +
+      esc(p.address || 'Endereço não informado') + '</div>' +
       (p.hours ? '<div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">🕒 ' +
       esc(p.hours) + '</div>' : '') +
       '</div></div>';
-  }).join('');
+  }
+
+  if (!places.length) {
+    list.innerHTML =
+      '<p class="tsub">Nenhum estabelecimento foi encontrado nesta região. Experimente aumentar o raio da busca ou pesquisar outro local.</p>';
+    return;
+  }
+
+  var html = '';
+
+  if (vegan.length) {
+    html += '<h3 style="margin:18px 0 10px">🌱 100% veganos (' +
+      vegan.length + ')</h3>';
+    html += vegan.map(createPlaceCard).join('');
+  }
+
+  if (friendly.length) {
+    html += '<h3 style="margin:22px 0 10px">🥗 Com opções veganas indicadas (' +
+      friendly.length + ')</h3>';
+    html += friendly.map(createPlaceCard).join('');
+  }
+
+  if (!vegan.length && !friendly.length) {
+    html += '<div style="padding:16px;margin:16px 0;background:var(--cream);border-radius:12px">' +
+      '<h3 style="margin-bottom:8px">🔎 Nenhuma opção vegana identificada por enquanto</h3>' +
+      '<p class="tsub">O mapa não encontrou informações que confirmem opções veganas nesta região. Isso não significa que elas não existam: os dados podem estar incompletos ou desatualizados.</p>' +
+      '</div>';
+  }
+
+  if (unknown.length) {
+    html += '<h3 style="margin:26px 0 8px">📍 Outros estabelecimentos próximos — ainda não verificados (' +
+      unknown.length + ')</h3>';
+    html += '<p class="tsub" style="margin-bottom:12px">Estes locais aparecem no mapa, mas ainda não há informação suficiente para confirmar opções veganas. Consulte o estabelecimento antes de ir.</p>';
+    html += unknown.map(createPlaceCard).join('');
+  }
+
+  list.innerHTML = html;
 }
 
 async function searchVeganPlaces(event, useCurrentLocation) {
@@ -839,6 +889,10 @@ function renderMap(container) {
         '<div class="legend-dot" style="background:var(--secondary)"></div>' +
         'Opções veganas indicadas' +
       '</div>' +
+      '<div class="map-legend-item">' +
+        '<div class="legend-dot" style="background:#9CA3AF"></div>' +
+        'Ainda não verificado' +
+      '</div>' +
     '</div>' +
 
     '<div class="map-container-osm" style="margin-bottom:16px">' +
@@ -863,12 +917,17 @@ function renderMap(container) {
 function showPlaceDetail(placeId) {
   var p = state.places.find(function(x) { return x.id === placeId; });
   if (!p) return;
-  var descBlock = p.description ? '<div style="background:var(--cream);padding:12px;border-radius:12px;margin-bottom:16px;font-size:0.9rem;color:var(--text-light);font-style:italic">' + p.description + '</div>' : '';
+  var descBlock = p.description ? '<div style="background:var(--cream);padding:12px;border-radius:12px;margin-bottom:16px;font-size:0.9rem;color:var(--text-light);font-style:italic">' + esc(p.description) + '</div>' : '';
+  var placeBadgeClass = p.badge === 'vegan'
+    ? 'vegan'
+    : p.badge === 'friendly'
+      ? 'friendly'
+      : 'econ';
   openDetailModal(p.name,
-    '<div style="text-align:center;font-size:4rem;margin-bottom:12px">' + p.icon + '</div>' +
-    '<div style="text-align:center;margin-bottom:16px"><span class="badge badge-' + (p.badge === 'vegan' ? 'vegan' : 'friendly') + '">' + p.type + '</span></div>' +
-    '<div class="rating" style="justify-content:center;margin-bottom:12px;font-size:1.1rem">' + ratingLine(p) + '</div>' + (p.hours ? '<div style="text-align:center;margin-bottom:8px;font-size:0.9rem">🕒 ' + p.hours + '</div>' : '') +
-    '<div style="text-align:center;color:var(--text-light);margin-bottom:16px">📍 ' + p.address + '</div>' + descBlock +
+    '<div style="text-align:center;font-size:4rem;margin-bottom:12px">' + esc(p.icon || '📍') + '</div>' +
+    '<div style="text-align:center;margin-bottom:16px"><span class="badge badge-' + placeBadgeClass + '">' + esc(p.type || 'Informação não disponível') + '</span></div>' +
+    '<div class="rating" style="justify-content:center;margin-bottom:12px;font-size:1.1rem">' + ratingLine(p) + '</div>' + (p.hours ? '<div style="text-align:center;margin-bottom:8px;font-size:0.9rem">🕒 ' + esc(p.hours) + '</div>' : '') +
+    '<div style="text-align:center;color:var(--text-light);margin-bottom:16px">📍 ' + esc(p.address || 'Endereço não informado') + '</div>' + descBlock +
     '<div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap">' +
     '<span class="tag">🍽️ Restaurante</span><span class="tag">♿ Acessivel</span><span class="tag">💳 Cartao</span></div>' +
     '<div style="background:var(--cream);padding:12px;border-radius:12px">' +
