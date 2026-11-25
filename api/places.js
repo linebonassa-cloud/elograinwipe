@@ -32,10 +32,14 @@ module.exports = async function handler(req, res) {
         return res.status(200).json(cache.get(key));
       }
 
-      const url = new URL('https://nominatim.openstreetmap.org/search');
-      url.searchParams.set('format', 'jsonv2');
-      url.searchParams.set('limit', '1');
-     url.searchParams.set('q', q + ', Brasil');
+ 
+const url = new URL('https://nominatim.openstreetmap.org/search');
+url.searchParams.set('format', 'jsonv2');
+url.searchParams.set('limit', '5');
+url.searchParams.set('q', q + ', São Paulo, SP, Brasil');
+url.searchParams.set('countrycodes', 'br');
+url.searchParams.set('addressdetails', '1');
+
 
       const response = await fetch(url.toString(), {
         headers: {
@@ -61,11 +65,29 @@ module.exports = async function handler(req, res) {
         return res.status(404).json({ error: 'Localização não encontrada.' });
       }
 
-      const result = {
-        lat: Number(data[0].lat),
-        lon: Number(data[0].lon),
-        display_name: clean(data[0].display_name)
-      };
+  
+const normalizedCity = q.toLowerCase();
+
+const saoPauloResult = data.find(function(item) {
+  const address = item.address || {};
+  const city = (
+    address.city ||
+    address.municipality ||
+    address.town ||
+    ''
+  ).toLowerCase();
+
+  return city === 'são paulo' || city === 'sao paulo';
+});
+
+const selected = saoPauloResult || data[0];
+
+const result = {
+  lat: Number(selected.lat),
+  lon: Number(selected.lon),
+  display_name: clean(selected.display_name)
+};
+
 
       cache.set(key, result);
       return res.status(200).json(result);
