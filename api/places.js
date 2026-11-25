@@ -198,6 +198,8 @@ const hasVeganOptions =
   vegan === 'yes' ||
   /(^|;)vegan(;|$)/i.test(cuisine);
 
+if (!hasVeganOptions) return null;
+
 
         const address =
           tags['addr:full'] ||
