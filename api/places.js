@@ -19,79 +19,108 @@ module.exports = async function handler(req, res) {
   try {
     const mode = req.query.mode;
 
-    // 1. TRANSFORMAR CIDADE/ENDEREÇO EM COORDENADAS
-    if (mode === 'geocode') {
-      const q = clean(req.query.q);
 
-      if (q.length < 3 || q.length > 120) {
-        return res.status(400).json({ error: 'Informe uma localização válida.' });
-      }
+if (mode === 'geocode') {
+  const q = clean(req.query.q);
 
-      const key = 'geo:' + q.toLowerCase();
-      if (cache.has(key)) {
-        return res.status(200).json(cache.get(key));
-      }
+  if (q.length < 3 || q.length > 120) {
+    return res.status(400).json({
+      error: 'Informe uma localização válida.'
+    });
+  }
 
- 
-const url = new URL('https://nominatim.openstreetmap.org/search');
-url.searchParams.set('format', 'jsonv2');
-url.searchParams.set('limit', '5');
-url.searchParams.set('q', q + ', São Paulo, SP, Brasil');
-url.searchParams.set('countrycodes', 'br');
-url.searchParams.set('addressdetails', '1');
+  const key = 'geo:' + q.toLowerCase();
 
+  if (cache.has(key)) {
+    return res.status(200).json(cache.get(key));
+  }
 
-      const response = await fetch(url.toString(), {
-        headers: {
-          'User-Agent': NOMINATIM_USER_AGENT,
-          'Accept-Language': 'pt-BR'
-        }
-      });
+  const url = new URL('https://nominatim.openstreetmap.org/search');
 
- if (!response.ok) {
-  const details = await response.text();
+  url.searchParams.set('format', 'jsonv2');
+  url.searchParams.set('limit', '10');
+  url.searchParams.set('q', q + ', Brasil');
+  url.searchParams.set('countrycodes', 'br');
+  url.searchParams.set('addressdetails', '1');
 
-  console.error('Erro Nominatim:', response.status, details);
-
-  return res.status(503).json({
-    error: 'Serviço de localização indisponível.',
-    status: response.status
+  const response = await fetch(url.toString(), {
+    headers: {
+      'User-Agent': NOMINATIM_USER_AGENT,
+      'Accept-Language': 'pt-BR'
+    }
   });
+
+  if (!response.ok) {
+    const details = await response.text();
+
+    console.error('Erro Nominatim:', response.status, details);
+
+    return res.status(503).json({
+      error: 'Serviço de localização indisponível.',
+      status: response.status
+    });
+  }
+
+  const data = await response.json();
+
+  if (!data.length) {
+    return res.status(404).json({
+      error: 'Localização não encontrada.'
+    });
+  }
+
+  const parts = q.split(',').map(function(part) {
+    return part.trim();
+  });
+
+  const ignoredParts = ['brasil', 'brazil', 'sp'];
+
+  const cityHint = parts.slice().reverse().find(function(part) {
+    return !ignoredParts.includes(part.toLowerCase());
+  });
+
+  function normalizeText(value) {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  const normalizedCity = normalizeText(cityHint);
+
+  const selected = data.find(function(item) {
+    const address = item.address || {};
+
+    const cities = [
+      address.city,
+      address.municipality,
+      address.town,
+      address.village
+    ].filter(Boolean);
+
+    return cities.some(function(city) {
+      return normalizeText(city) === normalizedCity;
+    });
+  });
+
+  if (!selected) {
+    return res.status(404).json({
+      error: 'Não foi possível confirmar a cidade informada. Tente incluir o nome da cidade e do estado.'
+    });
+  }
+
+  const result = {
+    lat: Number(selected.lat),
+    lon: Number(selected.lon),
+    display_name: clean(selected.display_name)
+  };
+
+  cache.set(key, result);
+
+  return res.status(200).json(result);
 }
 
-      const data = await response.json();
-
-      if (!data.length) {
-        return res.status(404).json({ error: 'Localização não encontrada.' });
-      }
-
-  
-const normalizedCity = q.toLowerCase();
-
-const saoPauloResult = data.find(function(item) {
-  const address = item.address || {};
-  const city = (
-    address.city ||
-    address.municipality ||
-    address.town ||
-    ''
-  ).toLowerCase();
-
-  return city === 'são paulo' || city === 'sao paulo';
-});
-
-const selected = saoPauloResult || data[0];
-
-const result = {
-  lat: Number(selected.lat),
-  lon: Number(selected.lon),
-  display_name: clean(selected.display_name)
-};
-
-
-      cache.set(key, result);
-      return res.status(200).json(result);
-    }
 
     // 2. BUSCAR ESTABELECIMENTOS COM INFORMAÇÕES VEGANAS
     if (mode === 'nearby') {
