@@ -112,19 +112,17 @@ const result = {
         return res.status(200).json(cache.get(key));
       }
 
-      const query = `
-        [out:json][timeout:25];
-        (
-          nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["diet:vegan"~"^(yes|only)$"];
-          nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["vegan"~"^(yes|only)$"];
-          nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["cuisine"~"vegan",i];
 
-          nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["diet:vegan"~"^(yes|only)$"];
-          nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["vegan"~"^(yes|only)$"];
-          nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["cuisine"~"vegan",i];
-        );
-        out center tags 150;
-      `;
+const query = `
+  [out:json][timeout:25];
+  (
+    nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"];
+
+    nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"];
+  );
+  out center tags 150;
+`;
+
 
      const response = await fetch('https://overpass.kumi.systems/api/interpreter', {
   method: 'POST',
@@ -157,12 +155,20 @@ headers: {
 
         if (!tags.name || latValue == null || lonValue == null) return null;
 
-        const veganTag = tags['diet:vegan'] || tags.vegan || '';
-        const cuisine = tags.cuisine || '';
+       
+const dietVegan = String(tags['diet:vegan'] || '').toLowerCase();
+const vegan = String(tags.vegan || '').toLowerCase();
+const cuisine = String(tags.cuisine || '').toLowerCase();
 
-        const isFullyVegan =
-          veganTag === 'only' ||
-          /(^|;)vegan(;|$)/i.test(cuisine);
+const isFullyVegan =
+  dietVegan === 'only' || vegan === 'only';
+
+const hasVeganOptions =
+  isFullyVegan ||
+  dietVegan === 'yes' ||
+  vegan === 'yes' ||
+  /(^|;)vegan(;|$)/i.test(cuisine);
+
 
         const address =
           tags['addr:full'] ||
@@ -179,9 +185,13 @@ headers: {
         return {
           id: 'osm-' + el.type + '-' + el.id,
           name: clean(tags.name),
-          type: isFullyVegan
-            ? '100% Vegano (informação do mapa)'
-            : 'Opções veganas indicadas no mapa',
+        
+type: isFullyVegan
+  ? '100% Vegano (informação do mapa)'
+  : hasVeganOptions
+    ? 'Opções veganas indicadas no mapa'
+    : 'A confirmar (sem informação vegana)',
+
           category: category,
           rating: 0,
           reviews: 0,
@@ -192,7 +202,11 @@ headers: {
           icon: category === 'bakery' ? '🥐' :
                 category === 'cafe' ? '☕' :
                 category === 'ice_cream' ? '🍦' : '🍽️',
-          badge: isFullyVegan ? 'vegan' : 'friendly',
+        badge: isFullyVegan
+  ? 'vegan'
+  : hasVeganOptions
+    ? 'friendly'
+    : 'unknown',
           description: clean(tags.description || ''),
           real: true,
           source: 'OpenStreetMap'
