@@ -1665,16 +1665,17 @@ function sidePanels() {
 function renderHome() {
   var D = [['food', 'Restaurantes e Lanchonetes', 'explore', 'bowl-graos'], ['bread', 'Padarias e Confeitarias', 'explore', 'croissant'], ['bag', 'Mercados e Lojas', 'consume', 'vegetais'], ['bowl', 'Receitas', 'recipes', 'macarrao'], ['heart', 'Relacionamentos', 'connect'], ['people', 'Comunidade', 'feed']];
   var M = [['food', 'Restaurantes', 'explore'], ['bowl', 'Receitas', 'recipes'], ['bag', 'Mercado', 'consume'], ['people', 'Comunidade', 'feed'], ['heart', 'Conexões', 'connect'], ['leaf', 'Mais', 'more']];
-  var cat = function(a) { return '<button class="cat" onclick="goTo(\'' + a[2] + '\')"><span class="cico">' + ic(a[0]) + '</span><span>' + a[1] + '</span>' + (a[3] ? '<img class="cthumb" src="' + photoSrc(a[3]) + '" alt="" loading="lazy" width="48" height="48">' : '') + '</button>'; };
-document.getElementById('homeContent').innerHTML = 
+  var cat = function(a) {
+    return '<button class="cat" onclick="goTo(\'' + a[2] + '\')"><span class="cico">' + ic(a[0]) + '</span><span>' + a[1] + '</span>' + (a[3] ? '<img class="cthumb" src="' + photoSrc(a[3]) + '" alt="" loading="lazy" width="48" height="48">' : '') + '</button>';
+  };
+
+  document.getElementById('homeContent').innerHTML =
     '<div id="sanctuary-widget-container"></div>' +
     '<div class="home-grid"><div class="home-main">' +
     '<section class="hero"><div class="hero-copy"><span class="hero-kicker">Mais sabor. Mais conexões. Zero crueldade.</span>' +
     '<h1>Descubra, compartilhe e conecte-se com uma <em>vida 100% vegetal!</em></h1><p>Restaurantes, receitas, produtos e uma comunidade incrível te esperam aqui.</p></div>' +
     '<div class="hero-art-wrap">' + HERO_SVG + '</div>' +
-    '<form class="hero-search" onsubmit="heroSearch(event)"><label class="hs-loc">' + ic('pin') + '<input id="heroLoc" placeholder="Sua cidade" aria-label="Localização" autocomplete="off"></label>' +
-    '<label class="hs-q">' + ic('search') + '<input id="heroQ" placeholder="O que você procura?" aria-label="O que você procura?" autocomplete="off"></label>' +
-    '<button type="submit" aria-label="Pesquisar">' + ic('arrow') + '</button></form></section>' +
+    '</section>' +
     '<div class="cats cats-d">' + D.map(cat).join('') + '</div><div class="cats cats-m">' + M.map(cat).join('') + '</div>' +
     composerBarHTML() + '<div class="section-header"><h2 class="section-title">🔥 Em alta na comunidade</h2><button class="plink" onclick="showView(\'feed\')">Ver mais ' + ic('arrow') + '</button></div>' +
     '<div class="trend">' + trendCards() + '</div></div><aside class="home-side">' + sidePanels() + '</aside></div>';
@@ -2487,12 +2488,6 @@ function openSanctuaryModal() {
 document.addEventListener('DOMContentLoaded', () => {
     initSanctuaryFloatingButton();
     rewardSanctuaryAction('login'); // Ganha pontos ao abrir/logar no app
-
-    // Detecta cliques em buscas de restaurantes/local
-    const searchForm = document.querySelector('.hero-search');
-    if (searchForm) {
-        searchForm.addEventListener('submit', () => rewardSanctuaryAction('search'));
-    }
 
     // Detecta interações de postagem
     document.addEventListener('click', (e) => {
