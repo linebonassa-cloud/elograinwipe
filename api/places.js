@@ -142,15 +142,23 @@ if (mode === 'geocode') {
       }
 
 
+
 const query = `
   [out:json][timeout:25];
   (
-    nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"];
+    // Restaurantes, bares, lanchonetes e similares com informação vegana
+    nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["diet:vegan"~"^(yes|only)$",i];
+    nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["vegan"~"^(yes|only)$",i];
+    nwr(around:${radius},${lat},${lon})["amenity"~"^(restaurant|cafe|fast_food|bar|pub|ice_cream|food_court)$"]["cuisine"~"(^|;)vegan(;|$)",i];
 
-    nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"];
+    // Padarias, confeitarias e outros estabelecimentos
+    nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["diet:vegan"~"^(yes|only)$",i];
+    nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["vegan"~"^(yes|only)$",i];
+    nwr(around:${radius},${lat},${lon})["shop"~"^(bakery|confectionery|pastry|deli|tea|coffee)$"]["cuisine"~"(^|;)vegan(;|$)",i];
   );
-  out center tags 150;
+  out center tags;
 `;
+
 
 
      const response = await fetch('https://ovp.dresel.systems/api-sa/interpreter', {
